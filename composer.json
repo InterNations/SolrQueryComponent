@@ -13,5 +13,10 @@
     ],
     "require-dev": {
         "internations/testing-component": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "InterNations\\Component\\Solr": "src/"
+        }
     }
 }
