@@ -4,6 +4,9 @@ namespace InterNations\Component\Solr\Tests\Expression;
 use InterNations\Component\Testing\AbstractTestCase;
 use InterNations\Component\Solr\Expression\GroupExpression;
 
+/**
+ * @group performance
+ */
 class PerformanceTest extends AbstractTestCase
 {
     public function testGroupingPerformance_Int()
