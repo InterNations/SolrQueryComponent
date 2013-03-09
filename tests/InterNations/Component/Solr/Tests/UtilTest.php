@@ -37,12 +37,19 @@ class UtilTest extends AbstractTestCase
     /** @dataProvider getChars */
     public function testSanitizing($char)
     {
-        $this->assertSame('\\' . $char, Util::sanitize($char));
+        $this->assertSame('"\\' . $char . '"', Util::sanitize($char));
     }
 
     public function testSanitize_Int()
     {
         $this->assertSame('1', Util::sanitize(1));
+    }
+
+    public function testSanitize_Empty()
+    {
+        $this->assertSame('', Util::sanitize(''));
+        $this->assertSame('', Util::sanitize(false));
+        $this->assertSame('', Util::sanitize(null));
     }
 
     public function testSanitize_Float()
@@ -52,8 +59,8 @@ class UtilTest extends AbstractTestCase
 
     public function testSanitize_NumericString()
     {
-        $this->assertSame('\+1122', Util::sanitize('+1122'));
-        $this->assertSame('\-1122', Util::sanitize('-1122'));
+        $this->assertSame('"\+1122"', Util::sanitize('+1122'));
+        $this->assertSame('"\-1122"', Util::sanitize('-1122'));
     }
 
     public function testSanitizing_ScientificNotationDoesNotIntroduceMinusChar()

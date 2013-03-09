@@ -48,7 +48,7 @@ final class Util
     /**
      * Sanitizes a string
      *
-     * Puts quotes around a multi-part string, treats everything else as a term
+     * Puts quotes around a string, treats everything else as a term
      *
      * @param $string
      * @return int|Expression|string
@@ -59,6 +59,9 @@ final class Util
             return $string;
         }
 
+        if (empty($string)) {
+            return '';
+        }
 
         if (is_float($string)) {
             return number_format($string, ini_get('precision'), '.', '');
@@ -66,10 +69,6 @@ final class Util
 
         if (is_int($string)) {
             return (string) $string;
-        }
-
-        if (!preg_match('/\s/', $string)) {
-            return static::escape($string);
         }
 
         return static::quote($string);
