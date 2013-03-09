@@ -26,7 +26,7 @@ class ExprBuilder
             return $expr;
         }
 
-        return new TermExpr($expr);
+        return new PhraseExpr($expr);
     }
 
     /**

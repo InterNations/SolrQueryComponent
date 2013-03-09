@@ -4,7 +4,7 @@ namespace InterNations\Component\Solr\Tests\Expr;
 use InterNations\Component\Testing\AbstractTestCase;
 use InterNations\Component\Solr\Expr\Expr;
 use InterNations\Component\Solr\Expr\DateTimeExpr;
-use InterNations\Component\Solr\Expr\TermExpr;
+use InterNations\Component\Solr\Expr\PhraseExpr;
 use InterNations\Component\Solr\Expr\WildcardExpr;
 use InterNations\Component\Solr\Expr\GroupExpr;
 use InterNations\Component\Solr\Expr\BoostExpr;
@@ -18,13 +18,13 @@ use DateTimeZone;
 
 class ExprTest extends AbstractTestCase
 {
-    public function testTermExpr()
+    public function testPhraseExpr()
     {
-        $this->assertSame('"foo\:bar"', (string) new TermExpr('foo:bar'));
-        $this->assertSame('"foo"', (string) new TermExpr('foo'));
-        $this->assertSame('"völ"', (string) new TermExpr('völ', 10));
-        $this->assertSame('"val1"', (string) new TermExpr('val1'));
-        $this->assertSame('"foo bar"', (string) new TermExpr('foo bar'));
+        $this->assertSame('"foo\:bar"', (string) new PhraseExpr('foo:bar'));
+        $this->assertSame('"foo"', (string) new PhraseExpr('foo'));
+        $this->assertSame('"völ"', (string) new PhraseExpr('völ', 10));
+        $this->assertSame('"val1"', (string) new PhraseExpr('val1'));
+        $this->assertSame('"foo bar"', (string) new PhraseExpr('foo bar'));
     }
 
     public function testWildcardExprEscapesSuffixAndPrefixButNotWildcard()
@@ -36,19 +36,19 @@ class ExprTest extends AbstractTestCase
 
     public function testPhrasesAndWildcards()
     {
-        $this->assertSame('"foo bar*baz"', (string) new WildcardExpr('*', new TermExpr('foo bar'), 'baz'));
-        $this->assertSame('"foo bar\:baz*baz"', (string) new WildcardExpr('*', new TermExpr('foo bar:baz'), 'baz'));
+        $this->assertSame('"foo bar*baz"', (string) new WildcardExpr('*', new PhraseExpr('foo bar'), 'baz'));
+        $this->assertSame('"foo bar\:baz*baz"', (string) new WildcardExpr('*', new PhraseExpr('foo bar:baz'), 'baz'));
     }
 
     public function testGroupingPhrasesAndTerms()
     {
-        $this->assertSame('(foo\:bar "foo bar")', (string) new GroupExpr(['foo:bar', new TermExpr('foo bar')]));
+        $this->assertSame('(foo\:bar "foo bar")', (string) new GroupExpr(['foo:bar', new PhraseExpr('foo bar')]));
         $this->assertSame(
             '(foo* "foo bar")',
-            (string) new GroupExpr([new WildcardExpr('*', 'foo'), new TermExpr('foo bar')])
+            (string) new GroupExpr([new WildcardExpr('*', 'foo'), new PhraseExpr('foo bar')])
         );
         $this->assertSame('', (string) new GroupExpr([]));
-        $this->assertSame('("foo bar")', (string) new GroupExpr([null, false, '', new TermExpr('foo bar')]));
+        $this->assertSame('("foo bar")', (string) new GroupExpr([null, false, '', new PhraseExpr('foo bar')]));
     }
 
     public function testBoostingPhrasesTermsAndGroups()
@@ -66,7 +66,7 @@ class ExprTest extends AbstractTestCase
         $this->assertSame('field:value\:foo', (string) new FieldExpr('field', 'value:foo'));
         $this->assertSame(
             'field:(foo "foo bar")',
-            (string) new FieldExpr('field', new GroupExpr(['foo', new TermExpr('foo bar')]))
+            (string) new FieldExpr('field', new GroupExpr(['foo', new PhraseExpr('foo bar')]))
         );
         $this->assertSame('fie\-ld:foo', (string) new FieldExpr('fie-ld', 'foo'));
     }
@@ -79,7 +79,7 @@ class ExprTest extends AbstractTestCase
         );
         $this->assertSame(
             '+"foo bar"',
-            (string) new BooleanExpr(BooleanExpr::OPERATOR_REQUIRED, new TermExpr('foo bar'))
+            (string) new BooleanExpr(BooleanExpr::OPERATOR_REQUIRED, new PhraseExpr('foo bar'))
         );
         $this->assertSame('+foo', (string) new BooleanExpr(BooleanExpr::OPERATOR_REQUIRED, 'foo'));
         $this->assertSame(
@@ -89,13 +89,13 @@ class ExprTest extends AbstractTestCase
         $this->assertSame('-foo', (string) new BooleanExpr(BooleanExpr::OPERATOR_PROHIBITED, 'foo'));
         $this->assertSame(
             '-"foo bar"',
-            (string) new BooleanExpr(BooleanExpr::OPERATOR_PROHIBITED, new TermExpr('foo bar'))
+            (string) new BooleanExpr(BooleanExpr::OPERATOR_PROHIBITED, new PhraseExpr('foo bar'))
         );
         $this->assertSame(
             '-"foo?bar baz"',
             (string) new BooleanExpr(
                 BooleanExpr::OPERATOR_PROHIBITED,
-                new WildcardExpr('?', 'foo', new TermExpr('bar baz'))
+                new WildcardExpr('?', 'foo', new PhraseExpr('bar baz'))
             )
         );
     }
@@ -110,11 +110,11 @@ class ExprTest extends AbstractTestCase
     {
         $this->assertSame('[foo TO bar]', (string) new RangeExpr('foo', 'bar', true));
         $this->assertSame('[foo TO bar]', (string) new RangeExpr('foo', 'bar'));
-        $this->assertSame('[foo TO "foo bar"]', (string) new RangeExpr('foo', new TermExpr('foo bar')));
-        $this->assertSame('{foo TO "foo bar"}', (string) new RangeExpr('foo', new TermExpr('foo bar'), null, false));
+        $this->assertSame('[foo TO "foo bar"]', (string) new RangeExpr('foo', new PhraseExpr('foo bar')));
+        $this->assertSame('{foo TO "foo bar"}', (string) new RangeExpr('foo', new PhraseExpr('foo bar'), null, false));
         $this->assertSame(
             '{foo TO "foo bar?"}',
-            (string) new RangeExpr('foo', new WildcardExpr('?', new TermExpr('foo bar')), false)
+            (string) new RangeExpr('foo', new WildcardExpr('?', new PhraseExpr('foo bar')), false)
         );
     }
 

@@ -2,7 +2,6 @@
 namespace InterNations\Component\Solr\Expr;
 
 use DateTime;
-use InterNations\Component\Solr\Util;
 
 final class ExpressionFactory
 {
@@ -22,10 +21,6 @@ final class ExpressionFactory
 
         if ($value instanceof DateTime) {
             return new DateTimeExpr($value);
-        }
-
-        if (!preg_match('/\s/', $value)) {
-            return new TermExpr($value);
         }
 
         return new PhraseExpr($value);
