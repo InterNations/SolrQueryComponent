@@ -1,19 +1,19 @@
 <?php
 namespace InterNations\Component\Solr\Tests\Expr;
 
-use InterNations\Component\Solr\Expr\ExprBuilder;
+use InterNations\Component\Solr\Expr\ExpressionBuilder;
 use InterNations\Component\Testing\AbstractTestCase;
 
 class ExprBuilderTest extends AbstractTestCase
 {
     /**
-     * @var ExprBuilder
+     * @var ExpressionBuilder
      */
     private $eb;
 
     public function setUp()
     {
-        $this->eb = new ExprBuilder();
+        $this->eb = new ExpressionBuilder();
     }
 
     public function testEqWithPhrase()

@@ -8,7 +8,7 @@ use DateTimeZone;
  * @SuppressWarnings(PMD.TooManyMethods)
  * @SuppressWarnings(PMD.CouplingBetweenObjects)
  */
-class ExprBuilder
+class ExpressionBuilder
 {
     /**
      * Create term expression: <expr>
