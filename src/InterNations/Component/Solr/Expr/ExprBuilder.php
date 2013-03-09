@@ -57,9 +57,7 @@ class ExprBuilder
             return null;
         }
 
-        $expr = new PhraseExpr($str);
-
-        return $expr;
+        return new PhraseExpr($str);
     }
 
     /**
@@ -75,9 +73,7 @@ class ExprBuilder
             return null;
         }
 
-        $expr = new BoostExpr($boost, $expr);
-
-        return $expr;
+        return new BoostExpr($boost, $expr);
     }
 
     /**
@@ -90,9 +86,7 @@ class ExprBuilder
      */
     public function prx($wordOne, $wordTwo, $proximity)
     {
-        $expr = new ProximityExpr($wordOne, $wordTwo, $proximity);
-
-        return $expr;
+        return new ProximityExpr($wordOne, $wordTwo, $proximity);
     }
 
     /**
@@ -104,9 +98,7 @@ class ExprBuilder
      */
     public function fzz($expr, $similarity = null)
     {
-        $expr = new FuzzyExpr($expr, $similarity);
-
-        return $expr;
+        return new FuzzyExpr($expr, $similarity);
     }
 
     /**
@@ -118,9 +110,7 @@ class ExprBuilder
      */
     public function range($start = null, $end = null)
     {
-        $expr = new RangeExpr($start, $end);
-
-        return $expr;
+        return new RangeExpr($start, $end);
     }
 
     /**
@@ -132,9 +122,7 @@ class ExprBuilder
      */
     public function btwnRange($start = null, $end = null)
     {
-        $expr = new RangeExpr($start, $end, false);
-
-        return $expr;
+        return new RangeExpr($start, $end, false);
     }
 
     /**
@@ -151,9 +139,7 @@ class ExprBuilder
             return null;
         }
 
-        $expr = new WildcardExpr($wildcard, $prefix, $suffix);
-
-        return $expr;
+        return new WildcardExpr($wildcard, $prefix, $suffix);
     }
 
     /**
