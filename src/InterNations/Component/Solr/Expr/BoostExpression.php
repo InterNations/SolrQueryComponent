@@ -8,7 +8,7 @@ use InterNations\Component\Solr\Util;
  *
  * Class to construct boosted queries in the like of <term>^<boost>
  */
-class BoostExpr extends Expr
+class BoostExpression extends Expression
 {
     /**
      * Boost factor
@@ -17,16 +17,16 @@ class BoostExpr extends Expr
      */
     protected $boost;
 
+    /**
+     * @param float|int $boost
+     * @param string|Expression $expr
+     */
     public function __construct($boost, $expr)
     {
         $this->boost = is_int($boost) ? $boost : (float) $boost;
         parent::__construct($expr);
     }
 
-    /**
-     * @inherited
-     * @return string
-     */
     public function __toString()
     {
         return Util::escape($this->expr) . '^' . $this->boost;

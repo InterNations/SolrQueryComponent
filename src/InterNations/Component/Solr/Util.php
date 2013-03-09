@@ -1,7 +1,7 @@
 <?php
 namespace InterNations\Component\Solr;
 
-use InterNations\Component\Solr\Expr\Expr;
+use InterNations\Component\Solr\Expr\Expression;
 
 final class Util
 {
@@ -33,12 +33,12 @@ final class Util
     /**
      * Quote a given string
      *
-     * @param string|Expr $string
+     * @param string|Expression $string
      * @return string
      */
     public static function quote($string)
     {
-        if ($string instanceof Expr) {
+        if ($string instanceof Expression) {
             return $string;
         }
 
@@ -51,11 +51,11 @@ final class Util
      * Puts quotes around a multi-part string, treats everything else as a term
      *
      * @param $string
-     * @return int|Expr|string
+     * @return int|Expression|string
      */
     public static function sanitize($string)
     {
-        if ($string instanceof Expr) {
+        if ($string instanceof Expression) {
             return $string;
         }
 
@@ -78,12 +78,12 @@ final class Util
     /**
      * Escape a string to be safe for solr queries
      *
-     * @param string|Expr $string
-     * @return Expr|string
+     * @param string|Expression $string
+     * @return Expression|string
      */
     public static function escape($string)
     {
-        if ($string instanceof Expr) {
+        if ($string instanceof Expression) {
             return $string;
         }
 

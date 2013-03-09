@@ -8,7 +8,7 @@ use InterNations\Component\Solr\Util;
  *
  * Class to construct boolean queries (+<term> or -<term>)
  */
-class BooleanExpr extends Expr
+class BooleanExpression extends Expression
 {
     const OPERATOR_REQUIRED = '+';
 
@@ -25,7 +25,7 @@ class BooleanExpr extends Expr
      * Create new expression object
      *
      * @param string $operator
-     * @param string|Expr $expr
+     * @param string|Expression $expr
      */
     public function __construct($operator, $expr)
     {
@@ -33,10 +33,6 @@ class BooleanExpr extends Expr
         parent::__construct($expr);
     }
 
-    /**
-     * @inherited
-     * @return string
-     */
     public function __toString()
     {
         return $this->operator . Util::escape($this->expr);

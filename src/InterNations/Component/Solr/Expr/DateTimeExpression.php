@@ -5,7 +5,7 @@ use DateTime;
 use DateTimeZone;
 use InterNations\Component\Solr\Util;
 
-class DateTimeExpr extends Expr
+class DateTimeExpression extends Expression
 {
     /**
      * @var DateTimeZone

@@ -6,14 +6,14 @@ namespace InterNations\Component\Solr\Expr;
  *
  * Class representing expressions grouped together in the like of (term1 term2).
  */
-class GroupExpr extends Expr
+class GroupExpression extends Expression
 {
     /**
      * List of query expressions
      *
      * @var array
      */
-    protected $expressions;
+    protected $expressions = [];
 
     /**
      * Create new group of expression

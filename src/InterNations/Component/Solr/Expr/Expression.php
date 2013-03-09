@@ -9,12 +9,12 @@ use InterNations\Component\Solr\Util;
  * The base class for query expressions provides methods to escape and quote query strings as well being the object to
  * create literal queries which should not be escaped
  */
-class Expr
+class Expression
 {
     /**
      * Expression object or string
      *
-     * @var Expr|string
+     * @var Expression|string
      */
     protected $expr;
 
@@ -26,7 +26,7 @@ class Expr
     /**
      * Create new expression object
      *
-     * @param Expr|string $expr
+     * @param Expression|string $expr
      */
     public function __construct($expr)
     {
@@ -48,7 +48,7 @@ class Expr
     /**
      * Returns true if given expression is equal
      *
-     * @param Expr|string $expr
+     * @param Expression|string $expr
      * @return boolean
      */
     public function isEqual($expr)

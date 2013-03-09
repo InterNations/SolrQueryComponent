@@ -6,7 +6,7 @@ use InterNations\Component\Solr\Util;
 /**
  * Class for fuzzy query expressions
  */
-class FuzzyExpr extends Expr
+class FuzzyExpression extends Expression
 {
     /**
      * Similarity (0.0 to 1.0)
@@ -18,7 +18,7 @@ class FuzzyExpr extends Expr
     /**
      * Create new fuzzy query object
      *
-     * @param string|InterNations\Component\Solr\Expr\Expr $expr
+     * @param string|Expr $expr
      * @param float $similarity
      */
     public function __construct($expr, $similarity = null)

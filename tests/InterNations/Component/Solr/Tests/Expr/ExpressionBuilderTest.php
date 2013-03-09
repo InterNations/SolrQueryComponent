@@ -4,7 +4,7 @@ namespace InterNations\Component\Solr\Tests\Expr;
 use InterNations\Component\Solr\Expr\ExpressionBuilder;
 use InterNations\Component\Testing\AbstractTestCase;
 
-class ExprBuilderTest extends AbstractTestCase
+class ExpressionBuilderTest extends AbstractTestCase
 {
     /**
      * @var ExpressionBuilder
@@ -19,140 +19,140 @@ class ExprBuilderTest extends AbstractTestCase
     public function testEqWithPhrase()
     {
         $eq = $this->eb->eq($this->eb->phrase('test foo'));
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\PhraseExpr', $eq);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\PhraseExpression', $eq);
         $this->assertSame('"test foo"', (string) $eq);
     }
 
     public function testEqWithTerm()
     {
         $eq = $this->eb->eq('foo:bar');
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\PhraseExpr', $eq);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\PhraseExpression', $eq);
         $this->assertSame('"foo\:bar"', (string) $eq);
     }
 
     public function testEqWithField()
     {
         $eq = $this->eb->eq('test');
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\PhraseExpr', $eq);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\PhraseExpression', $eq);
 
         $eq = $this->eb->field('field', $eq);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpr', $eq);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpression', $eq);
         $this->assertSame('field:"test"', (string) $eq);
     }
 
     public function testPhrase()
     {
         $p = $this->eb->phrase('foo bar');
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\PhraseExpr', $p);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\PhraseExpression', $p);
         $this->assertSame('"foo bar"', (string) $p);
 
         $p = $this->eb->field('field', $p);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpr', $p);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpression', $p);
         $this->assertSame('field:"foo bar"', (string) $p);
     }
 
     public function testBoost()
     {
         $b = $this->eb->boost($this->eb->phrase('foo bar'), 10);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BoostExpr', $b);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BoostExpression', $b);
         $this->assertSame('"foo bar"^10', (string) $b);
 
         $b = $this->eb->field('field', $this->eb->boost($this->eb->phrase('foo bar'), 10));
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpr', $b);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpression', $b);
         $this->assertSame('field:"foo bar"^10', (string) $b);
     }
 
     public function testWildcard()
     {
         $w = $this->eb->wild($this->eb->phrase('foo bar'), '?', 'sfx');
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\WildcardExpr', $w);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\WildcardExpression', $w);
         $this->assertSame('"foo bar?sfx"', (string) $w);
 
         $w = $this->eb->field('field', $this->eb->wild($this->eb->phrase('foo bar'), '?'));
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpr', $w);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpression', $w);
         $this->assertSame('field:"foo bar?"', (string) $w);
     }
 
     public function testProhibitedExpr()
     {
         $n = $this->eb->prhb('foo');
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $n);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $n);
         $this->assertSame('-foo', (string) $n);
 
         $n = $this->eb->prhb($this->eb->field('field', 'foo'));
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $n);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $n);
         $this->assertSame('-field:foo', (string) $n);
     }
 
     public function testRequiredExpr()
     {
         $n = $this->eb->req('foo');
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $n);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $n);
         $this->assertSame('+foo', (string) $n);
 
         $n = $this->eb->req($this->eb->field('field', 'foo'));
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $n);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $n);
         $this->assertSame('+field:foo', (string) $n);
     }
 
     public function testGrouping()
     {
         $g = $this->eb->grp($this->eb->phrase('foo bar'));
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\GroupExpr', $g);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\GroupExpression', $g);
         $this->assertSame('("foo bar")', (string) $g);
     }
 
     public function testGroupingMultipleParams()
     {
         $g = $this->eb->grp($this->eb->phrase('foo'), $this->eb->phrase('bar'), $this->eb->phrase('baz'));
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\GroupExpr', $g);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\GroupExpression', $g);
         $this->assertSame('("foo" "bar" "baz")', (string) $g);
     }
 
     public function testGroupingSingleParamAsArray()
     {
         $g = $this->eb->grp([$this->eb->phrase('bar'), $this->eb->phrase('foo'), $this->eb->phrase('baz')]);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\GroupExpr', $g);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\GroupExpression', $g);
         $this->assertSame('("bar" "foo" "baz")', (string) $g);
     }
 
     public function testField()
     {
         $f = $this->eb->field('field', 'query');
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpr', $f);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpression', $f);
         $this->assertSame('field:query', (string) $f);
     }
 
     public function testFuzzy()
     {
         $f = $this->eb->fzz('test');
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FuzzyExpr', $f);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FuzzyExpression', $f);
         $this->assertSame('test~', (string) $f);
 
         $f = $this->eb->fzz('test', 0.2);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FuzzyExpr', $f);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FuzzyExpression', $f);
         $this->assertSame('test~0.2', (string) $f);
 
         $f = $this->eb->fzz($this->eb->field('field', 'test'), 0.2);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FuzzyExpr', $f);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FuzzyExpression', $f);
         $this->assertSame('field:test~0.2', (string) $f);
     }
 
     public function testProximityQuery()
     {
         $p = $this->eb->prx('word1', 'word2', 10);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\ProximityExpr', $p);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\ProximityExpression', $p);
         $this->assertSame('"word1 word2"~10', (string) $p);
 
         $p = $this->eb->field('field', $this->eb->prx('word1', 'word2', 10));
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpr', $p);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpression', $p);
         $this->assertSame('field:"word1 word2"~10', (string) $p);
     }
 
     public function testLiteralStr()
     {
         $expr = $this->eb->lit('foo:bar');
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\Expr', $expr);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\Expression', $expr);
         $this->assertSame('foo:bar', (string) $expr);
         $this->assertSame('0', (string) $this->eb->lit(0));
     }
@@ -160,30 +160,30 @@ class ExprBuilderTest extends AbstractTestCase
     public function testBool()
     {
         $expr = $this->eb->bool('foo', true);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $expr);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $expr);
         $this->assertSame('+foo', (string) $expr);
 
         $expr = $this->eb->bool($this->eb->field('field', 'foo'), true);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $expr);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $expr);
         $this->assertSame('+field:foo', (string) $expr);
 
         $expr = $this->eb->bool('foo', false);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $expr);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $expr);
         $this->assertSame('-foo', (string) $expr);
 
         $expr = $this->eb->bool($this->eb->field('field', 'foo'), false);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $expr);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $expr);
         $this->assertSame('-field:foo', (string) $expr);
 
         $expr = $this->eb->bool('foo', null);
         $this->assertSame('foo', $expr);
 
         $expr = $this->eb->bool('foo', 1);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $expr);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $expr);
         $this->assertSame('+foo', (string) $expr);
 
         $expr = $this->eb->bool('foo', 0);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpr', $expr);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\BooleanExpression', $expr);
         $this->assertSame('-foo', (string) $expr);
     }
 
@@ -191,11 +191,11 @@ class ExprBuilderTest extends AbstractTestCase
     {
         $date = new \DateTime('2010-10-11', new \DateTimeZone('UTC'));
         $dayRange = $this->eb->day($date);
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\RangeExpr', $dayRange);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\RangeExpression', $dayRange);
         $this->assertSame('[2010-10-11T00:00:00Z TO 2010-10-11T23:59:59Z]', (string) $dayRange);
 
         $dayRange = $this->eb->field('dateField', $this->eb->day($date));
-        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpr', $dayRange);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpression', $dayRange);
         $this->assertSame('dateField:[2010-10-11T00:00:00Z TO 2010-10-11T23:59:59Z]', (string) $dayRange);
     }
 

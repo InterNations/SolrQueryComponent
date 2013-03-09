@@ -7,22 +7,22 @@ final class ExpressionFactory
 {
     public static function createExpression($value)
     {
-        if ($value instanceof Expr) {
+        if ($value instanceof Expression) {
             return $value;
         }
 
         if ($value === null) {
-            return new WildcardExpr('*');
+            return new WildcardExpression('*');
         }
 
         if (is_array($value)) {
-            return new GroupExpr($value);
+            return new GroupExpression($value);
         }
 
         if ($value instanceof DateTime) {
-            return new DateTimeExpr($value);
+            return new DateTimeExpression($value);
         }
 
-        return new PhraseExpr($value);
+        return new PhraseExpression($value);
     }
 }

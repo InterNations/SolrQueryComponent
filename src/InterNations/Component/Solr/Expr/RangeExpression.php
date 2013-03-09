@@ -8,19 +8,19 @@ use InterNations\Component\Solr\Util;
  *
  * Let you specify range queries in the like of field:[<start> TO <end>] or field:{<start> TO <end>}
  */
-class RangeExpr extends Expr
+class RangeExpression extends Expression
 {
     /**
      * Start of the range
      *
-     * @var string|int|Expr
+     * @var string|int|Expression
      */
     protected $start;
 
     /**
      * End of the range
      *
-     * @var string|int|Expr
+     * @var string|int|Expression
      */
     protected $end;
 
@@ -34,8 +34,8 @@ class RangeExpr extends Expr
     /**
      * Create new range query object
      *
-     * @param string|int|Expr $start
-     * @param string|int|Expr $end
+     * @param string|int|Expression $start
+     * @param string|int|Expression $end
      * @param boolean $inclusive
      */
     public function __construct($start = null, $end = null, $inclusive = true)
@@ -45,10 +45,6 @@ class RangeExpr extends Expr
         $this->inclusive = (bool) $inclusive;
     }
 
-    /**
-     * @inherited
-     * @return string
-     */
     public function __toString()
     {
         return sprintf(

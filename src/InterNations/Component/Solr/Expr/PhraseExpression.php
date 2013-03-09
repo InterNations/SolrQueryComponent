@@ -8,7 +8,7 @@ use InterNations\Component\Solr\Util;
  *
  * Phrases are grouped terms for exact matching in the like of "word1 word2"
  */
-class PhraseExpr extends Expr
+class PhraseExpression extends Expression
 {
     /**
      * @param string $expr

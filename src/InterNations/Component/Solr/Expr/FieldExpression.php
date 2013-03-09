@@ -8,7 +8,7 @@ use InterNations\Component\Solr\Util;
  *
  * Class representing a query limited to specific fields (field:<value>)
  */
-class FieldExpr extends Expr
+class FieldExpression extends Expression
 {
     /**
      * Field name
@@ -21,7 +21,7 @@ class FieldExpr extends Expr
      * Create new field query
      *
      * @param string $field
-     * @param string|InterNations\Component\Solr\Expr\Expr $expr
+     * @param string|Expression $expr
      */
     public function __construct($field, $expr)
     {
@@ -29,10 +29,6 @@ class FieldExpr extends Expr
         parent::__construct($expr);
     }
 
-    /**
-     * @inherited
-     * @return string
-     */
     public function __toString()
     {
         return Util::escape($this->field) . ':' . Util::escape($this->expr);

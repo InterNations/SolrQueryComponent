@@ -13,8 +13,8 @@ class ExpressionBuilder
     /**
      * Create term expression: <expr>
      *
-     * @param Expr|string $expr
-     * @return Expr
+     * @param Expression|string $expr
+     * @return Expression
      */
     public function eq($expr)
     {
@@ -22,19 +22,19 @@ class ExpressionBuilder
             return null;
         }
 
-        if ($expr instanceof Expr) {
+        if ($expr instanceof Expression) {
             return $expr;
         }
 
-        return new PhraseExpr($expr);
+        return new PhraseExpression($expr);
     }
 
     /**
      * Create field expression: <field>:<expr>
      *
      * @param string $field
-     * @param Expr|string $expr
-     * @return Expr
+     * @param Expression|string $expr
+     * @return Expression
      */
     public function field($field, $expr)
     {
@@ -42,14 +42,14 @@ class ExpressionBuilder
             return null;
         }
 
-        return new FieldExpr($field, $expr);
+        return new FieldExpression($field, $expr);
     }
 
     /**
      * Create phrase expression: "term1 term2"
      *
      * @param string $str
-     * @return Expr
+     * @return Expression
      */
     public function phrase($str)
     {
@@ -57,15 +57,15 @@ class ExpressionBuilder
             return null;
         }
 
-        return new PhraseExpr($str);
+        return new PhraseExpression($str);
     }
 
     /**
      * Create boost expression: <expr>^<boost>
      *
      * @param integer $boost
-     * @param Expr|string $expr
-     * @return Expr
+     * @param Expression|string $expr
+     * @return Expression
      */
     public function boost($expr, $boost)
     {
@@ -73,32 +73,32 @@ class ExpressionBuilder
             return null;
         }
 
-        return new BoostExpr($boost, $expr);
+        return new BoostExpression($boost, $expr);
     }
 
     /**
      * Create proximity match expression: "<word1> <word2>"~<proximity>
      *
-     * @param Expr|string $wordOne
-     * @param Expr|string $wordTwo
+     * @param Expression|string $wordOne
+     * @param Expression|string $wordTwo
      * @param integer $proximity
-     * @return Expr
+     * @return Expression
      */
     public function prx($wordOne, $wordTwo, $proximity)
     {
-        return new ProximityExpr($wordOne, $wordTwo, $proximity);
+        return new ProximityExpression($wordOne, $wordTwo, $proximity);
     }
 
     /**
      * Create fuzzy expression: <expr>~<similarity>
      *
-     * @param Expr|string $expr
+     * @param Expression|string $expr
      * @param float $similarity Similarity between 0.0 und 1.0
-     * @return Expr
+     * @return Expression
      */
     public function fzz($expr, $similarity = null)
     {
-        return new FuzzyExpr($expr, $similarity);
+        return new FuzzyExpression($expr, $similarity);
     }
 
     /**
@@ -106,11 +106,11 @@ class ExpressionBuilder
      *
      * @param string $start
      * @param string $end
-     * @return Expr
+     * @return Expression
      */
     public function range($start = null, $end = null)
     {
-        return new RangeExpr($start, $end);
+        return new RangeExpression($start, $end);
     }
 
     /**
@@ -118,20 +118,20 @@ class ExpressionBuilder
      *
      * @param string $start
      * @param string $end
-     * @return Expr
+     * @return Expression
      */
     public function btwnRange($start = null, $end = null)
     {
-        return new RangeExpr($start, $end, false);
+        return new RangeExpression($start, $end, false);
     }
 
     /**
      * Create wildcard expression: <prefix>?, <prefix>*, <prefix>?<suffix> or <prefix>*<suffix>
      *
-     * @param Expr|string $prefix
+     * @param Expression|string $prefix
      * @param string $wildcard
-     * @param Expr|string $suffix
-     * @return Expr
+     * @param Expression|string $suffix
+     * @return Expression
      */
     public function wild($prefix, $wildcard = '?', $suffix = null)
     {
@@ -139,14 +139,14 @@ class ExpressionBuilder
             return null;
         }
 
-        return new WildcardExpr($wildcard, $prefix, $suffix);
+        return new WildcardExpression($wildcard, $prefix, $suffix);
     }
 
     /**
      * Create boolean, required expression: +<expr>
      *
-     * @param Expr|string $expr
-     * @return Expr
+     * @param Expression|string $expr
+     * @return Expression
      */
     public function req($expr)
     {
@@ -154,14 +154,14 @@ class ExpressionBuilder
             return null;
         }
 
-        return new BooleanExpr(BooleanExpr::OPERATOR_REQUIRED, $expr);
+        return new BooleanExpression(BooleanExpression::OPERATOR_REQUIRED, $expr);
     }
 
     /**
      * Create boolean, prohibited expression: -<expr>
      *
-     * @param Expr|string $expr
-     * @return Expr
+     * @param Expression|string $expr
+     * @return Expression
      */
     public function prhb($expr)
     {
@@ -169,7 +169,7 @@ class ExpressionBuilder
             return null;
         }
 
-        return new BooleanExpr(BooleanExpr::OPERATOR_PROHIBITED, $expr);
+        return new BooleanExpression(BooleanExpression::OPERATOR_PROHIBITED, $expr);
     }
 
     /**
@@ -179,9 +179,9 @@ class ExpressionBuilder
      *      false => prohibited (-)
      *      null => neutral (<empty>)
      *
-     * @param Expr|string $expr
+     * @param Expression|string $expr
      * @param boolean|null $operator
-     * @return Expr
+     * @return Expression
      */
     public function bool($expr, $operator)
     {
@@ -199,8 +199,8 @@ class ExpressionBuilder
     /**
      * Return string treated as literal (unescaped, unquoted)
      *
-     * @param Expr|string $expr
-     * @return Expr
+     * @param Expression|string $expr
+     * @return Expression
      */
     public function lit($expr)
     {
@@ -208,16 +208,16 @@ class ExpressionBuilder
             return null;
         }
 
-        return new Expr($expr);
+        return new Expression($expr);
     }
 
     /**
      * Create grouped expression: (<expr1> <expr2> <expr3>)
      *
-     * @param Expr|string $expr
-     * @param Expr|string $expr
-     * @param Expr|string $expr
-     * @return Expr
+     * @param Expression|string $expr
+     * @param Expression|string $expr
+     * @param Expression|string $expr
+     * @return Expression
      */
     public function grp()
     {
@@ -233,14 +233,14 @@ class ExpressionBuilder
             return null;
         }
 
-        return new GroupExpr($args);
+        return new GroupExpression($args);
     }
 
     /**
      * Returns a query "*:*" which means find all if $expr is empty
      *
-     * @param Expr|string $expr
-     * @return Expr
+     * @param Expression|string $expr
+     * @return Expression
      */
     public function all($expr = null)
     {
@@ -255,7 +255,7 @@ class ExpressionBuilder
      * Creates a date range for a specific day
      *
      * @param DateTime $date
-     * @return RangeExpr
+     * @return RangeExpression
      */
     public function day($date = null)
     {
@@ -279,14 +279,14 @@ class ExpressionBuilder
      *
      * @param DateTime $dateFrom
      * @param DateTime $dateTo
-     * @return RangeExpr
+     * @return RangeExpression
      */
     public function dateRange(DateTime $dateFrom = null, DateTime $dateTo = null)
     {
         $dateFromValue = ExpressionFactory::createExpression($dateFrom);
         $dateToValue = ExpressionFactory::createExpression($dateTo);
 
-        if ($dateFromValue instanceof WildcardExpr && $dateToValue instanceof WildcardExpr) {
+        if ($dateFromValue instanceof WildcardExpression && $dateToValue instanceof WildcardExpression) {
             return null;
         }
 

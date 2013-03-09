@@ -6,7 +6,7 @@ namespace InterNations\Component\Solr\Expr;
  *
  * Proximity queries allow to search for two words in a specific distance ("<word1> <word2>"~<proximity>)
  */
-class ProximityExpr extends Expr
+class ProximityExpression extends Expression
 {
     /**
      * Word 1
@@ -43,12 +43,8 @@ class ProximityExpr extends Expr
         $this->proximity = (int) $proximity;
     }
 
-    /**
-     * @inherited
-     * @return string
-     */
     public function __toString()
     {
-        return new PhraseExpr($this->wordOne . ' ' . $this->wordTwo) . '~' . $this->proximity;
+        return new PhraseExpression($this->wordOne . ' ' . $this->wordTwo) . '~' . $this->proximity;
     }
 }

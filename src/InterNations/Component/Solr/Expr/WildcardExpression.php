@@ -9,7 +9,7 @@ use InterNations\Component\Solr\Util;
  * Wildcard expression class is used to generate queries with wildcard expressions in the like of <prefix>*,
  * <prefix>*<suffix>, <prefix>? or <prefix>?<suffix>.
  */
-class WildcardExpr extends Expr
+class WildcardExpression extends Expression
 {
     /**
      * Wildcard character
@@ -21,14 +21,14 @@ class WildcardExpr extends Expr
     /**
      * Wildcard query prefix
      *
-     * @var string|Expr
+     * @var string|Expression
      */
     protected $prefix = '';
 
     /**
      * Wildcard query suffix
      *
-     * @var string|Expr
+     * @var string|Expression
      */
     protected $suffix;
 
@@ -36,8 +36,8 @@ class WildcardExpr extends Expr
      * Create new wildcard query object
      *
      * @param string $wildcard
-     * @param string|Expr $prefix
-     * @param string|Expr $suffix
+     * @param string|Expression $prefix
+     * @param string|Expression $suffix
      */
     public function __construct($wildcard, $prefix = '', $suffix = null)
     {
@@ -47,14 +47,12 @@ class WildcardExpr extends Expr
     }
 
     /**
-     * @inherited
-     * @return string
      * @SuppressWarnings(PMD.NPathComplexity)
      * @SuppressWarnings(PMD.CyclomaticComplexity)
      */
     public function  __toString()
     {
-        if ($this->prefix instanceof PhraseExpr) {
+        if ($this->prefix instanceof PhraseExpression) {
             $prefix = substr($this->prefix, 0, -1);
             $phrasePrefix = true;
         } else {
@@ -62,7 +60,7 @@ class WildcardExpr extends Expr
             $phrasePrefix = false;
         }
 
-        if ($this->suffix instanceof PhraseExpr) {
+        if ($this->suffix instanceof PhraseExpression) {
             $suffix = substr($this->suffix, 1);
             $phraseSuffix = true;
         } else {

@@ -6,6 +6,6 @@ Build `name:"John Doe"^100`
 
 ```php
 <?php
-$expr = new InterNations\Component\Solr\Expr\ExpressionBuilder();
-echo $expr->field('name', $expr->boost($expr->eq('John Doe'), 100));
+$eb = new InterNations\Component\Solr\Expression\ExpressionBuilder();
+echo $eb->field('name', $eb->boost($eb->eq('John Doe'), 100));
 ```
