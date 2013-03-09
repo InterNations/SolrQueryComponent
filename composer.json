@@ -1,0 +1,17 @@
+{
+    "name": "internations/solr-query-component",
+    "description": "Build Solr queries with ease",
+    "require-dev": {
+        "internations/testing-component": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lars Strojny",
+            "email": "lars@strojny.net"
+        }
+    ],
+    "require-dev": {
+        "internations/testing-component": "dev-master"
+    }
+}
