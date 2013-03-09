@@ -67,10 +67,4 @@ class UtilTest extends AbstractTestCase
     {
         $this->assertSame('0.00002100000000', Util::sanitize(2.1E-5));
     }
-
-    public function testAvoidDoubleQuoting()
-    {
-        $this->assertSame('"foo"', Util::quote('"foo"'));
-        $this->assertSame('"foo\""', Util::quote('foo"'));
-    }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\Util;
+
 /**
  * Proximity query class
  *
@@ -45,6 +47,6 @@ class ProximityExpression extends Expression
 
     public function __toString()
     {
-        return new PhraseExpression($this->wordOne . ' ' . $this->wordTwo) . '~' . $this->proximity;
+        return Util::quote($this->wordOne . ' ' . $this->wordTwo) . '~' . $this->proximity;
     }
 }

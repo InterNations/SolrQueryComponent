@@ -42,10 +42,6 @@ final class Util
             return $value;
         }
 
-        if (strlen($value) > 2 && substr($value, 0, 1) === '"' && substr($value, -1, 1) === '"') {
-            return $value;
-        }
-
         return '"' . strtr($value, static::$charMap) . '"';
     }
 
