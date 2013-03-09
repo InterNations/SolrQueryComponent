@@ -81,7 +81,7 @@ class ExpressionBuilderTest extends AbstractTestCase
 
         $n = $this->eb->prhb($this->eb->field('field', 'foo'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BooleanExpression', $n);
-        $this->assertSame('-field:foo', (string) $n);
+        $this->assertSame('-field:"foo"', (string) $n);
     }
 
     public function testRequiredExpr()
@@ -92,7 +92,7 @@ class ExpressionBuilderTest extends AbstractTestCase
 
         $n = $this->eb->req($this->eb->field('field', 'foo'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BooleanExpression', $n);
-        $this->assertSame('+field:foo', (string) $n);
+        $this->assertSame('+field:"foo"', (string) $n);
     }
 
     public function testGrouping()
@@ -120,7 +120,7 @@ class ExpressionBuilderTest extends AbstractTestCase
     {
         $f = $this->eb->field('field', 'query');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\FieldExpression', $f);
-        $this->assertSame('field:query', (string) $f);
+        $this->assertSame('field:"query"', (string) $f);
     }
 
     public function testFuzzy()
@@ -135,7 +135,7 @@ class ExpressionBuilderTest extends AbstractTestCase
 
         $f = $this->eb->fzz($this->eb->field('field', 'test'), 0.2);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\FuzzyExpression', $f);
-        $this->assertSame('field:test~0.2', (string) $f);
+        $this->assertSame('field:"test"~0.2', (string) $f);
     }
 
     public function testProximityQuery()
@@ -165,7 +165,7 @@ class ExpressionBuilderTest extends AbstractTestCase
 
         $expr = $this->eb->bool($this->eb->field('field', 'foo'), true);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BooleanExpression', $expr);
-        $this->assertSame('+field:foo', (string) $expr);
+        $this->assertSame('+field:"foo"', (string) $expr);
 
         $expr = $this->eb->bool('foo', false);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BooleanExpression', $expr);
@@ -173,7 +173,7 @@ class ExpressionBuilderTest extends AbstractTestCase
 
         $expr = $this->eb->bool($this->eb->field('field', 'foo'), false);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BooleanExpression', $expr);
-        $this->assertSame('-field:foo', (string) $expr);
+        $this->assertSame('-field:"foo"', (string) $expr);
 
         $expr = $this->eb->bool('foo', null);
         $this->assertSame('foo', $expr);
@@ -273,7 +273,7 @@ class ExpressionBuilderTest extends AbstractTestCase
                 )
              );
         $this->assertSame(
-            '("foo bar baz" -(+field1:foo^10 -field2:test~0.2 "word1 word2"~3 [from TO to] field3:{1 TO 10}))',
+            '("foo bar baz" -(+field1:"foo"^10 -field2:test~0.2 "word1 word2"~3 [from TO to] field3:{1 TO 10}))',
             (string) $q
         );
     }

@@ -34,7 +34,7 @@ class ExpressionBuilder
      *
      * @param string $field
      * @param Expression|string $expr
-     * @return Expression
+     * @return FieldExpression
      */
     public function field($field, $expr)
     {

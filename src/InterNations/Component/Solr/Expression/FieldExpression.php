@@ -31,6 +31,6 @@ class FieldExpression extends Expression
 
     public function __toString()
     {
-        return Util::escape($this->field) . ':' . Util::escape($this->expr);
+        return Util::escape($this->field) . ':' . Util::quote($this->expr);
     }
 }

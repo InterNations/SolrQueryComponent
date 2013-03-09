@@ -18,7 +18,7 @@ class FuzzyExpression extends Expression
     /**
      * Create new fuzzy query object
      *
-     * @param string|Expr $expr
+     * @param string|Expression $expr
      * @param float $similarity
      */
     public function __construct($expr, $similarity = null)

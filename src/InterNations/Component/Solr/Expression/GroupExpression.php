@@ -1,6 +1,8 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\Util;
+
 /**
  * Group expression class
  *
@@ -27,14 +29,19 @@ class GroupExpression extends Expression
 
     public function __toString()
     {
-        $query = '';
+        $parts = [];
+        foreach ($this->expressions as $expression) {
+            if (!$expression) {
+                continue;
+            }
 
-        $parts = array_map(['InterNations\Component\Solr\Util', 'sanitize'], $this->expressions);
-
-        if ($parts) {
-            $query = '(' . join(' ', array_filter($parts)) . ')';
+            $parts[] = Util::sanitize($expression);
         }
 
-        return $query;
+        if (!$parts) {
+            return '';
+        }
+
+        return '(' . join(' ', array_filter($parts)) . ')';
     }
 }

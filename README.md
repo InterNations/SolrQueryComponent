@@ -9,3 +9,7 @@ Build `name:"John Doe"^100`
 $eb = new InterNations\Component\Solr\Expression\ExpressionBuilder();
 echo $eb->field('name', $eb->boost($eb->eq('John Doe'), 100));
 ```
+
+### TODO
+ - Bring back term support
+ - Quote/unquote behavior

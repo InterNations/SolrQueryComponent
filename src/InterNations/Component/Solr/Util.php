@@ -12,37 +12,41 @@ final class Util
         '\\' => '\\\\',
         '+'  => '\+',
         '-'  =>'\-',
-        '&' => '\&',
-        '|' => '\|',
+        '&'  => '\&',
+        '|'  => '\|',
         '!'  => '\!',
         '('  => '\(',
         ')'  => '\)',
-        '{' => '\{',
-        '}' => '\}',
-        '[' => '\[',
-        ']' => '\]',
-        '^' => '\^',
-        '"' => '\"',
-        '~' => '\~',
-        '*' => '\*',
-        '?' => '\?',
-        ':' => '\:',
-        '/' => '\/',
+        '{'  => '\{',
+        '}'  => '\}',
+        '['  => '\[',
+        ']'  => '\]',
+        '^'  => '\^',
+        '"'  => '\"',
+        '~'  => '\~',
+        '*'  => '\*',
+        '?'  => '\?',
+        ':'  => '\:',
+        '/'  => '\/',
     ];
 
     /**
      * Quote a given string
      *
-     * @param string|Expression $string
-     * @return string
+     * @param mixed $value
+     * @return string|Expression
      */
-    public static function quote($string)
+    public static function quote($value)
     {
-        if ($string instanceof Expression) {
-            return $string;
+        if ($value instanceof Expression) {
+            return $value;
         }
 
-        return '"' . static::escape($string) . '"';
+        if (strlen($value) > 2 && substr($value, 0, 1) === '"' && substr($value, -1, 1) === '"') {
+            return $value;
+        }
+
+        return '"' . strtr($value, static::$charMap) . '"';
     }
 
     /**
@@ -50,42 +54,50 @@ final class Util
      *
      * Puts quotes around a string, treats everything else as a term
      *
-     * @param $string
-     * @return int|Expression|string
+     * @param mixed $value
+     * @return string|Expression
      */
-    public static function sanitize($string)
+    public static function sanitize($value)
     {
-        if ($string instanceof Expression) {
-            return $string;
-        }
+        $type = gettype($value);
 
-        if (empty($string)) {
+        if ($type === 'integer') {
+            return (string) $value;
+
+        } elseif ($type === 'string') {
+            if ($value !== '') {
+                return '"' . strtr($value, static::$charMap) . '"';
+            } else {
+                return $value;
+            }
+
+        } elseif ($type === 'double') {
+            static $precision;
+            if (!$precision) {
+                $precision = ini_get('precision');
+            }
+            return number_format($value, $precision, '.', '');
+
+        } elseif ($value instanceof Expression) {
+            return $value;
+
+        } elseif (empty($value)) {
             return '';
         }
-
-        if (is_float($string)) {
-            return number_format($string, ini_get('precision'), '.', '');
-        }
-
-        if (is_int($string)) {
-            return (string) $string;
-        }
-
-        return static::quote($string);
     }
 
     /**
-     * Escape a string to be safe for solr queries
+     * Escape a string to be safe for Solr queries
      *
-     * @param string|Expression $string
-     * @return Expression|string
+     * @param mixed $value
+     * @return string|Expression
      */
-    public static function escape($string)
+    public static function escape($value)
     {
-        if ($string instanceof Expression) {
-            return $string;
+        if ($value instanceof Expression) {
+            return $value;
         }
 
-        return strtr($string, static::$charMap);
+        return strtr($value, static::$charMap);
     }
 }

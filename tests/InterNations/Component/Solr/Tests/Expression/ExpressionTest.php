@@ -53,22 +53,22 @@ class ExpressionTest extends AbstractTestCase
 
     public function testBoostingPhrasesTermsAndGroups()
     {
-        $this->assertSame('foo^10', (string) new BoostExpression(10, 'foo'));
-        $this->assertSame('foo^10', (string) new BoostExpression('10dsfsd', 'foo'));
-        $this->assertSame('foo^10.2', (string) new BoostExpression('10.2dsfsd', 'foo'));
-        $this->assertSame('foo^10.1', (string) new BoostExpression(10.1, 'foo'));
+        $this->assertSame('"foo"^10', (string) new BoostExpression(10, 'foo'));
+        $this->assertSame('"foo"^10', (string) new BoostExpression('10dsfsd', 'foo'));
+        $this->assertSame('"foo"^10.2', (string) new BoostExpression('10.2dsfsd', 'foo'));
+        $this->assertSame('"foo"^10.1', (string) new BoostExpression(10.1, 'foo'));
         $this->assertSame('foo*^200', (string) new BoostExpression(200, new WildcardExpression('*', 'foo')));
         $this->assertSame('("foo" "bar")^200', (string) new BoostExpression(200, new GroupExpression(['foo', 'bar'])));
     }
 
     public function testFieldExpression()
     {
-        $this->assertSame('field:value\:foo', (string) new FieldExpression('field', 'value:foo'));
+        $this->assertSame('field:"value\:foo"', (string) new FieldExpression('field', 'value:foo'));
         $this->assertSame(
             'field:("foo" "foo bar")',
             (string) new FieldExpression('field', new GroupExpression(['foo', new PhraseExpression('foo bar')]))
         );
-        $this->assertSame('fie\-ld:foo', (string) new FieldExpression('fie-ld', 'foo'));
+        $this->assertSame('fie\-ld:"foo"', (string) new FieldExpression('fie-ld', 'foo'));
     }
 
     public function testBooleanExpression()

@@ -36,13 +36,29 @@ class Expression
     /**
      * @param string $placeholder
      * @param mixed $value
-     * @return $this
+     * @return self
      */
     public function setPlaceholder($placeholder, $value)
     {
         $this->placeholders[$placeholder] = $value;
 
         return $this;
+    }
+
+    /**
+     * @param array $placeholders
+     * @return self
+     */
+    public function setPlaceholders(array $placeholders)
+    {
+        $this->placeholders = $placeholders;
+
+        return $this;
+    }
+
+    public function getPlaceholders()
+    {
+        return $this->placeholders;
     }
 
     /**
@@ -63,11 +79,16 @@ class Expression
      */
     public function __toString()
     {
+        return $this->replacePlaceholders($this->expr);
+    }
+
+    protected function replacePlaceholders($expr)
+    {
         $replacements = [];
         foreach ($this->placeholders as $placeholder => $value) {
             $replacements['<' . $placeholder . '>'] = ExpressionFactory::createExpression($value);
         }
 
-        return (string) strtr($this->expr, $replacements);
+        return strtr($expr, $replacements);
     }
 }

@@ -29,6 +29,6 @@ class BoostExpression extends Expression
 
     public function __toString()
     {
-        return Util::escape($this->expr) . '^' . $this->boost;
+        return Util::sanitize($this->expr) . '^' . $this->boost;
     }
 }
