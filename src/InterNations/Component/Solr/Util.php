@@ -1,7 +1,7 @@
 <?php
 namespace InterNations\Component\Solr;
 
-use InterNations\Component\Solr\Expr\Expression;
+use InterNations\Component\Solr\Expression\Expression;
 
 final class Util
 {

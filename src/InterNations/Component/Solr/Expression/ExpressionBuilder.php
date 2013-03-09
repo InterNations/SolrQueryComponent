@@ -1,5 +1,5 @@
 <?php
-namespace InterNations\Component\Solr\Expr;
+namespace InterNations\Component\Solr\Expression;
 
 use DateTime;
 use DateTimeZone;

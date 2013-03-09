@@ -1,18 +1,18 @@
 <?php
-namespace InterNations\Component\Solr\Tests\Expr;
+namespace InterNations\Component\Solr\Tests\Expression;
 
 use InterNations\Component\Testing\AbstractTestCase;
-use InterNations\Component\Solr\Expr\Expression;
-use InterNations\Component\Solr\Expr\DateTimeExpression;
-use InterNations\Component\Solr\Expr\PhraseExpression;
-use InterNations\Component\Solr\Expr\WildcardExpression;
-use InterNations\Component\Solr\Expr\GroupExpression;
-use InterNations\Component\Solr\Expr\BoostExpression;
-use InterNations\Component\Solr\Expr\FieldExpression;
-use InterNations\Component\Solr\Expr\ProximityExpression;
-use InterNations\Component\Solr\Expr\RangeExpression;
-use InterNations\Component\Solr\Expr\FuzzyExpression;
-use InterNations\Component\Solr\Expr\BooleanExpression;
+use InterNations\Component\Solr\Expression\Expression;
+use InterNations\Component\Solr\Expression\DateTimeExpression;
+use InterNations\Component\Solr\Expression\PhraseExpression;
+use InterNations\Component\Solr\Expression\WildcardExpression;
+use InterNations\Component\Solr\Expression\GroupExpression;
+use InterNations\Component\Solr\Expression\BoostExpression;
+use InterNations\Component\Solr\Expression\FieldExpression;
+use InterNations\Component\Solr\Expression\ProximityExpression;
+use InterNations\Component\Solr\Expression\RangeExpression;
+use InterNations\Component\Solr\Expression\FuzzyExpression;
+use InterNations\Component\Solr\Expression\BooleanExpression;
 use DateTime;
 use DateTimeZone;
 
