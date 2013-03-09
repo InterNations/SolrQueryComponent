@@ -27,7 +27,7 @@ class ExprBuilderTest extends AbstractTestCase
     {
         $eq = $this->eb->eq('foo:bar');
         $this->assertInstanceOf('InterNations\Component\Solr\Expr\TermExpr', $eq);
-        $this->assertSame('foo\:bar', (string) $eq);
+        $this->assertSame('"foo\:bar"', (string) $eq);
     }
 
     public function testEqWithField()
@@ -37,7 +37,7 @@ class ExprBuilderTest extends AbstractTestCase
 
         $eq = $this->eb->field('field', $eq);
         $this->assertInstanceOf('InterNations\Component\Solr\Expr\FieldExpr', $eq);
-        $this->assertSame('field:test', (string) $eq);
+        $this->assertSame('field:"test"', (string) $eq);
     }
 
     public function testPhrase()

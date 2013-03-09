@@ -21,14 +21,14 @@ class WildcardExpr extends Expr
     /**
      * Wildcard query prefix
      *
-     * @var string|InterNations\Component\Solr\Expr\Expr
+     * @var string|Expr
      */
     protected $prefix = '';
 
     /**
      * Wildcard query suffix
      *
-     * @var string|InterNations\Component\Solr\Expr\Expr
+     * @var string|Expr
      */
     protected $suffix;
 
@@ -36,8 +36,8 @@ class WildcardExpr extends Expr
      * Create new wildcard query object
      *
      * @param string $wildcard
-     * @param string|InterNations\Component\Solr\Expr\Expr $prefix
-     * @param string|InterNations\Component\Solr\Expr\Expr $suffix
+     * @param string|Expr $prefix
+     * @param string|Expr $suffix
      */
     public function __construct($wildcard, $prefix = '', $suffix = null)
     {
@@ -70,12 +70,12 @@ class WildcardExpr extends Expr
             $phraseSuffix = false;
         }
 
-        $expr = (!$phrasePrefix and $phraseSuffix) ? '"' : '';
+        $expr = (!$phrasePrefix && $phraseSuffix) ? '"' : '';
         $expr .= $prefix;
         $expr .= $this->wildcard;
-        $expr .= ($phrasePrefix and !$phraseSuffix and !$suffix) ? '"' : '';
+        $expr .= ($phrasePrefix && !$phraseSuffix && !$suffix) ? '"' : '';
         $expr .= $suffix;
-        $expr .= ($phrasePrefix and !$phraseSuffix and $suffix) ? '"' : '';
+        $expr .= ($phrasePrefix && !$phraseSuffix && $suffix) ? '"' : '';
 
         return $expr;
     }

@@ -6,10 +6,6 @@ use InterNations\Component\Solr\Util;
 /**
  * Expression class representing a single, escaped term
  */
-class TermExpr extends Expr
+class TermExpr extends PhraseExpr
 {
-    public function __toString()
-    {
-        return Util::escape((string) $this->expr);
-    }
 }
