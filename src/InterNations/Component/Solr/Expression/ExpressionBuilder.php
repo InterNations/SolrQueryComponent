@@ -318,7 +318,7 @@ class ExpressionBuilder
     /**
      * @param string $type
      * @param array $params
-     * @param bool $shortForm
+     * @param boolean $shortForm
      * @return LocalParamsExpression
      */
     public function localParams($type, $params = [], $shortForm = true)

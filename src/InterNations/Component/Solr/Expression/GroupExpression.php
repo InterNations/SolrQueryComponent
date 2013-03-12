@@ -1,8 +1,6 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
-use InterNations\Component\Solr\Util;
-
 /**
  * Group expression class
  *

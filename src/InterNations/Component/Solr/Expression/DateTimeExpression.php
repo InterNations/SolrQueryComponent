@@ -3,7 +3,6 @@ namespace InterNations\Component\Solr\Expression;
 
 use DateTime;
 use DateTimeZone;
-use InterNations\Component\Solr\Util;
 
 class DateTimeExpression extends Expression
 {

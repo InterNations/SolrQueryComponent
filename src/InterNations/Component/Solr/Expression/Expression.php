@@ -1,8 +1,6 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
-use InterNations\Component\Solr\Util;
-
 /**
  * Base class for expressions
  *
