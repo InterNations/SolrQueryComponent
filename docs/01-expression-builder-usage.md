@@ -26,5 +26,24 @@ a `*:*` if all values passed to it are empty. `$query1` will contain `field:"val
 
 ```php
 $query1 = $eb->all($eb->field('field', $eb->eq('value')));
-$query2 = $eb->all($eb->field('field', $eb->qe(null)));
+$query2 = $eb->all($eb->field('field', $eb->eq(null)));
+```
+
+*Note:* the expression builder API generally assumes `null` to be an empty query.
+
+
+### Requiring and prohibiting expressions
+
+To create queries that require a certain condition to be true, we need to add a plus sign (`+`) in front of it. Let’s
+create a query in the form of `+field:"search term"`.
+
+```php
+$eb->req($eb->field('field', $eb->eq('search term')));
+```
+
+Let’s negate that expression and make sure we only get documents where `"search term`" is not present (`-field:"search
+term"`).
+
+```php
+$eb->prhb($eb->field('field', $eb->eq('search term')));
 ```
