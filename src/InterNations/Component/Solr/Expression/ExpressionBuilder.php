@@ -253,7 +253,7 @@ class ExpressionBuilder
     }
 
     /**
-     * Creates a date range for a specific day
+     * Creates a date expression for a specific day
      *
      * @param DateTime $date
      * @return RangeExpression
@@ -274,7 +274,7 @@ class ExpressionBuilder
     }
 
     /**
-     * Creates a range between to dates (one side may be open ended which is indicated by passing null)
+     * Creates a range between to dates (one side may be unlimited which is indicated by passing null)
      *
      * @param DateTime $from
      * @param DateTime $to
