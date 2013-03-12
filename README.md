@@ -10,6 +10,19 @@ Build `name:"John Doe"^100`
 
 ```php
 <?php
-$eb = new InterNations\Component\Solr\Expression\ExpressionBuilder();
+use InterNations\Component\Solr\Expression\ExpressionBuilder;
+
+$eb = new ExpressionBuilder();
 echo $eb->field('name', $eb->boost($eb->eq('John Doe'), 100));
+```
+
+And the same with the query string object:
+
+```
+<?php
+use InterNations\Component\Solr\Query\QueryString;
+
+echo (new QueryString('name:<name>^<boost>'))
+    ->setPlaceholder('name', 'John Doe')
+    ->setPlaceholder('boost', 100);
 ```

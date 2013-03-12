@@ -26,11 +26,15 @@ class QueryString
     public function setPlaceholder($placeholder, $value)
     {
         $this->placeholders[$placeholder] = $value;
+
+        return $this;
     }
 
     public function setPlaceholders(array $placeholders)
     {
         $this->placeholders = $placeholders;
+
+        return $this;
     }
 
     public function __toString()

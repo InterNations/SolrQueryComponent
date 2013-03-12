@@ -25,6 +25,13 @@ class QueryStringTest extends AbstractTestCase
         $this->assertSame('field:"text"', (string) $query);
     }
 
+    public function testPlaceholderSettersReturnItself()
+    {
+        $query = new QueryString('test');
+        $this->assertSame($query, $query->setPlaceholder('foo', 'bar'));
+        $this->assertSame($query, $query->setPlaceholders(['foo' => 'bar']));
+    }
+
     public function testQueryWithPlaceholder_Group()
     {
         $query = new QueryString('field:<ph>');
