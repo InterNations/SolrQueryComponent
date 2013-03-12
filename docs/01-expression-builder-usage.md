@@ -32,7 +32,7 @@ $query2 = $eb->all($eb->field('field', $eb->eq(null)));
 *Note:* the expression builder API generally assumes `null` to be an empty query.
 
 
-### Requiring and prohibiting expressions
+## Requiring and prohibiting expressions
 
 To create queries that require a certain condition to be true, we need to add a plus sign (`+`) in front of it. Let’s
 create a query in the form of `+field:"search term"`.
@@ -56,7 +56,7 @@ $eb->bool($eb->field('field', $eb->eq('search term')), true);
 $eb->bool($eb->field('field', $eb->eq('search term')), false);
 ```
 
-### Constructing range queries
+## Constructing range queries
 
 Another powerful feature of Solr is range queries. You can search between numbers, letters and dates. Let’s start with a
 simple numeric range query to get only products with ratings between 5 and 10 (`rating:[5 TO 10]`).
@@ -84,3 +84,31 @@ TO 2012-12-31T23:59:56]`).
 ```php
 $eb->field('publishedOn', $eb->dateRange(new DateTime('2012-01-01 00:00:00'), new DateTime('2012-12-31 23:59:59')));
 ```
+
+## Grouping and compositing
+
+Grouping is a powerful feature of Lucene’s search syntax. Let’s search for a list of product names
+(`productName:("vinyl" "minidisc" "compact disc")`).
+
+```php
+$eb->field('productName', $eb->grp('vinyl', 'minidisc', 'compact disc'));
+```
+
+The query above relies on the default operator (either "OR" or "AND"). To explicitly set one, we simply pass a grouping
+parameter as a last parameter to `grp()` to create this query: `productName:("vinyl" OR "minidisc" OR "compact disc").
+
+```php
+$eb->field('productName', $eb->grp('vinyl', 'minidisc', 'compact disc', GroupExpression::TYPE_OR));
+```
+
+## Wildcards and proximity searches
+
+TBD
+
+## Compositing multiple queries
+
+TBD
+
+## Esoteric: functions and local params
+
+TBD
