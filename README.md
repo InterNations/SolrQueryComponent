@@ -26,3 +26,5 @@ echo (new QueryString('name:<name>^<boost>'))
     ->setPlaceholder('name', 'John Doe')
     ->setPlaceholder('boost', 100);
 ```
+
+Learn more on how to use the component in [docs/](docs).
