@@ -9,7 +9,19 @@
         {
             "name": "Lars Strojny",
             "email": "lars@strojny.net"
-        }
+        },
+        {
+            "name": "Max Beutel",
+            "email": "max.beutel@internations.org"
+        },
+        {
+            "name": "Michael Weinrich",
+            "email": "michael.weinrich@internations.org"
+        },
+        {
+            "name": "Marc Jakubowski",
+            "email": "marc.jakubowski@internations.org"
+        },
     ],
     "require-dev": {
         "internations/testing-component": "dev-master"
