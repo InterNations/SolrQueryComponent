@@ -18,7 +18,7 @@ echo $eb->field('name', $eb->boost($eb->eq('John Doe'), 100));
 
 And the same with the query string object:
 
-```
+```php
 <?php
 use InterNations\Component\Solr\Query\QueryString;
 
