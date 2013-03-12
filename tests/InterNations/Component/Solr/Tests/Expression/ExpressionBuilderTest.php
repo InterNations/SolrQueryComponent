@@ -286,7 +286,7 @@ class ExpressionBuilderTest extends AbstractTestCase
                 )
              );
         $this->assertSame(
-            '("foo bar baz" -(+field1:"foo"^10 -field2:test~0.2 "word1 word2"~3 [from TO to] field3:{1 TO 10}))',
+            '("foo bar baz" -(+field1:"foo"^10 -field2:test~0.2 "word1 word2"~3 ["from" TO "to"] field3:{"1" TO 10}))',
             (string) $q
         );
     }
@@ -328,8 +328,8 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testRange()
     {
-        $this->assertSame('[A TO Z]', (string) $this->eb->range('A', 'Z'));
-        $this->assertSame('[A TO Z]', (string) $this->eb->range('A', 'Z', true));
-        $this->assertSame('{A TO Z}', (string) $this->eb->range('A', 'Z', false));
+        $this->assertSame('["A" TO "Z"]', (string) $this->eb->range('A', 'Z'));
+        $this->assertSame('["A" TO "Z"]', (string) $this->eb->range('A', 'Z', true));
+        $this->assertSame('{"A" TO "Z"}', (string) $this->eb->range('A', 'Z', false));
     }
 }

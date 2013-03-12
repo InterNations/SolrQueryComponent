@@ -108,14 +108,16 @@ class ExpressionTest extends AbstractTestCase
 
     public function testRangeExpression()
     {
-        $this->assertSame('[foo TO bar]', (string) new RangeExpression('foo', 'bar', true));
-        $this->assertSame('[foo TO bar]', (string) new RangeExpression('foo', 'bar'));
-        $this->assertSame('[foo TO "foo bar"]', (string) new RangeExpression('foo', new PhraseExpression('foo bar')));
-        $this->assertSame('{foo TO "foo bar"}', (string) new RangeExpression('foo', new PhraseExpression('foo bar'), null, false));
+        $this->assertSame('["foo" TO "bar"]', (string) new RangeExpression('foo', 'bar', true));
+        $this->assertSame('["foo" TO "bar"]', (string) new RangeExpression('foo', 'bar'));
+        $this->assertSame('["foo" TO "foo bar"]', (string) new RangeExpression('foo', new PhraseExpression('foo bar')));
+        $this->assertSame('{"foo" TO "foo bar"}', (string) new RangeExpression('foo', new PhraseExpression('foo bar'), null, false));
         $this->assertSame(
-            '{foo TO "foo bar?"}',
+            '{"foo" TO "foo bar?"}',
             (string) new RangeExpression('foo', new WildcardExpression('?', new PhraseExpression('foo bar')), false)
         );
+        $this->assertSame('[-1 TO 0]', (string) new RangeExpression(-1, 0));
+        $this->assertSame('[0 TO 1]', (string) new RangeExpression(0, 1));
     }
 
     public function testFuzzyExpression()

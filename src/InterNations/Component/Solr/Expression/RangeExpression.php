@@ -50,9 +50,14 @@ class RangeExpression extends Expression
         return sprintf(
             '%s%s TO %s%s',
             $this->inclusive ? '[' : '{',
-            Util::escape($this->start)  ?: '*',
-            Util::escape($this->end)  ?: '*',
+            $this->cast($this->start),
+            $this->cast($this->end),
             $this->inclusive ? ']' : '}'
         );
+    }
+
+    private function cast($value)
+    {
+        return $value === null ? '*' : Util::sanitize($value);
     }
 }
