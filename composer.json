@@ -21,7 +21,7 @@
         {
             "name": "Marc Jakubowski",
             "email": "marc.jakubowski@internations.org"
-        },
+        }
     ],
     "require-dev": {
         "internations/testing-component": "dev-master"
