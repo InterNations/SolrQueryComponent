@@ -85,7 +85,7 @@ TO 2012-12-31T23:59:56]`).
 $eb->field('publishedOn', $eb->dateRange(new DateTime('2012-01-01 00:00:00'), new DateTime('2012-12-31 23:59:59')));
 ```
 
-## Grouping and compositing
+## Grouping
 
 Grouping is a powerful feature of Lucene’s search syntax. Let’s search for a list of product names
 (`productName:("vinyl" "minidisc" "compact disc")`).
