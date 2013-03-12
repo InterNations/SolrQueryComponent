@@ -55,3 +55,32 @@ operator will require, passing `false` will prohibit an expression.
 $eb->bool($eb->field('field', $eb->eq('search term')), true);
 $eb->bool($eb->field('field', $eb->eq('search term')), false);
 ```
+
+### Constructing range queries
+
+Another powerful feature of Solr is range queries. You can search between numbers, letters and dates. Let’s start with a
+simple numeric range query to get only products with ratings between 5 and 10 (`rating:[5 TO 10]`).
+
+```php
+$eb->field('rating', $eb->range(5, 10));
+```
+
+If we want to use an open upper bound (`rating:[5 TO *]`), we can do that as well:
+
+```php
+$eb->field('rating', $eb->range(5, null));
+```
+
+`[` is used to define implicit ranges, '{' is used for explicit ranges. We can either use `btwnRange()` or pass `false`
+as a third parameter to `range()` (`rating:{5 TO 10}`).
+
+```php
+$eb->field('rating', $eb->btwnRange(5, 10));
+```
+
+We promised date ranges, let’s create a query that searches for products from 2012 (`publishedOn:[2012-01-01T00:00:00Z
+TO 2012-12-31T23:59:56]`).
+
+```php
+$eb->field('publishedOn', $eb->dateRange(new DateTime('2012-01-01 00:00:00'), new DateTime('2012-12-31 23:59:59')));
+```
