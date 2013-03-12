@@ -303,8 +303,20 @@ class ExpressionBuilderTest extends AbstractTestCase
             (string) $this->eb->dateRange($dateFrom, null)
         );
 
+        $this->assertSame(
+            '{2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z}',
+            (string) $this->eb->dateRange($dateFrom, $dateTo, false)
+        );
+
         $this->assertNull(
             $this->eb->dateRange(null, null)
         );
+    }
+
+    public function testRange()
+    {
+        $this->assertSame('[A TO Z]', (string) $this->eb->range('A', 'Z'));
+        $this->assertSame('[A TO Z]', (string) $this->eb->range('A', 'Z', true));
+        $this->assertSame('{A TO Z}', (string) $this->eb->range('A', 'Z', false));
     }
 }

@@ -106,11 +106,12 @@ class ExpressionBuilder
      *
      * @param string $start
      * @param string $end
+     * @param boolean $inclusive
      * @return Expression
      */
-    public function range($start = null, $end = null)
+    public function range($start = null, $end = null, $inclusive = true)
     {
-        return new RangeExpression($start, $end);
+        return new RangeExpression($start, $end, $inclusive);
     }
 
     /**
@@ -277,9 +278,10 @@ class ExpressionBuilder
      *
      * @param DateTime $dateFrom
      * @param DateTime $dateTo
+     * @param boolean $inclusive
      * @return RangeExpression
      */
-    public function dateRange(DateTime $dateFrom = null, DateTime $dateTo = null)
+    public function dateRange(DateTime $dateFrom = null, DateTime $dateTo = null, $inclusive = true)
     {
         if ($dateFrom === null && $dateTo === null) {
             return;
@@ -287,7 +289,8 @@ class ExpressionBuilder
 
         return $this->range(
             $this->lit($this->dateExpr($dateFrom)),
-            $this->lit($this->dateExpr($dateTo))
+            $this->lit($this->dateExpr($dateTo)),
+            $inclusive
         );
     }
 
