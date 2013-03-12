@@ -147,4 +147,22 @@ $eb->comp(
 
 ## Esoteric: functions and local params
 
-TBD
+Solr also allows function queries. This is a rather esoteric feature, but we can create that as well. There query we
+want to create, looks like this: `_val_:"product(2,2)"`.
+
+```php
+$eb->field('_val_', $eb->phrase($eb->func('product', [2, 2])));
+```
+
+Another esoteric Solr feature is local params, a way to specify query parser dependencies. Let’s force the `dismax`
+query parser, that is designed to handle user inputs: `{!dismax v="query string"}`.
+
+```php
+$eb->localParams('dismax', ['v' => 'query string']);
+```
+
+Another way, just specifying the local params and passing a query afterwards: `{!dismax}"query string"`.
+
+```php
+$eb->localParam('dismax', 'query string');
+```
