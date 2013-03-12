@@ -127,7 +127,19 @@ $eb->field('description', $eb->prx("vinyl", "minidisc", 10));
 
 ## Compositing multiple queries
 
-TBD
+To combined multiple queries, we can use `comp()`. Additionally, we can specify an operator ("OR" or "AND"). Let’s
+construct a query searching searching for all products that contain "vinyl" in name and description
+(`productName:"vinyl" description:"vinyl"`).
+
+```php
+$eb->comp($eb->field('productName', $eb->eq('vinyl')), $eb->field('description', $eb->eq('vinyl')));
+```
+
+Let’s specify an explicit "OR": `productName:"vinyl" OR description:"vinyl"`.
+
+```php
+$eb->comp($eb->field('productName', $eb->eq('vinyl')), $eb->field('description', $eb->eq('vinyl')), CompositeExpression::TYPE_OR);
+```
 
 ## Esoteric: functions and local params
 
