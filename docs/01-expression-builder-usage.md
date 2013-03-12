@@ -47,3 +47,11 @@ term"`).
 ```php
 $eb->prhb($eb->field('field', $eb->eq('search term')));
 ```
+
+If we need to require/prohibit based on dynamic input, we can also use the `bool()` function. Passing `true` as an
+operator will require, passing `false` will prohibit an expression.
+
+```php
+$eb->bool($eb->field('field', $eb->eq('search term')), true);
+$eb->bool($eb->field('field', $eb->eq('search term')), false);
+```
