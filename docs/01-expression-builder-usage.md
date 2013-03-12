@@ -103,7 +103,27 @@ $eb->field('productName', $eb->grp('vinyl', 'minidisc', 'compact disc', GroupExp
 
 ## Wildcards and proximity searches
 
-TBD
+Wildcard searches come in two different forms: `*` for anything or `?` for a single character. To create a query
+products starting with "ab": `productName:ab*`.
+
+```php
+$eb->field('productName', $eb->wild('ab', '*'));
+```
+
+To search for all product names starting with "ab" and a single character afterwords: `productName:ab?`.
+
+```php
+$eb->field('productName', $eb->wild('ab'));
+// Same as
+$eb->field('productName', $eb->wild('ab', '?'));
+```
+
+We can also search for all products where the description contains "vinyl" and "minidisc" but only in a distance of ten
+words: `description:"vinyl minidisc"~10`.
+
+```php
+$eb->field('description', $eb->prx("vinyl", "minidisc", 10));
+```
 
 ## Compositing multiple queries
 
