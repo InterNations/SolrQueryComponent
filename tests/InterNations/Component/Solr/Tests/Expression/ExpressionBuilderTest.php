@@ -3,6 +3,7 @@ namespace InterNations\Component\Solr\Tests\Expression;
 
 use InterNations\Component\Solr\Expression\ExpressionBuilder;
 use InterNations\Component\Solr\Expression\GroupExpression;
+use InterNations\Component\Solr\Expression\ParameterExpression;
 use InterNations\Component\Testing\AbstractTestCase;
 
 class ExpressionBuilderTest extends AbstractTestCase
@@ -331,5 +332,18 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('["A" TO "Z"]', (string) $this->eb->range('A', 'Z'));
         $this->assertSame('["A" TO "Z"]', (string) $this->eb->range('A', 'Z', true));
         $this->assertSame('{"A" TO "Z"}', (string) $this->eb->range('A', 'Z', false));
+    }
+
+    public function testFunc()
+    {
+        $this->assertSame('func()', (string) $this->eb->func('func'));
+        $this->assertSame('func()', (string) $this->eb->func('func', null));
+        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', ['foo', 'bar']));
+        $this->assertSame('func("foo")', (string) $this->eb->func('func', $this->eb->params(['foo'])));
+        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', $this->eb->params(['foo', 'bar'])));
+        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', $this->eb->params('foo', 'bar')));
+        $this->assertSame('func("foo")', (string) $this->eb->func('func', $this->eb->params('foo')));
+        $this->assertSame('func()', (string) $this->eb->func('func', $this->eb->params()));
+        $this->assertSame('func("", "")', (string) $this->eb->func('func', $this->eb->params(null, null)));
     }
 }

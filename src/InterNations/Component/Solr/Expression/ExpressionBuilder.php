@@ -313,6 +313,29 @@ class ExpressionBuilder
         return new DateTimeExpression($date);
     }
 
+    /**
+     * @param string $function
+     * @param array|ParameterExpression|scalar $parameters
+     * @return FunctionExpression
+     */
+    public function func($function, $parameters = null)
+    {
+        return new FunctionExpression($function, $parameters);
+    }
+
+    /**
+     * @param $parameters,..
+     */
+    public function params($parameters = null)
+    {
+        $parameters = func_get_args();
+        if (count($parameters) === 1 && is_array($parameters[0])) {
+            $parameters = $parameters[0];
+        }
+
+        return new ParameterExpression($parameters);
+    }
+
     private function ignore($expr)
     {
         return trim($expr) === '';

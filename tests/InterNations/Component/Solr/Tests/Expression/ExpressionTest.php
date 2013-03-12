@@ -1,6 +1,8 @@
 <?php
 namespace InterNations\Component\Solr\Tests\Expression;
 
+use InterNations\Component\Solr\Expression\FunctionExpression;
+use InterNations\Component\Solr\Expression\ParameterExpression;
 use InterNations\Component\Testing\AbstractTestCase;
 use InterNations\Component\Solr\Expression\Expression;
 use InterNations\Component\Solr\Expression\DateTimeExpression;
@@ -144,5 +146,19 @@ class ExpressionTest extends AbstractTestCase
 
         $this->assertSame('(1 AND 2 AND 3)', (string) new GroupExpression([1, 2, 3], GroupExpression::TYPE_AND));
         $this->assertSame('(1 OR 2 OR 3)', (string) new GroupExpression([1, 2, 3], GroupExpression::TYPE_OR));
+    }
+
+    public function testFunctionExpression()
+    {
+        $this->assertSame('sum(1, 2, 3, "text")', (string) new FunctionExpression('sum', [1, 2, 3, "text"]));
+        $this->assertSame('func(1)', (string) new FunctionExpression('func', [1]));
+        $this->assertSame('func()', (string) new FunctionExpression('func'));
+        $this->assertSame('func()', (string) new FunctionExpression('func', null));
+        $this->assertSame('func()', (string) new FunctionExpression('func', []));
+        $this->assertSame('func()', (string) new FunctionExpression('func', new ParameterExpression([])));
+        $this->assertSame(
+            'func("foo", "bar", 1)',
+            (string) new FunctionExpression('func', new ParameterExpression(['foo', 'bar', 1]))
+        );
     }
 }
