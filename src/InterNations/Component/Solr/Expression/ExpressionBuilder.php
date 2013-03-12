@@ -276,20 +276,20 @@ class ExpressionBuilder
     /**
      * Creates a range between to dates (one side may be open ended which is indicated by passing null)
      *
-     * @param DateTime $dateFrom
-     * @param DateTime $dateTo
+     * @param DateTime $from
+     * @param DateTime $to
      * @param boolean $inclusive
      * @return RangeExpression
      */
-    public function dateRange(DateTime $dateFrom = null, DateTime $dateTo = null, $inclusive = true)
+    public function dateRange(DateTime $from = null, DateTime $to = null, $inclusive = true)
     {
-        if ($dateFrom === null && $dateTo === null) {
+        if ($from === null && $to === null) {
             return;
         }
 
         return $this->range(
-            $this->lit($this->dateExpr($dateFrom)),
-            $this->lit($this->dateExpr($dateTo)),
+            $this->lit($this->dateExpr($from)),
+            $this->lit($this->dateExpr($to)),
             $inclusive
         );
     }

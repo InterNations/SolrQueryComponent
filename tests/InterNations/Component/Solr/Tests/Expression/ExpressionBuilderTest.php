@@ -280,32 +280,32 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testDateRange()
     {
-        $dateFrom = new \DateTime('2010-10-11 02:00:00', new \DateTimeZone('Europe/Berlin'));
-        $dateTo = new \DateTime('2010-10-22 01:59:59', new \DateTimeZone('Europe/Berlin'));
+        $from = new \DateTime('2010-10-11 02:00:00', new \DateTimeZone('Europe/Berlin'));
+        $to = new \DateTime('2010-10-22 01:59:59', new \DateTimeZone('Europe/Berlin'));
 
         $this->assertSame(
             '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
-            (string) $this->eb->dateRange($dateFrom, $dateTo)
+            (string) $this->eb->dateRange($from, $to)
         );
 
         $this->assertSame(
             'dateField:[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
-            (string) $this->eb->field('dateField', $this->eb->dateRange($dateFrom, $dateTo))
+            (string) $this->eb->field('dateField', $this->eb->dateRange($from, $to))
         );
 
         $this->assertSame(
             '[* TO 2010-10-21T23:59:59Z]',
-            (string) $this->eb->dateRange(null, $dateTo)
+            (string) $this->eb->dateRange(null, $to)
         );
 
         $this->assertSame(
             '[2010-10-11T00:00:00Z TO *]',
-            (string) $this->eb->dateRange($dateFrom, null)
+            (string) $this->eb->dateRange($from, null)
         );
 
         $this->assertSame(
             '{2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z}',
-            (string) $this->eb->dateRange($dateFrom, $dateTo, false)
+            (string) $this->eb->dateRange($from, $to, false)
         );
 
         $this->assertNull(
