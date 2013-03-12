@@ -139,5 +139,8 @@ class ExpressionTest extends AbstractTestCase
         $this->assertSame('("one" "two" "three")', (string) new GroupExpression(['one', 'two', 'three']));
         $this->assertSame('("one\:" "two" "three")', (string) new GroupExpression(['one:', 'two', 'three']));
         $this->assertSame('("one two" "three four")', (string) new GroupExpression(['one two', 'three four']));
+
+        $this->assertSame('(1 AND 2 AND 3)', (string) new GroupExpression([1, 2, 3], GroupExpression::TYPE_AND));
+        $this->assertSame('(1 OR 2 OR 3)', (string) new GroupExpression([1, 2, 3], GroupExpression::TYPE_OR));
     }
 }

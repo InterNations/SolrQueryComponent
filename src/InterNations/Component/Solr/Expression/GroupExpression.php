@@ -10,21 +10,32 @@ use InterNations\Component\Solr\Util;
  */
 class GroupExpression extends Expression
 {
+    const TYPE_AND = 'AND';
+
+    const TYPE_OR = 'OR';
+
     /**
      * List of query expressions
      *
      * @var array
      */
-    protected $expressions = [];
+    private $expressions = [];
+
+    /**
+     * @var string
+     */
+    private $type;
 
     /**
      * Create new group of expression
      *
      * @param array $expressions
+     * @param string $type
      */
-    public function __construct(array $expressions)
+    public function __construct(array $expressions, $type = null)
     {
         $this->expressions = $expressions;
+        $this->type = $type;
     }
 
     public function __toString()
@@ -42,6 +53,13 @@ class GroupExpression extends Expression
             return '';
         }
 
-        return '(' . join(' ', array_filter($parts)) . ')';
+        $glue = $this->type ? ' ' . $this->type . ' ' : ' ';
+
+        return '(' . join($glue, array_filter($parts)) . ')';
+    }
+
+    public static function isType($type)
+    {
+        return $type === static::TYPE_OR || $type === static::TYPE_AND || $type === null;
     }
 }

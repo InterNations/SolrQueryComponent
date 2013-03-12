@@ -215,26 +215,32 @@ class ExpressionBuilder
     /**
      * Create grouped expression: (<expr1> <expr2> <expr3>)
      *
-     * @param Expression|string $expr
-     * @param Expression|string $expr
-     * @param Expression|string $expr
+     * @param Expression|string $expr,...
+     * @param string $type
      * @return Expression
      */
-    public function grp()
+    public function grp($expr = null, $type = null)
     {
         $args = func_get_args();
+        $type = null;
 
-        if (count($args) === 1 && is_array($args[0])) {
+        if (count($args) > 0 && is_array($args[0])) {
+            if (isset($args[1])) {
+                $type = $args[1];
+            }
             $args = $args[0];
         }
 
-        $args = array_filter($args, [$this, 'permit']);
+        if (GroupExpression::isType(end($args))) {
+            $type = array_pop($args);
+        }
 
+        $args = array_filter($args, [$this, 'permit']);
         if (!$args) {
             return null;
         }
 
-        return new GroupExpression($args);
+        return new GroupExpression($args, $type);
     }
 
     /**

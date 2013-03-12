@@ -2,6 +2,7 @@
 namespace InterNations\Component\Solr\Tests\Expression;
 
 use InterNations\Component\Solr\Expression\ExpressionBuilder;
+use InterNations\Component\Solr\Expression\GroupExpression;
 use InterNations\Component\Testing\AbstractTestCase;
 
 class ExpressionBuilderTest extends AbstractTestCase
@@ -242,6 +243,18 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertNull($this->eb->grp());
         $this->assertNull($this->eb->day());
         $this->assertNull($this->eb->day(''));
+    }
+
+    public function testGroupingTypes()
+    {
+        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(['foo', 'bar'], GroupExpression::TYPE_AND));
+        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(['foo', 'bar'], GroupExpression::TYPE_OR));
+
+        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(['foo', 'bar', GroupExpression::TYPE_OR]));
+        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(['foo', 'bar', GroupExpression::TYPE_AND]));
+
+        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp('foo', 'bar', GroupExpression::TYPE_OR));
+        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp('foo', 'bar', GroupExpression::TYPE_OR));
     }
 
     public function testRealisticQueryExamples()
