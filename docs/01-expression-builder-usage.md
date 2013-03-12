@@ -20,3 +20,11 @@ Next step might be to limit those searches to a specific field (`myField:"this i
 ```php
 $query = $eb->field('myField', $eb->eq('this is my search term'));
 ```
+
+A popular use case is to fall back on everything. To support that, expression builder has an `all()` method that returns
+a `*:*` if all values passed to it are empty. `$query1` will contain `field:"value"` while `$query2` contain `*:*`.
+
+```php
+$query1 = $eb->all($eb->field('field', $eb->eq('value')));
+$query2 = $eb->all($eb->field('field', $eb->qe(null)));
+```
