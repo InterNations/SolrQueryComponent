@@ -138,7 +138,11 @@ $eb->comp($eb->field('productName', $eb->eq('vinyl')), $eb->field('description',
 Let’s specify an explicit "OR": `productName:"vinyl" OR description:"vinyl"`.
 
 ```php
-$eb->comp($eb->field('productName', $eb->eq('vinyl')), $eb->field('description', $eb->eq('vinyl')), CompositeExpression::TYPE_OR);
+$eb->comp(
+    $eb->field('productName', $eb->eq('vinyl')),
+    $eb->field('description', $eb->eq('vinyl')),
+    CompositeExpression::TYPE_OR
+);
 ```
 
 ## Esoteric: functions and local params
