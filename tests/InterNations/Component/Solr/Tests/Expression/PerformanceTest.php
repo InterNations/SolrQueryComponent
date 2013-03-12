@@ -3,12 +3,15 @@ namespace InterNations\Component\Solr\Tests\Expression;
 
 use InterNations\Component\Testing\AbstractTestCase;
 use InterNations\Component\Solr\Expression\GroupExpression;
+use InterNations\Component\Testing\TimingTrait;
 
 /**
  * @group performance
  */
 class PerformanceTest extends AbstractTestCase
 {
+    use TimingTrait;
+
     public function testGroupingPerformance_Int()
     {
         $list = range(0, 10000);
@@ -54,17 +57,4 @@ class PerformanceTest extends AbstractTestCase
         );
     }
 
-    protected function assertTiming($maxDurationInMs, callable $callable, $runs = 20)
-    {
-        $duration = 0;
-
-        for ($a = 0; $a < $runs; ++$a) {
-            $start = microtime(true);
-            $callable();
-            $end = microtime(true);
-            $duration += ($end - $start);
-        }
-
-        $this->assertLessThanOrEqual($maxDurationInMs, ($duration / $runs) * 1000);
-    }
 }
