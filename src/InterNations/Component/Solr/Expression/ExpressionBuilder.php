@@ -223,8 +223,8 @@ class ExpressionBuilder
     {
         $args = func_get_args();
 
-        if (func_num_args() === 1 && is_array(func_get_arg(0))) {
-            $args = func_get_arg(0);
+        if (count($args) === 1 && is_array($args[0])) {
+            $args = $args[0];
         }
 
         $args = array_filter($args, [$this, 'permit']);
@@ -266,12 +266,10 @@ class ExpressionBuilder
         $date = clone $date;
         $date->setTimezone(new DateTimeZone('UTC'));
 
-        $expr = $this->range(
+        return $this->range(
             $this->lit($date->format('Y-m-d\T00:00:00\Z')),
             $this->lit($date->format('Y-m-d\T23:59:59\Z'))
         );
-
-        return $expr;
     }
 
     /**
@@ -287,20 +285,15 @@ class ExpressionBuilder
             return;
         }
 
-        $dateFromValue = $this->dateExpr($dateFrom);
-        $dateToValue = $this->dateExpr($dateTo);
-
-        $expr = $this->range(
-            $this->lit($dateFromValue),
-            $this->lit($dateToValue)
+        return $this->range(
+            $this->lit($this->dateExpr($dateFrom)),
+            $this->lit($this->dateExpr($dateTo))
         );
-
-        return $expr;
     }
 
     /**
      * @param DateTime $date
-     * @return Expr
+     * @return Expression
      */
     private function dateExpr(DateTime $date = null)
     {
