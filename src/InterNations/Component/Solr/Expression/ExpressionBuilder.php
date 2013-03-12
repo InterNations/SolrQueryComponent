@@ -221,23 +221,9 @@ class ExpressionBuilder
      */
     public function grp($expr = null, $type = null)
     {
-        $args = func_get_args();
-        $type = null;
-
-        if (count($args) > 0 && is_array($args[0])) {
-            if (isset($args[1])) {
-                $type = $args[1];
-            }
-            $args = $args[0];
-        }
-
-        if (GroupExpression::isType(end($args))) {
-            $type = array_pop($args);
-        }
-
-        $args = array_filter($args, [$this, 'permit']);
+        list($args, $type) = $this->parseCompositeArgs(func_get_args());
         if (!$args) {
-            return null;
+            return;
         }
 
         return new GroupExpression($args, $type);
@@ -259,7 +245,7 @@ class ExpressionBuilder
     }
 
     /**
-     * Creates a date expression for a specific day
+     * Create a date expression for a specific day
      *
      * @param DateTime $date
      * @return RangeExpression
@@ -280,7 +266,7 @@ class ExpressionBuilder
     }
 
     /**
-     * Creates a range between to dates (one side may be unlimited which is indicated by passing null)
+     * Create a range between to dates (one side may be unlimited which is indicated by passing null)
      *
      * @param DateTime $from
      * @param DateTime $to
@@ -301,19 +287,10 @@ class ExpressionBuilder
     }
 
     /**
-     * @param DateTime $date
-     * @return Expression
-     */
-    private function dateExpr(DateTime $date = null)
-    {
-        if ($date === null) {
-            return new WildcardExpression('*');
-        }
-
-        return new DateTimeExpression($date);
-    }
-
-    /**
+     * Create a function expression of name $function
+     *
+     * You can either pass an array of parameters, a single parameter or a ParameterExpression
+     *
      * @param string $function
      * @param array|ParameterExpression|scalar $parameters
      * @return FunctionExpression
@@ -324,6 +301,8 @@ class ExpressionBuilder
     }
 
     /**
+     * Create a function parameters expression
+     *
      * @param $parameters,..
      */
     public function params($parameters = null)
@@ -336,6 +315,66 @@ class ExpressionBuilder
         return new ParameterExpression($parameters);
     }
 
+    /**
+     * @param string $type
+     * @param array $params
+     * @param bool $shortForm
+     * @return LocalParamsExpression
+     */
+    public function localParams($type, $params = [], $shortForm = true)
+    {
+        $additional = null;
+        if (!is_bool($shortForm)) {
+            $additional = $shortForm;
+            $shortForm = true;
+        } elseif (!is_array($params)) {
+            $additional = $params;
+            $params = [];
+        }
+
+        return $this->comp(new LocalParamsExpression($type, $params, $shortForm), $additional);
+    }
+
+    /**
+     * Create composite expression: <expr1> <expr2> <expr3>
+     *
+     * @param Expression|string $expr,...
+     * @param string $type
+     * @return Expression
+     */
+    public function comp($expr = null, $type = null)
+    {
+        list($args, $type) = $this->parseCompositeArgs(func_get_args());
+        if (!$args) {
+            return;
+        }
+
+        return new CompositeExpression($args, $type);
+    }
+
+    private function parseCompositeArgs(array $args)
+    {
+        $type = null;
+
+        if (count($args) > 0 && is_array($args[0])) {
+            if (isset($args[1])) {
+                $type = $args[1];
+            }
+            $args = $args[0];
+        }
+
+        if (CompositeExpression::isType(end($args))) {
+            $type = array_pop($args);
+        }
+
+        $args = array_filter($args, [$this, 'permit']);
+        if (!$args) {
+            return [false, $type];
+        }
+
+        return [$args, $type];
+    }
+
     private function ignore($expr)
     {
         return trim($expr) === '';
@@ -344,5 +383,18 @@ class ExpressionBuilder
     private function permit($expr)
     {
         return !$this->ignore($expr);
+    }
+
+    /**
+     * @param DateTime $date
+     * @return Expression
+     */
+    private function dateExpr(DateTime $date = null)
+    {
+        if ($date === null) {
+            return new WildcardExpression('*');
+        }
+
+        return new DateTimeExpression($date);
     }
 }

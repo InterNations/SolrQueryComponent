@@ -2,6 +2,7 @@
 namespace InterNations\Component\Solr\Tests\Expression;
 
 use InterNations\Component\Solr\Expression\FunctionExpression;
+use InterNations\Component\Solr\Expression\LocalParamsExpression;
 use InterNations\Component\Solr\Expression\ParameterExpression;
 use InterNations\Component\Testing\AbstractTestCase;
 use InterNations\Component\Solr\Expression\Expression;
@@ -160,5 +161,14 @@ class ExpressionTest extends AbstractTestCase
             'func("foo", "bar", 1)',
             (string) new FunctionExpression('func', new ParameterExpression(['foo', 'bar', 1]))
         );
+    }
+
+    public function testLocalParams()
+    {
+        $this->assertSame('{!func}', (string) new LocalParamsExpression('func'));
+        $this->assertSame('{!func}', (string) new LocalParamsExpression('func', [], true));
+        $this->assertSame('{!type=func}', (string) new LocalParamsExpression('func', [], false));
+
+        $this->assertSame('{!dismax qf="myfield"}', (string) new LocalParamsExpression('dismax', ['qf' => 'myfield']));
     }
 }

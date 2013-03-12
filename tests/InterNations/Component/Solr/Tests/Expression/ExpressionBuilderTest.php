@@ -1,6 +1,7 @@
 <?php
 namespace InterNations\Component\Solr\Tests\Expression;
 
+use InterNations\Component\Solr\Expression\CompositeExpression;
 use InterNations\Component\Solr\Expression\ExpressionBuilder;
 use InterNations\Component\Solr\Expression\GroupExpression;
 use InterNations\Component\Solr\Expression\ParameterExpression;
@@ -248,6 +249,7 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testGroupingTypes()
     {
+        $this->assertSame('("foo" "bar")', (string) $this->eb->grp(['foo', 'bar']));
         $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(['foo', 'bar'], GroupExpression::TYPE_AND));
         $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(['foo', 'bar'], GroupExpression::TYPE_OR));
 
@@ -256,6 +258,19 @@ class ExpressionBuilderTest extends AbstractTestCase
 
         $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp('foo', 'bar', GroupExpression::TYPE_OR));
         $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp('foo', 'bar', GroupExpression::TYPE_OR));
+    }
+
+    public function testCompositingTypes()
+    {
+        $this->assertSame('"foo" "bar"', (string) $this->eb->comp(['foo', 'bar']));
+        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(['foo', 'bar'], CompositeExpression::TYPE_AND));
+        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(['foo', 'bar'], CompositeExpression::TYPE_OR));
+
+        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(['foo', 'bar', CompositeExpression::TYPE_OR]));
+        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(['foo', 'bar', CompositeExpression::TYPE_AND]));
+
+        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp('foo', 'bar', CompositeExpression::TYPE_OR));
+        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp('foo', 'bar', CompositeExpression::TYPE_OR));
     }
 
     public function testRealisticQueryExamples()
@@ -345,5 +360,17 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('func("foo")', (string) $this->eb->func('func', $this->eb->params('foo')));
         $this->assertSame('func()', (string) $this->eb->func('func', $this->eb->params()));
         $this->assertSame('func("", "")', (string) $this->eb->func('func', $this->eb->params(null, null)));
+    }
+
+    public function testLocalParams()
+    {
+        $this->assertSame('{!dismax}', (string) $this->eb->localParams('dismax'));
+        $this->assertSame('{!dismax} "My Query"', (string) $this->eb->localParams('dismax', 'My Query'));
+        $this->assertSame(
+            '{!dismax qf="field"} "My Query"',
+            (string) $this->eb->localParams('dismax', ['qf' => 'field'], 'My Query')
+        );
+        $this->assertSame('{!dismax qf="field"}', (string) $this->eb->localParams('dismax', ['qf' => 'field']));
+        $this->assertSame('{!type=dismax qf="field"}', (string) $this->eb->localParams('dismax', ['qf' => 'field'], false));
     }
 }
