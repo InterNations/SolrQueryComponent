@@ -77,3 +77,7 @@ class CatalogSearchService extends AbstractSearchService
     }
 }
 ```
+
+Whether you prefer the expression builder or the query string API is a matter of taste. Generally, simple queries are
+easier to read (and write) with the query string API, more complex queries, dynamically build upon user input, are
+easier to construct with the expression builder API.
