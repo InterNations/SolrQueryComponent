@@ -283,12 +283,12 @@ class ExpressionBuilder
      */
     public function dateRange(DateTime $dateFrom = null, DateTime $dateTo = null)
     {
-        $dateFromValue = ExpressionFactory::createExpression($dateFrom);
-        $dateToValue = ExpressionFactory::createExpression($dateTo);
-
-        if ($dateFromValue instanceof WildcardExpression && $dateToValue instanceof WildcardExpression) {
-            return null;
+        if ($dateFrom === null && $dateTo === null) {
+            return;
         }
+
+        $dateFromValue = $this->dateExpr($dateFrom);
+        $dateToValue = $this->dateExpr($dateTo);
 
         $expr = $this->range(
             $this->lit($dateFromValue),
@@ -296,6 +296,19 @@ class ExpressionBuilder
         );
 
         return $expr;
+    }
+
+    /**
+     * @param DateTime $date
+     * @return Expr
+     */
+    private function dateExpr(DateTime $date = null)
+    {
+        if ($date === null) {
+            return new WildcardExpression('*');
+        }
+
+        return new DateTimeExpression($date);
     }
 
     private function ignore($expr)
