@@ -256,13 +256,35 @@ class ExpressionBuilder
             return null;
         }
 
-        $date = clone $date;
-        $date->setTimezone(new DateTimeZone('UTC'));
+        return $this->range($this->startOfDay($date), $this->endOfDay($date));
+    }
 
-        return $this->range(
-            $this->lit($date->format('Y-m-d\T00:00:00\Z')),
-            $this->lit($date->format('Y-m-d\T23:59:59\Z'))
-        );
+    /**
+     * Expression for the start of the given date (in UTC)
+     *
+     * @param DateTime|null $date
+     * @return Expression
+     */
+    public function startOfDay($date = null)
+    {
+        $date = clone $date;
+        $date = $date->setTimezone(new DateTimeZone('UTC'));
+
+        return $this->lit($date->format('Y-m-d\T00:00:00\Z'));
+    }
+
+    /**
+     * Expression for the end of the given date (in UTC)
+     *
+     * @param DateTime|null $date
+     * @return Expression
+     */
+    public function endOfDay($date = null)
+    {
+        $date = clone $date;
+        $date = $date->setTimezone(new DateTimeZone('UTC'));
+
+        return $this->lit($date->format('Y-m-d\T23:59:59\Z'));
     }
 
     /**

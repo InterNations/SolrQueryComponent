@@ -202,6 +202,13 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('dateField:[2010-10-11T00:00:00Z TO 2010-10-11T23:59:59Z]', (string) $dayRange);
     }
 
+    public function testBeginningAndEndOfDayBuilder()
+    {
+        $date = new \DateTime('2010-10-11 00:00:00', new \DateTimeZone('Europe/Berlin'));
+        $this->assertSame('2010-10-10T00:00:00Z', (string) $this->eb->startOfDay($date));
+        $this->assertSame('2010-10-10T23:59:59Z', (string) $this->eb->endOfDay($date));
+    }
+
     public function testDefaultQueryForAllIfNullGiven()
     {
         $this->assertSame('*:*', (string) $this->eb->all(''));
