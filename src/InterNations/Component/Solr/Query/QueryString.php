@@ -46,6 +46,8 @@ class QueryString
                 $value = new DateTimeExpression($value);
             } elseif (is_array($value)) {
                 $value = new GroupExpression($value);
+            } elseif (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
             } else {
                 $value = Util::sanitize($value);
             }
