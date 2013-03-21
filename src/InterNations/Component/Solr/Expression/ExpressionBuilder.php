@@ -288,7 +288,7 @@ class ExpressionBuilder
     }
 
     /**
-     * Create a range between to dates (one side may be unlimited which is indicated by passing null)
+     * Create a range between two dates (one side may be unlimited which is indicated by passing null)
      *
      * @param DateTime $from
      * @param DateTime $to
@@ -372,6 +372,16 @@ class ExpressionBuilder
         }
 
         return new CompositeExpression($args, $type);
+    }
+
+
+    public function latlong($latitude, $longitude, $precision = null)
+    {
+        if ($precision) {
+            return new GeolocationExpression($latitude, $longitude, $precision);
+        }
+
+        return new GeolocationExpression($latitude, $longitude);
     }
 
     private function parseCompositeArgs(array $args)

@@ -380,4 +380,13 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('{!dismax qf="field"}', (string) $this->eb->localParams('dismax', ['qf' => 'field']));
         $this->assertSame('{!type=dismax qf="field"}', (string) $this->eb->localParams('dismax', ['qf' => 'field'], false));
     }
+
+    public function testLatlong()
+    {
+        $this->assertSame('60.166667000000,24.933333000000', (string) $this->eb->latlong(60.166667, 24.933333));
+        $this->assertSame('-33.799508000000,151.284072000000', (string) $this->eb->latlong(-33.799508, 151.284072));
+
+        $this->assertSame('37.7707,-119.5120', (string) $this->eb->latlong(37.770715, -119.512024, 4));
+
+    }
 }

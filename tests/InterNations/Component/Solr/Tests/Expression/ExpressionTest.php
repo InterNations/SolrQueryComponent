@@ -2,10 +2,10 @@
 namespace InterNations\Component\Solr\Tests\Expression;
 
 use InterNations\Component\Solr\Expression\FunctionExpression;
+use InterNations\Component\Solr\Expression\GeolocationExpression;
 use InterNations\Component\Solr\Expression\LocalParamsExpression;
 use InterNations\Component\Solr\Expression\ParameterExpression;
 use InterNations\Component\Testing\AbstractTestCase;
-use InterNations\Component\Solr\Expression\Expression;
 use InterNations\Component\Solr\Expression\DateTimeExpression;
 use InterNations\Component\Solr\Expression\PhraseExpression;
 use InterNations\Component\Solr\Expression\WildcardExpression;
@@ -170,5 +170,13 @@ class ExpressionTest extends AbstractTestCase
         $this->assertSame('{!type=func}', (string) new LocalParamsExpression('func', [], false));
 
         $this->assertSame('{!dismax qf="myfield"}', (string) new LocalParamsExpression('dismax', ['qf' => 'myfield']));
+    }
+
+    public function testGeolocationExpression()
+    {
+        $this->assertSame('12.345678901234,89.012345670000', (string) new GeolocationExpression(12.345678901234, 89.01234567));
+        $this->assertSame('12.345678900000,89.012345678901', (string) new GeolocationExpression(12.34567890, 89.012345678901));
+
+        $this->assertSame('12.3457,89.0123', (string) new GeolocationExpression(12.345678901234, 89.01234567, 4));
     }
 }
