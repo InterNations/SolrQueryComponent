@@ -374,14 +374,17 @@ class ExpressionBuilder
         return new CompositeExpression($args, $type);
     }
 
-
-    public function latlong($latitude, $longitude, $precision = null)
+    /**
+     * Create a geo location expression: "<latitude>,<longitude>" using the given precision
+     *
+     * @param float $latitude
+     * @param float $longitude
+     * @param integer $precision
+     * @return GeolocationExpression
+     */
+    public function latLong($latitude, $longitude, $precision = 12)
     {
-        if ($precision) {
-            return new GeolocationExpression($latitude, $longitude, $precision);
-        }
-
-        return new GeolocationExpression($latitude, $longitude);
+        return new GeolocationExpression($latitude, $longitude, $precision);
     }
 
     private function parseCompositeArgs(array $args)

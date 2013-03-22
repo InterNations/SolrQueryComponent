@@ -24,13 +24,16 @@ class GeolocationExpression extends Expression
      * @param $longitude
      * @param int $precision
      */
-    public function __construct($latitude, $longitude, $precision = 12)
+    public function __construct($latitude, $longitude, $precision)
     {
         $this->precision = (int) $precision;
         $this->latitude = (float) $latitude;
         $this->longitude = (float) $longitude;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return sprintf(
