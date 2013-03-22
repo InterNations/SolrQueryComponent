@@ -174,8 +174,8 @@ class ExpressionTest extends AbstractTestCase
 
     public function testGeolocationExpression()
     {
-        $this->assertSame('12.345678901234,89.012345670000', (string) new GeolocationExpression(12.345678901234, 89.01234567));
-        $this->assertSame('12.345678900000,89.012345678901', (string) new GeolocationExpression(12.34567890, 89.012345678901));
+        $this->assertSame('12.345678901234,89.012345670000', (string) new GeolocationExpression(12.345678901234, 89.01234567, 12));
+        $this->assertSame('12.345678900000,89.012345678901', (string) new GeolocationExpression(12.34567890, 89.012345678901, 12));
 
         $this->assertSame('12.3457,89.0123', (string) new GeolocationExpression(12.345678901234, 89.01234567, 4));
     }
