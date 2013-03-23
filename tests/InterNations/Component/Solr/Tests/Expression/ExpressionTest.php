@@ -105,8 +105,8 @@ class ExpressionTest extends AbstractTestCase
 
     public function testProximityExpression()
     {
-        $this->assertSame('"foo bar"~100', (string) new ProximityExpression('foo', 'bar', 100));
-        $this->assertSame('"bar foo"~200', (string) new ProximityExpression('bar', 'foo', 200));
+        $this->assertSame('"foo bar"~100', (string) new ProximityExpression(['foo', 'bar'], 100));
+        $this->assertSame('"bar foo"~200', (string) new ProximityExpression(['bar', 'foo'], 200));
     }
 
     public function testRangeExpression()

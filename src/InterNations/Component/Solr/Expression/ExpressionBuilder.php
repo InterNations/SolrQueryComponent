@@ -19,7 +19,7 @@ class ExpressionBuilder
     public function eq($expr)
     {
         if ($this->ignore($expr)) {
-            return null;
+            return;
         }
 
         if ($expr instanceof Expression) {
@@ -39,7 +39,7 @@ class ExpressionBuilder
     public function field($field, $expr)
     {
         if ($this->ignore($expr)) {
-            return null;
+            return;
         }
 
         return new FieldExpression($field, $expr);
@@ -54,7 +54,7 @@ class ExpressionBuilder
     public function phrase($str)
     {
         if ($this->ignore($str)) {
-            return null;
+            return;
         }
 
         return new PhraseExpression($str);
@@ -70,7 +70,7 @@ class ExpressionBuilder
     public function boost($expr, $boost)
     {
         if ($this->ignore($expr) or $this->ignore($boost)) {
-            return null;
+            return;
         }
 
         return new BoostExpression($boost, $expr);
@@ -79,14 +79,24 @@ class ExpressionBuilder
     /**
      * Create proximity match expression: "<word1> <word2>"~<proximity>
      *
-     * @param Expression|string $wordOne
-     * @param Expression|string $wordTwo
+     * @param Expression|string $word ...
      * @param integer $proximity
      * @return Expression
      */
-    public function prx($wordOne, $wordTwo, $proximity)
+    public function prx($word = null, $proximity = null)
     {
-        return new ProximityExpression($wordOne, $wordTwo, $proximity);
+        $arguments = func_get_args();
+        $proximity = array_pop($arguments);
+
+        if (count($arguments) === 1 && is_array($arguments[0])) {
+            $arguments = $arguments[0];
+        }
+
+        if (!$arguments) {
+            return;
+        }
+
+        return new ProximityExpression($arguments, $proximity);
     }
 
     /**
@@ -137,7 +147,7 @@ class ExpressionBuilder
     public function wild($prefix, $wildcard = '?', $suffix = null)
     {
         if (($this->ignore($prefix) && $this->ignore($suffix)) or $this->ignore($wildcard)) {
-            return null;
+            return;
         }
 
         return new WildcardExpression($wildcard, $prefix, $suffix);
@@ -152,7 +162,7 @@ class ExpressionBuilder
     public function req($expr)
     {
         if ($this->ignore($expr)) {
-            return null;
+            return;
         }
 
         return new BooleanExpression(BooleanExpression::OPERATOR_REQUIRED, $expr);
@@ -167,7 +177,7 @@ class ExpressionBuilder
     public function prhb($expr)
     {
         if ($this->ignore($expr)) {
-            return null;
+            return;
         }
 
         return new BooleanExpression(BooleanExpression::OPERATOR_PROHIBITED, $expr);
@@ -206,7 +216,7 @@ class ExpressionBuilder
     public function lit($expr)
     {
         if ($this->ignore($expr)) {
-            return null;
+            return;
         }
 
         return new Expression($expr);
@@ -253,7 +263,7 @@ class ExpressionBuilder
     public function day($date = null)
     {
         if (!$date instanceof DateTime) {
-            return null;
+            return;
         }
 
         return $this->range($this->startOfDay($date), $this->endOfDay($date));
