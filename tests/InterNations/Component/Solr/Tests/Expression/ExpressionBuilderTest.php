@@ -74,6 +74,14 @@ class ExpressionBuilderTest extends AbstractTestCase
         $w = $this->eb->field('field', $this->eb->wild($this->eb->phrase('foo bar'), '?'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\FieldExpression', $w);
         $this->assertSame('field:"foo bar?"', (string) $w);
+
+        $w = $this->eb->wild('foo', '*', $this->eb->wild('bar', '?'));
+        $this->assertInstanceOf('InterNations\Component\Solr\Expression\WildcardExpression', $w);
+        $this->assertSame('foo*bar?', (string) $w);
+
+        $w = $this->eb->wild($this->eb->wild('', '*', 'foo'), '*', $this->eb->wild('bar', '?'));
+        $this->assertInstanceOf('InterNations\Component\Solr\Expression\WildcardExpression', $w);
+        $this->assertSame('*foo*bar?', (string) $w);
     }
 
     public function testProhibitedExpr()

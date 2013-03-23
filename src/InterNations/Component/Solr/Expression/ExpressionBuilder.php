@@ -136,7 +136,7 @@ class ExpressionBuilder
      */
     public function wild($prefix, $wildcard = '?', $suffix = null)
     {
-        if ($this->ignore($prefix) or $this->ignore($wildcard)) {
+        if (($this->ignore($prefix) && $this->ignore($suffix)) or $this->ignore($wildcard)) {
             return null;
         }
 
