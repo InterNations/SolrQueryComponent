@@ -23,6 +23,9 @@
             "email": "marc.jakubowski@internations.org"
         }
     ],
+    "require": {
+        "lstrojny/functional-php": "dev-master"
+    },
     "require-dev": {
         "internations/testing-component": "dev-master"
     },

@@ -171,6 +171,10 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\ProximityExpression', $p);
         $this->assertSame('"word1 word2 word3"~10', (string) $p);
 
+        $p = $this->eb->prx([], ['word1', 'word2'], 'word3', 10);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expression\ProximityExpression', $p);
+        $this->assertSame('"word1 word2 word3"~10', (string) $p);
+
         $this->assertNull($this->eb->prx([], 10));
         $this->assertNull($this->eb->prx(10));
     }

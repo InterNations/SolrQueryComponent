@@ -3,6 +3,7 @@ namespace InterNations\Component\Solr\Expression;
 
 use DateTime;
 use DateTimeZone;
+use Functional as F;
 
 /**
  * @SuppressWarnings(PMD.TooManyMethods)
@@ -79,7 +80,7 @@ class ExpressionBuilder
     /**
      * Create proximity match expression: "<word1> <word2>"~<proximity>
      *
-     * @param Expression|string $word ...
+     * @param Expression|string $word, ...
      * @param integer $proximity
      * @return Expression
      */
@@ -88,9 +89,7 @@ class ExpressionBuilder
         $arguments = func_get_args();
         $proximity = array_pop($arguments);
 
-        if (count($arguments) === 1 && is_array($arguments[0])) {
-            $arguments = $arguments[0];
-        }
+        $arguments = F\flatten($arguments);
 
         if (!$arguments) {
             return;
@@ -225,7 +224,7 @@ class ExpressionBuilder
     /**
      * Create grouped expression: (<expr1> <expr2> <expr3>)
      *
-     * @param Expression|string $expr,...
+     * @param Expression|string $expr, ...
      * @param string $type
      * @return Expression
      */
@@ -335,14 +334,12 @@ class ExpressionBuilder
     /**
      * Create a function parameters expression
      *
-     * @param $parameters,..
+     * @param array $parameters ,..
+     * @return ParameterExpression
      */
     public function params($parameters = null)
     {
-        $parameters = func_get_args();
-        if (count($parameters) === 1 && is_array($parameters[0])) {
-            $parameters = $parameters[0];
-        }
+        $parameters = F\flatten(func_get_args());
 
         return new ParameterExpression($parameters);
     }
@@ -370,7 +367,7 @@ class ExpressionBuilder
     /**
      * Create composite expression: <expr1> <expr2> <expr3>
      *
-     * @param Expression|string $expr,...
+     * @param Expression|string $expr, ...
      * @param string $type
      * @return Expression
      */
@@ -397,16 +394,14 @@ class ExpressionBuilder
         return new GeolocationExpression($latitude, $longitude, $precision);
     }
 
+    /**
+     * @param array $args
+     * @return array
+     */
     private function parseCompositeArgs(array $args)
     {
+        $args = F\flatten($args);
         $type = null;
-
-        if (count($args) > 0 && is_array($args[0])) {
-            if (isset($args[1])) {
-                $type = $args[1];
-            }
-            $args = $args[0];
-        }
 
         if (CompositeExpression::isType(end($args))) {
             $type = array_pop($args);
@@ -420,11 +415,19 @@ class ExpressionBuilder
         return [$args, $type];
     }
 
+    /**
+     * @param mixed $expr
+     * @return bool
+     */
     private function ignore($expr)
     {
         return trim($expr) === '';
     }
 
+    /**
+     * @param mixed $expr
+     * @return bool
+     */
     private function permit($expr)
     {
         return !$this->ignore($expr);
