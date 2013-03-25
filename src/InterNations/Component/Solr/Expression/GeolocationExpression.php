@@ -5,7 +5,7 @@ namespace InterNations\Component\Solr\Expression;
 class GeolocationExpression extends Expression
 {
     /**
-     * @var int
+     * @var integer
      */
     protected $precision;
 
@@ -22,7 +22,7 @@ class GeolocationExpression extends Expression
     /**
      * @param Expression|string $latitude
      * @param $longitude
-     * @param int $precision
+     * @param integer $precision
      */
     public function __construct($latitude, $longitude, $precision)
     {

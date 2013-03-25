@@ -417,7 +417,7 @@ class ExpressionBuilder
 
     /**
      * @param mixed $expr
-     * @return bool
+     * @return boolean
      */
     private function ignore($expr)
     {
@@ -426,7 +426,7 @@ class ExpressionBuilder
 
     /**
      * @param mixed $expr
-     * @return bool
+     * @return boolean
      */
     private function permit($expr)
     {

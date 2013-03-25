@@ -27,7 +27,8 @@
         "lstrojny/functional-php": "dev-master"
     },
     "require-dev": {
-        "internations/testing-component": "dev-master"
+        "internations/testing-component": "dev-master",
+        "internations/kodierungsregelwerksammlung": "dev-master"
     },
     "autoload": {
         "psr-0": {
