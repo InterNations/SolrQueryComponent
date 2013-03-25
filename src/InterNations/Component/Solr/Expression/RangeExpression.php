@@ -42,7 +42,7 @@ class RangeExpression extends Expression
     {
         $this->start = $start;
         $this->end = $end;
-        $this->inclusive = (boolean) $inclusive;
+        $this->inclusive = (bool) $inclusive;
     }
 
     /**
