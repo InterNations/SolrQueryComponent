@@ -403,7 +403,7 @@ class ExpressionBuilder
         $args = F\flatten($args);
         $type = null;
 
-        if (CompositeExpression::isType(end($args))) {
+        if (CompositeExpression::isValidType(end($args))) {
             $type = array_pop($args);
         }
 

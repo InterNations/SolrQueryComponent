@@ -58,7 +58,11 @@ class CompositeExpression extends Expression
         return join($glue, array_filter($parts));
     }
 
-    public static function isType($type)
+    /**
+     * @param $type
+     * @return boolean
+     */
+    public static function isValidType($type)
     {
         return $type === static::TYPE_OR || $type === static::TYPE_AND || $type === null;
     }
