@@ -27,6 +27,9 @@ class BoostExpression extends Expression
         parent::__construct($expr);
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return Util::sanitize($this->expr) . '^' . $this->boost;

@@ -34,6 +34,9 @@ class ProximityExpression extends Expression
         $this->proximity = (int) $proximity;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return Util::quote(join(' ', $this->words)) . '~' . $this->proximity;

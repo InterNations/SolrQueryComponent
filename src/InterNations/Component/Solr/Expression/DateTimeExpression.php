@@ -21,12 +21,19 @@ class DateTimeExpression extends Expression
      */
     private $format = 'Y-m-d\TH:i:s\Z';
 
+    /**
+     * @param DateTime $date
+     * @param string $format
+     */
     public function __construct(DateTime $date, $format = null)
     {
         $this->date = $date;
         $this->format = $format ? $format : $this->format;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         if (!self::$utcTimezone) {

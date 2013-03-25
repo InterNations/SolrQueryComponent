@@ -8,6 +8,9 @@ namespace InterNations\Component\Solr\Expression;
  */
 class GroupExpression extends CompositeExpression
 {
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $part = parent::__toString();

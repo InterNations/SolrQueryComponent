@@ -10,6 +10,9 @@ use InterNations\Component\Solr\Util;
  */
 class PhraseExpression extends Expression
 {
+    /**
+     * @return Expression|string
+     */
     public function __toString()
     {
         return Util::quote($this->expr);

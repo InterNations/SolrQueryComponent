@@ -29,6 +29,9 @@ class FieldExpression extends Expression
         parent::__construct($expr);
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return Util::escape($this->field) . ':' . Util::quote($this->expr);

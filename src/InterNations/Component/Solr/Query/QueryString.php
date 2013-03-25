@@ -18,11 +18,21 @@ class QueryString
      */
     private $placeholders = [];
 
+    /**
+     * @param string $query
+     */
     public function __construct($query)
     {
         $this->query = $query;
     }
 
+    /**
+     * Add a value for a placeholder
+     *
+     * @param string $placeholder
+     * @param mixed $value
+     * @return QueryString
+     */
     public function setPlaceholder($placeholder, $value)
     {
         $this->placeholders[$placeholder] = $value;
@@ -30,6 +40,12 @@ class QueryString
         return $this;
     }
 
+    /**
+     * Add values for several placeholders as key => value pairs
+     *
+     * @param array $placeholders
+     * @return QueryString
+     */
     public function setPlaceholders(array $placeholders)
     {
         $this->placeholders = $placeholders;
@@ -37,6 +53,11 @@ class QueryString
         return $this;
     }
 
+    /**
+     * Return string representation
+     *
+     * @return string
+     */
     public function __toString()
     {
         $replacements = [];

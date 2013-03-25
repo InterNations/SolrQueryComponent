@@ -5,12 +5,26 @@ use InterNations\Component\Solr\Util;
 
 class LocalParamsExpression extends Expression
 {
+    /**
+     * @var Expression|string
+     */
     private $type;
 
+    /**
+     * @var array
+     */
     private $params;
 
+    /**
+     * @var boolean
+     */
     private $shortForm = true;
 
+    /**
+     * @param Expression|string $type
+     * @param array $params
+     * @param boolean $shortForm
+     */
     public function __construct($type, array $params = [], $shortForm = true)
     {
         $this->type = $type;
@@ -18,6 +32,9 @@ class LocalParamsExpression extends Expression
         $this->shortForm = $shortForm;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $typeString = $this->shortForm ? $this->type : 'type=' . $this->type;

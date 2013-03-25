@@ -13,12 +13,19 @@ class FunctionExpression extends Expression
      */
     private $parameters;
 
+    /**
+     * @param Expression|string $function
+     * @param array $parameters
+     */
     public function __construct($function, $parameters = null)
     {
         $this->function = $function;
         $this->parameters = $parameters;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $parameters = $this->parameters ?: null;

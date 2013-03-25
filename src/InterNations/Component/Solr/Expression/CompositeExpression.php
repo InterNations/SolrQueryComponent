@@ -6,7 +6,7 @@ use InterNations\Component\Solr\Util;
 /**
  * Composite expression class
  *
- * Class representing multiple composited expression with an optional combination type
+ * Class representing multiple expressions with an optional combination type
  */
 class CompositeExpression extends Expression
 {
@@ -38,6 +38,9 @@ class CompositeExpression extends Expression
         $this->type = $type;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $parts = [];

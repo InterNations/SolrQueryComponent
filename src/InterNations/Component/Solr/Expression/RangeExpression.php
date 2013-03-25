@@ -42,9 +42,12 @@ class RangeExpression extends Expression
     {
         $this->start = $start;
         $this->end = $end;
-        $this->inclusive = (bool) $inclusive;
+        $this->inclusive = (boolean) $inclusive;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return sprintf(

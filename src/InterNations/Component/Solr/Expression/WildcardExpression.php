@@ -49,6 +49,8 @@ class WildcardExpression extends Expression
     /**
      * @SuppressWarnings(PMD.NPathComplexity)
      * @SuppressWarnings(PMD.CyclomaticComplexity)
+     *
+     * @return string
      */
     public function  __toString()
     {

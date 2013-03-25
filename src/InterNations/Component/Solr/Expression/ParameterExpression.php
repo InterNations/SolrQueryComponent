@@ -16,6 +16,9 @@ class ParameterExpression extends Expression
         $this->parameters = $parameters;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $parameters = array_map([$this, 'replaceNull'], $this->parameters);

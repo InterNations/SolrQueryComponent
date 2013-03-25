@@ -33,6 +33,9 @@ class BooleanExpression extends Expression
         parent::__construct($expr);
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->operator . Util::escape($this->expr);

@@ -29,6 +29,9 @@ class FuzzyExpression extends Expression
         }
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return Util::escape($this->expr) . '~' . $this->similarity;
