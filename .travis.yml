@@ -13,4 +13,8 @@ script:
 
 notifications:
   email:
-    - lars@strojny.net
+    - lars.strojny@internations.org
+    - max.beutel@internations.org
+    - marc.jakubowski@internations.org
+    - michael.weinrich@internations.org
+    - vitor.balocco@internations.org
