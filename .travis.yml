@@ -8,6 +8,7 @@ before_script:
   - php composer.phar install --dev
 
 script:
+  - ./vendor/bin/phpcs --standard=vendor/internations/kodierungsregelwerksammlung/ruleset.xml
   - phpunit --exclude-group performance
 
 notifications:
