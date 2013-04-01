@@ -56,7 +56,7 @@ class PerformanceTest extends AbstractTestCase
         }
 
         $this->assertTiming(
-            30,
+            61,
             function () use ($list) {
                 $group = new GroupExpression($list);
                 $group->__toString();
