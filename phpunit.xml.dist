@@ -24,6 +24,13 @@
         <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
     </logging>
 
+    <filter>
+        <blacklist>
+            <directory suffix=".php">vendor/</directory>
+            <directory suffix=".php">tests/</directory>
+        </blacklist>
+    </filter>
+
     <php>
         <ini name="error_reporting" value="-1"/>
     </php>
