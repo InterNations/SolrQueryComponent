@@ -22,6 +22,13 @@ class UtilTest extends AbstractTestCase
         return array_map(static function ($c) {return [$c];}, $list);
     }
 
+    public function getEscapingStrings()
+    {
+        return [
+            ['\\foo\\bar"', '\\\\foo\\\\bar\\"'],
+        ];
+    }
+
     /** @dataProvider getChars */
     public function testEscaping($char)
     {
@@ -66,5 +73,11 @@ class UtilTest extends AbstractTestCase
     public function testSanitizing_ScientificNotationDoesNotIntroduceMinusChar()
     {
         $this->assertSame('0.00002100000000', Util::sanitize(2.1E-5));
+    }
+
+    /** @dataProvider getEscapingStrings */
+    public function testVariousEscaping($input, $output)
+    {
+        $this->assertSame($output, Util::escape($input));
     }
 }

@@ -8,26 +8,51 @@ final class Util
     /**
      * @var array
      */
-    private static $charMap = [
-        '\\' => '\\\\',
-        '+'  => '\+',
-        '-'  =>'\-',
-        '&'  => '\&',
-        '|'  => '\|',
-        '!'  => '\!',
-        '('  => '\(',
-        ')'  => '\)',
-        '{'  => '\{',
-        '}'  => '\}',
-        '['  => '\[',
-        ']'  => '\]',
-        '^'  => '\^',
-        '"'  => '\"',
-        '~'  => '\~',
-        '*'  => '\*',
-        '?'  => '\?',
-        ':'  => '\:',
-        '/'  => '\/',
+    private static $search = [
+        '\\',
+        '+',
+        '-',
+        '&',
+        '|',
+        '!',
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '^',
+        '"',
+        '~',
+        '*',
+        '?',
+        ':',
+        '/',
+    ];
+
+     /**
+     * @var array
+     */
+    private static $replace = [
+        '\\\\',
+        '\+',
+        '\-',
+        '\&',
+        '\|',
+        '\!',
+        '\(',
+        '\)',
+        '\{',
+        '\}',
+        '\[',
+        '\]',
+        '\^',
+        '\"',
+        '\~',
+        '\*',
+        '\?',
+        '\:',
+        '\/',
     ];
 
     /**
@@ -42,7 +67,7 @@ final class Util
             return $value;
         }
 
-        return '"' . strtr($value, static::$charMap) . '"';
+        return '"' . str_replace(static::$search, static::$replace, $value) . '"';
     }
 
     /**
@@ -57,15 +82,15 @@ final class Util
     {
         $type = gettype($value);
 
-        if ($type === 'integer') {
-            return (string) $value;
-
-        } elseif ($type === 'string') {
+        if ($type === 'string') {
             if ($value !== '') {
-                return '"' . strtr($value, static::$charMap) . '"';
+                return '"' . str_replace(static::$search, static::$replace, $value) . '"';
             } else {
                 return $value;
             }
+
+        } elseif ($type === 'integer') {
+            return (string) $value;
 
         } elseif ($type === 'double') {
             static $precision;
@@ -94,6 +119,6 @@ final class Util
             return $value;
         }
 
-        return strtr($value, static::$charMap);
+        return str_replace(static::$search, static::$replace, $value);
     }
 }

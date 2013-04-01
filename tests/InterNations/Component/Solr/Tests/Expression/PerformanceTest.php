@@ -12,6 +12,13 @@ class PerformanceTest extends AbstractTestCase
 {
     use TimingTrait;
 
+    public function setUp()
+    {
+        if (extension_loaded('xdebug')) {
+            $this->markTestSkipped('xdebug extension is enabled. Performance tests skipped');
+        }
+    }
+
     public function testGroupingPerformance_Int()
     {
         $list = range(0, 10000);
