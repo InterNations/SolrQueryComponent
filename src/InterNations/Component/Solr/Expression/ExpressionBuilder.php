@@ -2,7 +2,6 @@
 namespace InterNations\Component\Solr\Expression;
 
 use DateTime;
-use DateTimeZone;
 use Functional as F;
 
 /**
@@ -442,5 +441,4 @@ class ExpressionBuilder
     {
         return !$this->ignore($expr);
     }
-
 }
