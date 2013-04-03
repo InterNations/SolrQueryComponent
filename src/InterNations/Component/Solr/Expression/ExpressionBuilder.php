@@ -269,31 +269,41 @@ class ExpressionBuilder
     }
 
     /**
-     * Expression for the start of the given date (in UTC)
+     * Expression for the start of the given date
      *
      * @param DateTime|null $date
+     * @param string $timezone
      * @return Expression
      */
-    public function startOfDay($date = null)
+    public function startOfDay($date = null, $timezone = 'UTC')
     {
-        $date = clone $date;
-        $date = $date->setTimezone(new DateTimeZone('UTC'));
-
-        return $this->lit($date->format('Y-m-d\T00:00:00\Z'));
+        return new DateTimeExpression($date, 'Y-m-d\T00:00:00\Z', $timezone);
     }
 
     /**
-     * Expression for the end of the given date (in UTC)
+     * Expression for the end of the given date
      *
      * @param DateTime|null $date
+     * @param string $timezone
      * @return Expression
      */
-    public function endOfDay($date = null)
+    public function endOfDay($date = null, $timezone = 'UTC')
     {
-        $date = clone $date;
-        $date = $date->setTimezone(new DateTimeZone('UTC'));
+        return new DateTimeExpression($date, 'Y-m-d\T23:59:59\Z', $timezone);
+    }
 
-        return $this->lit($date->format('Y-m-d\T23:59:59\Z'));
+    /**
+     * @param DateTime $date
+     * @param string $timezone
+     * @return Expression
+     */
+    public function date(DateTime $date = null, $timezone = 'UTC')
+    {
+        if ($date === null) {
+            return new WildcardExpression('*');
+        }
+
+        return new DateTimeExpression($date, null, $timezone);
     }
 
     /**
@@ -311,8 +321,8 @@ class ExpressionBuilder
         }
 
         return $this->range(
-            $this->lit($this->dateExpr($from)),
-            $this->lit($this->dateExpr($to)),
+            $this->lit($this->date($from)),
+            $this->lit($this->date($to)),
             $inclusive
         );
     }
@@ -433,16 +443,4 @@ class ExpressionBuilder
         return !$this->ignore($expr);
     }
 
-    /**
-     * @param DateTime $date
-     * @return Expression
-     */
-    private function dateExpr(DateTime $date = null)
-    {
-        if ($date === null) {
-            return new WildcardExpression('*');
-        }
-
-        return new DateTimeExpression($date);
-    }
 }

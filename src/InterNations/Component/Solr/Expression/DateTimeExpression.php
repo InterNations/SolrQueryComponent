@@ -19,16 +19,23 @@ class DateTimeExpression extends Expression
     /**
      * @var string
      */
+    private $timezone;
+
+    /**
+     * @var string
+     */
     private $format = 'Y-m-d\TH:i:s\Z';
 
     /**
      * @param DateTime $date
      * @param string $format
+     * @param string $timezone
      */
-    public function __construct(DateTime $date, $format = null)
+    public function __construct(DateTime $date, $format = null, $timezone = 'UTC')
     {
-        $this->date = $date;
+        $this->date = clone $date;
         $this->format = $format ? $format : $this->format;
+        $this->timezone = $timezone;
     }
 
     /**
@@ -36,11 +43,15 @@ class DateTimeExpression extends Expression
      */
     public function __toString()
     {
-        if (!self::$utcTimezone) {
-            self::$utcTimezone = new DateTimeZone('UTC');
+        $date = $this->date;
+        if ($this->timezone === 'UTC') {
+            if (!self::$utcTimezone) {
+                self::$utcTimezone = new DateTimeZone('UTC');
+            }
+            $date = $date->setTimeZone(self::$utcTimezone);
+        } elseif ($this->timezone !== null) {
+            $date = $date->setTimeZone(new DateTimeZone($this->timezone));
         }
-
-        $date = $this->date->setTimeZone(self::$utcTimezone);
 
         return $date->format($this->format);
     }

@@ -3,3 +3,4 @@ composer.lock
 .idea/
 example.php
 atlassian-ide-plugin.xml
+build/*

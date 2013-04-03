@@ -136,6 +136,14 @@ class ExpressionTest extends AbstractTestCase
             '2012-12-13T14:15:16Z',
             (string) new DateTimeExpression(new DateTime('2012-12-13 15:15:16', new DateTimeZone('Europe/Berlin')))
         );
+        $this->assertSame(
+            '2012-12-13T14:15:16Z',
+            (string) new DateTimeExpression(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')), null, 'Europe/Moscow')
+        );
+        $this->assertSame(
+            '2012-12-13T14:15:16Z',
+            (string) new DateTimeExpression(new DateTime('2012-12-13 14:15:16', new DateTimeZone('Europe/Berlin')), null, null)
+        );
     }
 
     public function testGroupExpression()

@@ -414,6 +414,9 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('-33.799508000000,151.284072000000', (string) $this->eb->latlong(-33.799508, 151.284072));
 
         $this->assertSame('37.7707,-119.5120', (string) $this->eb->latlong(37.770715, -119.512024, 4));
+    }
 
+    public function testDateExpressionsWithTimezones()
+    {
     }
 }
