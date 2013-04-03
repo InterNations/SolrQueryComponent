@@ -17,7 +17,7 @@ class DateTimeExpression extends Expression
     private $date;
 
     /**
-     * @var string
+     * @var string|DateTimeZone
      */
     private $timezone;
 
@@ -29,7 +29,7 @@ class DateTimeExpression extends Expression
     /**
      * @param DateTime $date
      * @param string $format
-     * @param string $timezone
+     * @param string|DateTimeZone $timezone
      */
     public function __construct(DateTime $date, $format = null, $timezone = 'UTC')
     {
@@ -50,7 +50,11 @@ class DateTimeExpression extends Expression
             }
             $date = $date->setTimeZone(self::$utcTimezone);
         } elseif ($this->timezone !== null) {
-            $date = $date->setTimeZone(new DateTimeZone($this->timezone));
+            if ($this->timezone instanceof DateTimeZone) {
+                $date = $date->setTimeZone($this->timezone);
+            } else {
+                $date = $date->setTimeZone(new DateTimeZone($this->timezone));
+            }
         }
 
         return $date->format($this->format);

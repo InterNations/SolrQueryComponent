@@ -6,6 +6,8 @@ use InterNations\Component\Solr\Expression\ExpressionBuilder;
 use InterNations\Component\Solr\Expression\GroupExpression;
 use InterNations\Component\Solr\Expression\ParameterExpression;
 use InterNations\Component\Testing\AbstractTestCase;
+use DateTime;
+use DateTimeZone;
 
 class ExpressionBuilderTest extends AbstractTestCase
 {
@@ -418,5 +420,21 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testDateExpressionsWithTimezones()
     {
+       $this->assertSame(
+            '2012-12-13T14:15:16Z',
+           (string) $this->eb->date(new DateTime('2012-12-13 15:15:16', new DateTimeZone('Europe/Berlin')))
+        );
+        $this->assertSame(
+            '2012-12-13T14:15:16Z',
+            (string) $this->eb->date(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')), 'Europe/Moscow')
+        );
+        $this->assertSame(
+            '2012-12-13T14:15:16Z',
+            (string) $this->eb->date(new DateTime('2012-12-13 14:15:16', new DateTimeZone('Europe/Berlin')), null)
+        );
+        $this->assertSame(
+            '2012-12-13T14:15:16Z',
+            (string) $this->eb->date(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')), new DateTimeZone('Europe/Moscow'))
+        );
     }
 }
