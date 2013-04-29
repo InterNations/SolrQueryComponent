@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "lstrojny/functional-php": "dev-master",
+        "lstrojny/functional-php": "1.0.*@dev",
         "internations/solr-utils": "dev-master"
     },
     "require-dev": {
