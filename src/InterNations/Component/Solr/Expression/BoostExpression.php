@@ -13,12 +13,12 @@ class BoostExpression extends Expression
     /**
      * Boost factor
      *
-     * @var float|int
+     * @var float|integer
      */
     protected $boost;
 
     /**
-     * @param float|int $boost
+     * @param float|integer $boost
      * @param string|Expression $expr
      */
     public function __construct($boost, $expr)

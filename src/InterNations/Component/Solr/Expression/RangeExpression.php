@@ -13,14 +13,14 @@ class RangeExpression extends Expression
     /**
      * Start of the range
      *
-     * @var string|int|Expression
+     * @var string|integer|Expression
      */
     protected $start;
 
     /**
      * End of the range
      *
-     * @var string|int|Expression
+     * @var string|integer|Expression
      */
     protected $end;
 
@@ -34,8 +34,8 @@ class RangeExpression extends Expression
     /**
      * Create new range query object
      *
-     * @param string|int|Expression $start
-     * @param string|int|Expression $end
+     * @param string|integer|Expression $start
+     * @param string|integer|Expression $end
      * @param boolean $inclusive
      */
     public function __construct($start = null, $end = null, $inclusive = true)
