@@ -45,13 +45,13 @@ class ExpressionTest extends AbstractTestCase
 
     public function testGroupingPhrasesAndTerms()
     {
-        $this->assertSame('("foo\:bar" "foo bar")', (string) new GroupExpression(['foo:bar', new PhraseExpression('foo bar')]));
+        $this->assertSame('("foo\:bar" "foo bar")', (string) new GroupExpression(array('foo:bar', new PhraseExpression('foo bar'))));
         $this->assertSame(
             '(foo* "foo bar")',
-            (string) new GroupExpression([new WildcardExpression('*', 'foo'), new PhraseExpression('foo bar')])
+            (string) new GroupExpression(array(new WildcardExpression('*', 'foo'), new PhraseExpression('foo bar')))
         );
-        $this->assertSame('', (string) new GroupExpression([]));
-        $this->assertSame('("foo bar")', (string) new GroupExpression([null, false, '', new PhraseExpression('foo bar')]));
+        $this->assertSame('', (string) new GroupExpression(array()));
+        $this->assertSame('("foo bar")', (string) new GroupExpression(array(null, false, '', new PhraseExpression('foo bar'))));
     }
 
     public function testBoostingPhrasesTermsAndGroups()
@@ -61,7 +61,7 @@ class ExpressionTest extends AbstractTestCase
         $this->assertSame('"foo"^10.2', (string) new BoostExpression('10.2dsfsd', 'foo'));
         $this->assertSame('"foo"^10.1', (string) new BoostExpression(10.1, 'foo'));
         $this->assertSame('foo*^200', (string) new BoostExpression(200, new WildcardExpression('*', 'foo')));
-        $this->assertSame('("foo" "bar")^200', (string) new BoostExpression(200, new GroupExpression(['foo', 'bar'])));
+        $this->assertSame('("foo" "bar")^200', (string) new BoostExpression(200, new GroupExpression(array('foo', 'bar'))));
     }
 
     public function testFieldExpression()
@@ -69,7 +69,7 @@ class ExpressionTest extends AbstractTestCase
         $this->assertSame('field:"value\:foo"', (string) new FieldExpression('field', 'value:foo'));
         $this->assertSame(
             'field:("foo" "foo bar")',
-            (string) new FieldExpression('field', new GroupExpression(['foo', new PhraseExpression('foo bar')]))
+            (string) new FieldExpression('field', new GroupExpression(array('foo', new PhraseExpression('foo bar'))))
         );
         $this->assertSame('fie\-ld:"foo"', (string) new FieldExpression('fie-ld', 'foo'));
     }
@@ -78,7 +78,7 @@ class ExpressionTest extends AbstractTestCase
     {
         $this->assertSame(
             '+("foo" "bar")',
-            (string) new BooleanExpression(BooleanExpression::OPERATOR_REQUIRED, new GroupExpression(['foo', 'bar']))
+            (string) new BooleanExpression(BooleanExpression::OPERATOR_REQUIRED, new GroupExpression(array('foo', 'bar')))
         );
         $this->assertSame(
             '+"foo bar"',
@@ -105,8 +105,8 @@ class ExpressionTest extends AbstractTestCase
 
     public function testProximityExpression()
     {
-        $this->assertSame('"foo bar"~100', (string) new ProximityExpression(['foo', 'bar'], 100));
-        $this->assertSame('"bar foo"~200', (string) new ProximityExpression(['bar', 'foo'], 200));
+        $this->assertSame('"foo bar"~100', (string) new ProximityExpression(array('foo', 'bar'), 100));
+        $this->assertSame('"bar foo"~200', (string) new ProximityExpression(array('bar', 'foo'), 200));
     }
 
     public function testRangeExpression()
@@ -148,36 +148,36 @@ class ExpressionTest extends AbstractTestCase
 
     public function testGroupExpression()
     {
-        $this->assertSame('(1 2 3)', (string) new GroupExpression([1, 2, 3]));
-        $this->assertSame('("one" "two" "three")', (string) new GroupExpression(['one', 'two', 'three']));
-        $this->assertSame('("one\:" "two" "three")', (string) new GroupExpression(['one:', 'two', 'three']));
-        $this->assertSame('("one two" "three four")', (string) new GroupExpression(['one two', 'three four']));
+        $this->assertSame('(1 2 3)', (string) new GroupExpression(array(1, 2, 3)));
+        $this->assertSame('("one" "two" "three")', (string) new GroupExpression(array('one', 'two', 'three')));
+        $this->assertSame('("one\:" "two" "three")', (string) new GroupExpression(array('one:', 'two', 'three')));
+        $this->assertSame('("one two" "three four")', (string) new GroupExpression(array('one two', 'three four')));
 
-        $this->assertSame('(1 AND 2 AND 3)', (string) new GroupExpression([1, 2, 3], GroupExpression::TYPE_AND));
-        $this->assertSame('(1 OR 2 OR 3)', (string) new GroupExpression([1, 2, 3], GroupExpression::TYPE_OR));
+        $this->assertSame('(1 AND 2 AND 3)', (string) new GroupExpression(array(1, 2, 3), GroupExpression::TYPE_AND));
+        $this->assertSame('(1 OR 2 OR 3)', (string) new GroupExpression(array(1, 2, 3), GroupExpression::TYPE_OR));
     }
 
     public function testFunctionExpression()
     {
-        $this->assertSame('sum(1, 2, 3, "text")', (string) new FunctionExpression('sum', [1, 2, 3, "text"]));
-        $this->assertSame('func(1)', (string) new FunctionExpression('func', [1]));
+        $this->assertSame('sum(1, 2, 3, "text")', (string) new FunctionExpression('sum', array(1, 2, 3, "text")));
+        $this->assertSame('func(1)', (string) new FunctionExpression('func', array(1)));
         $this->assertSame('func()', (string) new FunctionExpression('func'));
         $this->assertSame('func()', (string) new FunctionExpression('func', null));
-        $this->assertSame('func()', (string) new FunctionExpression('func', []));
-        $this->assertSame('func()', (string) new FunctionExpression('func', new ParameterExpression([])));
+        $this->assertSame('func()', (string) new FunctionExpression('func', array()));
+        $this->assertSame('func()', (string) new FunctionExpression('func', new ParameterExpression(array())));
         $this->assertSame(
             'func("foo", "bar", 1)',
-            (string) new FunctionExpression('func', new ParameterExpression(['foo', 'bar', 1]))
+            (string) new FunctionExpression('func', new ParameterExpression(array('foo', 'bar', 1)))
         );
     }
 
     public function testLocalParams()
     {
         $this->assertSame('{!func}', (string) new LocalParamsExpression('func'));
-        $this->assertSame('{!func}', (string) new LocalParamsExpression('func', [], true));
-        $this->assertSame('{!type=func}', (string) new LocalParamsExpression('func', [], false));
+        $this->assertSame('{!func}', (string) new LocalParamsExpression('func', array(), true));
+        $this->assertSame('{!type=func}', (string) new LocalParamsExpression('func', array(), false));
 
-        $this->assertSame('{!dismax qf="myfield"}', (string) new LocalParamsExpression('dismax', ['qf' => 'myfield']));
+        $this->assertSame('{!dismax qf="myfield"}', (string) new LocalParamsExpression('dismax', array('qf' => 'myfield')));
     }
 
     public function testGeolocationExpression()

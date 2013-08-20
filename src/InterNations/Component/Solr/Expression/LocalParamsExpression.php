@@ -25,7 +25,7 @@ class LocalParamsExpression extends Expression
      * @param array $params
      * @param boolean $shortForm
      */
-    public function __construct($type, array $params = [], $shortForm = true)
+    public function __construct($type, array $params = array(), $shortForm = true)
     {
         $this->type = $type;
         $this->params = $params;

@@ -124,7 +124,7 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testGroupingSingleParamAsArray()
     {
-        $g = $this->eb->grp([$this->eb->phrase('bar'), $this->eb->phrase('foo'), $this->eb->phrase('baz')]);
+        $g = $this->eb->grp(array($this->eb->phrase('bar'), $this->eb->phrase('foo'), $this->eb->phrase('baz')));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("bar" "foo" "baz")', (string) $g);
     }
@@ -169,15 +169,15 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\ProximityExpression', $p);
         $this->assertSame('"word1 word2 word3"~10', (string) $p);
 
-        $p = $this->eb->prx(['word1', 'word2', 'word3'], 10);
+        $p = $this->eb->prx(array('word1', 'word2', 'word3'), 10);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\ProximityExpression', $p);
         $this->assertSame('"word1 word2 word3"~10', (string) $p);
 
-        $p = $this->eb->prx([], ['word1', 'word2'], 'word3', 10);
+        $p = $this->eb->prx(array(), array('word1', 'word2'), 'word3', 10);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\ProximityExpression', $p);
         $this->assertSame('"word1 word2 word3"~10', (string) $p);
 
-        $this->assertNull($this->eb->prx([], 10));
+        $this->assertNull($this->eb->prx(array(), 10));
         $this->assertNull($this->eb->prx(10));
     }
 
@@ -285,12 +285,12 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testGroupingTypes()
     {
-        $this->assertSame('("foo" "bar")', (string) $this->eb->grp(['foo', 'bar']));
-        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(['foo', 'bar'], GroupExpression::TYPE_AND));
-        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(['foo', 'bar'], GroupExpression::TYPE_OR));
+        $this->assertSame('("foo" "bar")', (string) $this->eb->grp(array('foo', 'bar')));
+        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(array('foo', 'bar'), GroupExpression::TYPE_AND));
+        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(array('foo', 'bar'), GroupExpression::TYPE_OR));
 
-        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(['foo', 'bar', GroupExpression::TYPE_OR]));
-        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(['foo', 'bar', GroupExpression::TYPE_AND]));
+        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(array('foo', 'bar', GroupExpression::TYPE_OR)));
+        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(array('foo', 'bar', GroupExpression::TYPE_AND)));
 
         $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp('foo', 'bar', GroupExpression::TYPE_OR));
         $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp('foo', 'bar', GroupExpression::TYPE_OR));
@@ -298,12 +298,12 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testCompositingTypes()
     {
-        $this->assertSame('"foo" "bar"', (string) $this->eb->comp(['foo', 'bar']));
-        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(['foo', 'bar'], CompositeExpression::TYPE_AND));
-        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(['foo', 'bar'], CompositeExpression::TYPE_OR));
+        $this->assertSame('"foo" "bar"', (string) $this->eb->comp(array('foo', 'bar')));
+        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(array('foo', 'bar'), CompositeExpression::TYPE_AND));
+        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(array('foo', 'bar'), CompositeExpression::TYPE_OR));
 
-        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(['foo', 'bar', CompositeExpression::TYPE_OR]));
-        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(['foo', 'bar', CompositeExpression::TYPE_AND]));
+        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(array('foo', 'bar', CompositeExpression::TYPE_OR)));
+        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(array('foo', 'bar', CompositeExpression::TYPE_AND)));
 
         $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp('foo', 'bar', CompositeExpression::TYPE_OR));
         $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp('foo', 'bar', CompositeExpression::TYPE_OR));
@@ -389,9 +389,9 @@ class ExpressionBuilderTest extends AbstractTestCase
     {
         $this->assertSame('func()', (string) $this->eb->func('func'));
         $this->assertSame('func()', (string) $this->eb->func('func', null));
-        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', ['foo', 'bar']));
-        $this->assertSame('func("foo")', (string) $this->eb->func('func', $this->eb->params(['foo'])));
-        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', $this->eb->params(['foo', 'bar'])));
+        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', array('foo', 'bar')));
+        $this->assertSame('func("foo")', (string) $this->eb->func('func', $this->eb->params(array('foo'))));
+        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', $this->eb->params(array('foo', 'bar'))));
         $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', $this->eb->params('foo', 'bar')));
         $this->assertSame('func("foo")', (string) $this->eb->func('func', $this->eb->params('foo')));
         $this->assertSame('func()', (string) $this->eb->func('func', $this->eb->params()));
@@ -404,10 +404,10 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('{!dismax} "My Query"', (string) $this->eb->localParams('dismax', 'My Query'));
         $this->assertSame(
             '{!dismax qf="field"} "My Query"',
-            (string) $this->eb->localParams('dismax', ['qf' => 'field'], 'My Query')
+            (string) $this->eb->localParams('dismax', array('qf' => 'field'), 'My Query')
         );
-        $this->assertSame('{!dismax qf="field"}', (string) $this->eb->localParams('dismax', ['qf' => 'field']));
-        $this->assertSame('{!type=dismax qf="field"}', (string) $this->eb->localParams('dismax', ['qf' => 'field'], false));
+        $this->assertSame('{!dismax qf="field"}', (string) $this->eb->localParams('dismax', array('qf' => 'field')));
+        $this->assertSame('{!type=dismax qf="field"}', (string) $this->eb->localParams('dismax', array('qf' => 'field'), false));
     }
 
     public function testLatlong()
