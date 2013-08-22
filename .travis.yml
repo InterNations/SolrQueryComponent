@@ -6,6 +6,8 @@ php:
 before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install --dev
+  - sed -i '/ShortArraySyntaxSniff/d' vendor/internations/kodierungsregelwerksammlung/ruleset.xml
+  - find vendor/internations/kodierungsregelwerksammlung/ -name "ShortArraySyntaxSniff.php" -exec rm {} \;
 
 script:
   - ./vendor/bin/phpcs --standard=vendor/internations/kodierungsregelwerksammlung/ruleset.xml ./src/
