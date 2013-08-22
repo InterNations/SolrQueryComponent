@@ -29,7 +29,7 @@ class QueryStringTest extends AbstractTestCase
     {
         $query = new QueryString('test');
         $this->assertSame($query, $query->setPlaceholder('foo', 'bar'));
-        $this->assertSame($query, $query->setPlaceholders(['foo' => 'bar']));
+        $this->assertSame($query, $query->setPlaceholders(array('foo' => 'bar')));
     }
 
     public function testQueryWithPlaceholder_Group()
@@ -54,7 +54,7 @@ class QueryStringTest extends AbstractTestCase
     public function testQueryWithPlaceholder_Array()
     {
         $query = new QueryString('field:<ph>');
-        $query->setPlaceholder('ph', [1, 2, 3, 4, 5]);
+        $query->setPlaceholder('ph', array(1, 2, 3, 4, 5));
 
         $this->assertSame('field:(1 2 3 4 5)', (string) $query);
     }
@@ -80,7 +80,7 @@ class QueryStringTest extends AbstractTestCase
     public function testSetPlaceholders()
     {
         $query = new QueryString('field:<ph>');
-        $query->setPlaceholders(['ph' => 'text']);
+        $query->setPlaceholders(array('ph' => 'text'));
 
         $this->assertSame('field:"text"', (string) $query);
     }

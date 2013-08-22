@@ -359,7 +359,7 @@ class ExpressionBuilder
      * @param boolean $shortForm
      * @return LocalParamsExpression
      */
-    public function localParams($type, $params = [], $shortForm = true)
+    public function localParams($type, $params = array(), $shortForm = true)
     {
         $additional = null;
         if (!is_bool($shortForm)) {
@@ -367,7 +367,7 @@ class ExpressionBuilder
             $shortForm = true;
         } elseif (!is_array($params)) {
             $additional = $params;
-            $params = [];
+            $params = array();
         }
 
         return $this->comp(new LocalParamsExpression($type, $params, $shortForm), $additional);
@@ -416,12 +416,12 @@ class ExpressionBuilder
             $type = array_pop($args);
         }
 
-        $args = array_filter($args, [$this, 'permit']);
+        $args = array_filter($args, array($this, 'permit'));
         if (!$args) {
-            return [false, $type];
+            return array(false, $type);
         }
 
-        return [$args, $type];
+        return array($args, $type);
     }
 
     /**

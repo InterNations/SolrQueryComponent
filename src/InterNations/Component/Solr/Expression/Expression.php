@@ -19,7 +19,7 @@ class Expression
     /**
      * @var array
      */
-    private $placeholders = [];
+    private $placeholders = array();
 
     /**
      * Create new expression object
