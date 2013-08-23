@@ -24,7 +24,10 @@
     </target>
 
     <target name="phpcs">
-         <exec executable="./vendor/bin/phpcs" failonerror="true">
+        <exec executable="sed" failonerror="true">
+            <arg line="-i '/ShortArraySyntaxSniff/d' vendor/internations/kodierungsregelwerksammlung/ruleset.xml"/>
+        </exec>
+        <exec executable="./vendor/bin/phpcs" failonerror="true">
             <arg value="--standard=vendor/internations/kodierungsregelwerksammlung/ruleset.xml"/>
             <arg value="--report=checkstyle" />
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
