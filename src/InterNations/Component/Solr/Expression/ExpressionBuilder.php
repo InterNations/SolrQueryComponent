@@ -16,6 +16,14 @@ class ExpressionBuilder
      */
     private $defaultTimezone = 'UTC';
 
+    /**
+     * Set default timezone for the Solr search server
+     *
+     * The default timezone is used to convert date queries. You can either
+     * pass a string (like "Europe/Berlin") or a DateTimeZone object.
+     *
+     * @param DateTimeZone|string $timezone
+     */
     public function setDefaultTimezone($timezone)
     {
         $this->defaultTimezone = $timezone;
