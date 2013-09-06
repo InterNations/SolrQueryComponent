@@ -34,7 +34,7 @@ class DateTimeExpression extends Expression
     public function __construct(DateTime $date, $format = null, $timezone = 'UTC')
     {
         $this->date = clone $date;
-        $this->format = $format ? $format : $this->format;
+        $this->format = $format ?: $this->format;
         $this->timezone = $timezone;
     }
 

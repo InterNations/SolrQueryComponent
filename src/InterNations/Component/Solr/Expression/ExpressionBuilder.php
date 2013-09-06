@@ -2,6 +2,7 @@
 namespace InterNations\Component\Solr\Expression;
 
 use DateTime;
+use DateTimeZone;
 use Functional as F;
 
 /**
@@ -10,6 +11,16 @@ use Functional as F;
  */
 class ExpressionBuilder
 {
+    /**
+     * @var string|DateTimeZone
+     */
+    private $defaultTimezone = 'UTC';
+
+    public function setDefaultTimezone($timezone)
+    {
+        $this->defaultTimezone = $timezone;
+    }
+
     /**
      * Create term expression: <expr>
      *
@@ -274,9 +285,13 @@ class ExpressionBuilder
      * @param string $timezone
      * @return Expression
      */
-    public function startOfDay($date = null, $timezone = 'UTC')
+    public function startOfDay($date = null, $timezone = false)
     {
-        return new DateTimeExpression($date, 'Y-m-d\T00:00:00\Z', $timezone);
+        return new DateTimeExpression(
+            $date,
+            'Y-m-d\T00:00:00\Z',
+            $timezone === false ? $this->defaultTimezone : $timezone
+        );
     }
 
     /**
@@ -286,9 +301,13 @@ class ExpressionBuilder
      * @param string $timezone
      * @return Expression
      */
-    public function endOfDay($date = null, $timezone = 'UTC')
+    public function endOfDay($date = null, $timezone = false)
     {
-        return new DateTimeExpression($date, 'Y-m-d\T23:59:59\Z', $timezone);
+        return new DateTimeExpression(
+            $date,
+            'Y-m-d\T23:59:59\Z',
+            $timezone === false ? $this->defaultTimezone : $timezone
+        );
     }
 
     /**
@@ -296,13 +315,13 @@ class ExpressionBuilder
      * @param string $timezone
      * @return Expression
      */
-    public function date(DateTime $date = null, $timezone = 'UTC')
+    public function date(DateTime $date = null, $timezone = false)
     {
         if ($date === null) {
             return new WildcardExpression('*');
         }
 
-        return new DateTimeExpression($date, null, $timezone);
+        return new DateTimeExpression($date, null, $timezone === false ? $this->defaultTimezone : $timezone);
     }
 
     /**

@@ -437,4 +437,21 @@ class ExpressionBuilderTest extends AbstractTestCase
             (string) $this->eb->date(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')), new DateTimeZone('Europe/Moscow'))
         );
     }
+
+    public function testDateExpressionWithDefaultTimezone()
+    {
+        $this->eb->setDefaultTimezone('Europe/Moscow');
+        $this->assertSame(
+            '2012-12-13T14:15:16Z',
+            (string) $this->eb->date(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')))
+        );
+        $this->assertSame(
+            '2012-12-13T14:15:16Z',
+            (string) $this->eb->date(new DateTime('2012-12-13 14:15:16', new DateTimeZone('Europe/Berlin')), null)
+        );
+        $this->assertSame(
+            '2012-12-13T11:15:16Z',
+            (string) $this->eb->date(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')), 'Europe/Berlin')
+        );
+    }
 }
