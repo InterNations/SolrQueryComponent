@@ -4,6 +4,7 @@ namespace InterNations\Component\Solr\Expression;
 use DateTime;
 use DateTimeZone;
 use Functional as F;
+use InterNations\Component\Solr\Expression\Exception\InvalidArgumentException;
 
 /**
  * @SuppressWarnings(PMD.TooManyMethods)
@@ -26,6 +27,10 @@ class ExpressionBuilder
      */
     public function setDefaultTimezone($timezone)
     {
+        if (!is_string($timezone) && !is_object($timezone)) {
+            throw InvalidArgumentException::invalidArgument(1, 'timezone', array('string', 'DateTimeZone'), $timezone);
+        }
+
         $this->defaultTimezone = $timezone;
     }
 
