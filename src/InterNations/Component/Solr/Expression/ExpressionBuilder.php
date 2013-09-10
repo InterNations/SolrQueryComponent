@@ -38,7 +38,7 @@ class ExpressionBuilder
     public function eq($expr)
     {
         if ($this->ignore($expr)) {
-            return;
+            return null;
         }
 
         if ($expr instanceof Expression) {
@@ -58,7 +58,7 @@ class ExpressionBuilder
     public function field($field, $expr)
     {
         if ($this->ignore($expr)) {
-            return;
+            return null;
         }
 
         return new FieldExpression($field, $expr);
@@ -73,7 +73,7 @@ class ExpressionBuilder
     public function phrase($str)
     {
         if ($this->ignore($str)) {
-            return;
+            return null;
         }
 
         return new PhraseExpression($str);
@@ -89,7 +89,7 @@ class ExpressionBuilder
     public function boost($expr, $boost)
     {
         if ($this->ignore($expr) or $this->ignore($boost)) {
-            return;
+            return null;
         }
 
         return new BoostExpression($boost, $expr);
@@ -110,7 +110,7 @@ class ExpressionBuilder
         $arguments = F\flatten($arguments);
 
         if (!$arguments) {
-            return;
+            return null;
         }
 
         return new ProximityExpression($arguments, $proximity);
@@ -164,7 +164,7 @@ class ExpressionBuilder
     public function wild($prefix, $wildcard = '?', $suffix = null)
     {
         if (($this->ignore($prefix) && $this->ignore($suffix)) or $this->ignore($wildcard)) {
-            return;
+            return null;
         }
 
         return new WildcardExpression($wildcard, $prefix, $suffix);
@@ -179,7 +179,7 @@ class ExpressionBuilder
     public function req($expr)
     {
         if ($this->ignore($expr)) {
-            return;
+            return null;
         }
 
         return new BooleanExpression(BooleanExpression::OPERATOR_REQUIRED, $expr);
@@ -194,7 +194,7 @@ class ExpressionBuilder
     public function prhb($expr)
     {
         if ($this->ignore($expr)) {
-            return;
+            return null;
         }
 
         return new BooleanExpression(BooleanExpression::OPERATOR_PROHIBITED, $expr);
@@ -233,7 +233,7 @@ class ExpressionBuilder
     public function lit($expr)
     {
         if ($this->ignore($expr)) {
-            return;
+            return null;
         }
 
         return new Expression($expr);
@@ -250,7 +250,7 @@ class ExpressionBuilder
     {
         list($args, $type) = $this->parseCompositeArgs(func_get_args());
         if (!$args) {
-            return;
+            return null;
         }
 
         return new GroupExpression($args, $type);
@@ -280,7 +280,7 @@ class ExpressionBuilder
     public function day($date = null)
     {
         if (!$date instanceof DateTime) {
-            return;
+            return null;
         }
 
         return $this->range($this->startOfDay($date), $this->endOfDay($date));
@@ -290,14 +290,18 @@ class ExpressionBuilder
      * Expression for the start of the given date
      *
      * @param DateTime|null $date
-     * @param string $timezone
+     * @param boolean|string $timezone
      * @return Expression
      */
-    public function startOfDay($date = null, $timezone = false)
+    public function startOfDay(DateTime $date = null, $timezone = false)
     {
+        if ($date === null) {
+            return null;
+        }
+
         return new DateTimeExpression(
             $date,
-            'Y-m-d\T00:00:00\Z',
+            DateTimeExpression::FORMAT_START_OF_DAY,
             $timezone === false ? $this->defaultTimezone : $timezone
         );
     }
@@ -306,21 +310,25 @@ class ExpressionBuilder
      * Expression for the end of the given date
      *
      * @param DateTime|null $date
-     * @param string $timezone
+     * @param boolean|string $timezone
      * @return Expression
      */
-    public function endOfDay($date = null, $timezone = false)
+    public function endOfDay(DateTime $date = null, $timezone = false)
     {
+        if (!$date) {
+            return null;
+        }
+
         return new DateTimeExpression(
             $date,
-            'Y-m-d\T23:59:59\Z',
+            DateTimeExpression::FORMAT_END_OF_DAY,
             $timezone === false ? $this->defaultTimezone : $timezone
         );
     }
 
     /**
      * @param DateTime $date
-     * @param string $timezone
+     * @param boolean|string $timezone
      * @return Expression
      */
     public function date(DateTime $date = null, $timezone = false)
@@ -329,7 +337,11 @@ class ExpressionBuilder
             return new WildcardExpression('*');
         }
 
-        return new DateTimeExpression($date, null, $timezone === false ? $this->defaultTimezone : $timezone);
+        return new DateTimeExpression(
+            $date,
+            DateTimeExpression::FORMAT_DEFAULT,
+            $timezone === false ? $this->defaultTimezone : $timezone
+        );
     }
 
     /**
@@ -338,17 +350,18 @@ class ExpressionBuilder
      * @param DateTime $from
      * @param DateTime $to
      * @param boolean $inclusive
+     * @param boolean $timezone
      * @return RangeExpression
      */
-    public function dateRange(DateTime $from = null, DateTime $to = null, $inclusive = true)
+    public function dateRange(DateTime $from = null, DateTime $to = null, $inclusive = true, $timezone = false)
     {
         if ($from === null && $to === null) {
-            return;
+            return null;
         }
 
         return $this->range(
-            $this->lit($this->date($from)),
-            $this->lit($this->date($to)),
+            $this->lit($this->date($from, $timezone)),
+            $this->lit($this->date($to, $timezone)),
             $inclusive
         );
     }
@@ -411,7 +424,7 @@ class ExpressionBuilder
     {
         list($args, $type) = $this->parseCompositeArgs(func_get_args());
         if (!$args) {
-            return;
+            return null;
         }
 
         return new CompositeExpression($args, $type);

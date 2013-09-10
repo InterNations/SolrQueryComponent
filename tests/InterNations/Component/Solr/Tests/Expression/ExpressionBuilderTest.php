@@ -221,7 +221,7 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testDayBuilder()
     {
-        $date = new \DateTime('2010-10-11', new \DateTimeZone('UTC'));
+        $date = new DateTime('2010-10-11', new DateTimeZone('UTC'));
         $dayRange = $this->eb->day($date);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\RangeExpression', $dayRange);
         $this->assertSame('[2010-10-11T00:00:00Z TO 2010-10-11T23:59:59Z]', (string) $dayRange);
@@ -231,11 +231,55 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('dateField:[2010-10-11T00:00:00Z TO 2010-10-11T23:59:59Z]', (string) $dayRange);
     }
 
-    public function testBeginningAndEndOfDayBuilder()
+    public static function getStartOfDayData()
     {
-        $date = new \DateTime('2010-10-11 00:00:00', new \DateTimeZone('Europe/Berlin'));
-        $this->assertSame('2010-10-10T00:00:00Z', (string) $this->eb->startOfDay($date));
-        $this->assertSame('2010-10-10T23:59:59Z', (string) $this->eb->endOfDay($date));
+        return array(
+            array('2010-10-10T00:00:00Z', '2010-10-11 00:00:00', 'Europe/Berlin'),
+            array('2010-10-11T00:00:00Z', '2010-10-11 22:00:00', 'Europe/Moscow'),
+            array('2010-10-11T00:00:00Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Moscow'),
+            array('2010-10-10T00:00:00Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Berlin'),
+            array('2010-10-11T00:00:00Z', '2010-10-10 22:00:00', 'Europe/Berlin', 'Europe/Moscow'),
+            array(null, null, null),
+        );
+    }
+
+    /** @dataProvider getStartOfDayData */
+    public function testBeginningOfDayBuilder($expected, $date, $timezone, $defaultTimezone = null)
+    {
+        if ($defaultTimezone) {
+            $this->eb->setDefaultTimezone($defaultTimezone);
+        }
+        if ($date !== null) {
+            $date = new DateTime($date, new DateTimeZone($timezone));
+        }
+        $result = $this->eb->startOfDay($date);
+        $this->assertSame($expected, $result ? (string) $result : null);
+    }
+
+
+    public static function getEndOfDayData()
+    {
+        return array(
+            array('2010-10-10T23:59:59Z', '2010-10-11 00:00:00', 'Europe/Berlin'),
+            array('2010-10-11T23:59:59Z', '2010-10-11 22:00:00', 'Europe/Moscow'),
+            array('2010-10-11T23:59:59Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Moscow'),
+            array('2010-10-10T23:59:59Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Berlin'),
+            array('2010-10-11T23:59:59Z', '2010-10-10 22:00:00', 'Europe/Berlin', 'Europe/Moscow'),
+            array(null, null, null),
+        );
+    }
+
+    /** @dataProvider getEndOfDayData */
+    public function testEndOfDayBuilder($expected, $date, $timezone, $defaultTimezone = null)
+    {
+        if ($defaultTimezone) {
+            $this->eb->setDefaultTimezone($defaultTimezone);
+        }
+        if ($date) {
+            $date = new DateTime($date, new DateTimeZone($timezone));
+        }
+        $result = $this->eb->endOfDay($date);
+        $this->assertSame($expected, $result ? (string) $result : null);
     }
 
     public function testDefaultQueryForAllIfNullGiven()
@@ -343,39 +387,184 @@ class ExpressionBuilderTest extends AbstractTestCase
         );
     }
 
-    public function testDateRange()
+    public static function getDateRangeData()
     {
-        $from = new \DateTime('2010-10-11 02:00:00', new \DateTimeZone('Europe/Berlin'));
-        $to = new \DateTime('2010-10-22 01:59:59', new \DateTimeZone('Europe/Berlin'));
-
-        $this->assertSame(
-            '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
-            (string) $this->eb->dateRange($from, $to)
+        return array(
+            array(
+                '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin'
+            ),
+            array(
+                '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                true
+            ),
+            array(
+                '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin'
+            ),
+            array(
+                '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                true
+            ),
+            array(
+                '[* TO 2010-10-21T23:59:59Z]',
+                null,
+                null,
+                '2010-10-22 01:59:59',
+                'Europe/Berlin'
+            ),
+            array(
+                '[2010-10-11T00:00:00Z TO *]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                null,
+                null
+            ),
+            array(
+                '{2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z}',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                false
+            ),
+            array(
+                null,
+                null,
+                null,
+                null,
+                null
+            ),
+            array(
+                '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                null,
+                'null',
+                'Europe/Moscow',
+            ),
+            array(
+                '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                true,
+                'null',
+                'Europe/Moscow',
+            ),
+            array(
+                '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                null,
+                'null',
+                'Europe/Moscow',
+            ),
+            array(
+                '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                true,
+                'null',
+                'Europe/Moscow',
+            ),
+            array(
+                '[* TO 2010-10-22T03:59:59Z]',
+                null,
+                null,
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                null,
+                'null',
+                'Europe/Moscow'
+            ),
+            array(
+                '[2010-10-11T04:00:00Z TO *]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                null,
+                null,
+                null,
+                'null',
+                'Europe/Moscow',
+            ),
+            array(
+                '{2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z}',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                false,
+                'null',
+                'Europe/Moscow',
+            ),
+            array(
+                '{2010-10-11T02:00:00Z TO 2010-10-22T01:59:59Z}',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                false,
+                'Europe/Berlin',
+                'Europe/Moscow',
+            ),
         );
+    }
 
-        $this->assertSame(
-            'dateField:[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
-            (string) $this->eb->field('dateField', $this->eb->dateRange($from, $to))
-        );
+    /** @dataProvider getDateRangeData */
+    public function testDateRange(
+        $expected,
+        $from,
+        $fromTimezone,
+        $to,
+        $toTimezone,
+        $inclusive = null,
+        $solrTimezone = 'null',
+        $defaultTimezone = null
+    )
+    {
+        if ($defaultTimezone) {
+            $this->eb->setDefaultTimezone($defaultTimezone);
+        }
+        if ($from) {
+            $from = new DateTime($from, new DateTimeZone($fromTimezone));
+        }
+        if ($to) {
+            $to = new DateTime($to, new DateTimeZone($toTimezone));
+        }
 
-        $this->assertSame(
-            '[* TO 2010-10-21T23:59:59Z]',
-            (string) $this->eb->dateRange(null, $to)
-        );
+        $arguments = array($from, $to);
+        if ($inclusive !== null) {
+            $arguments[] = $inclusive;
 
-        $this->assertSame(
-            '[2010-10-11T00:00:00Z TO *]',
-            (string) $this->eb->dateRange($from, null)
-        );
+            if ($solrTimezone !== 'null') {
+                $arguments[] = $solrTimezone;
+            }
+        }
 
-        $this->assertSame(
-            '{2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z}',
-            (string) $this->eb->dateRange($from, $to, false)
-        );
-
-        $this->assertNull(
-            $this->eb->dateRange(null, null)
-        );
+        $result = call_user_func_array(array($this->eb, 'dateRange'), $arguments);
+        $this->assertSame($expected, $result !== null ? (string) $result : $result);
     }
 
     public function testRange()
@@ -418,40 +607,42 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('37.7707,-119.5120', (string) $this->eb->latlong(37.770715, -119.512024, 4));
     }
 
-    public function testDateExpressionsWithTimezones()
+    public static function getDateTimeData()
     {
-       $this->assertSame(
-            '2012-12-13T14:15:16Z',
-           (string) $this->eb->date(new DateTime('2012-12-13 15:15:16', new DateTimeZone('Europe/Berlin')))
-        );
-        $this->assertSame(
-            '2012-12-13T14:15:16Z',
-            (string) $this->eb->date(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')), 'Europe/Moscow')
-        );
-        $this->assertSame(
-            '2012-12-13T14:15:16Z',
-            (string) $this->eb->date(new DateTime('2012-12-13 14:15:16', new DateTimeZone('Europe/Berlin')), null)
-        );
-        $this->assertSame(
-            '2012-12-13T14:15:16Z',
-            (string) $this->eb->date(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')), new DateTimeZone('Europe/Moscow'))
+        return array(
+            array('2012-12-13T14:15:16Z', '2012-12-13 15:15:16', 'Europe/Berlin', 'null'),
+            array('2012-12-13T14:15:16Z', '2012-12-13 15:15:16', 'Europe/Berlin', 'UTC'),
+            array('2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'Europe/Moscow'),
+            array('2012-12-13T14:15:16Z', '2012-12-13 14:15:16', 'Europe/Berlin', null),
+            array('2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'Europe/Moscow'),
+            array('2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'null', 'Europe/Moscow'),
+            array('2012-12-13T14:15:16Z', '2012-12-13 14:15:16', 'Europe/Berlin', null, 'Europe/Moscow'),
+            array('2012-12-13T11:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'Europe/Berlin', 'Europe/Moscow'),
+            array('2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'null', 'Europe/Moscow'),
+            array('*', null, null),
         );
     }
 
-    public function testDateExpressionWithDefaultTimezone()
+    /** @dataProvider getDateTimeData */
+    public function testDateExpressions(
+        $expected,
+        $date,
+        $dateTimezone = null,
+        $solrTimezone = null,
+        $defaultTimezone = null
+    )
     {
-        $this->eb->setDefaultTimezone('Europe/Moscow');
-        $this->assertSame(
-            '2012-12-13T14:15:16Z',
-            (string) $this->eb->date(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')))
-        );
-        $this->assertSame(
-            '2012-12-13T14:15:16Z',
-            (string) $this->eb->date(new DateTime('2012-12-13 14:15:16', new DateTimeZone('Europe/Berlin')), null)
-        );
-        $this->assertSame(
-            '2012-12-13T11:15:16Z',
-            (string) $this->eb->date(new DateTime('2012-12-13 11:15:16', new DateTimeZone('Europe/Berlin')), 'Europe/Berlin')
-        );
+        if ($defaultTimezone) {
+            $this->eb->setDefaultTimezone($defaultTimezone);
+        }
+        if ($date !== null) {
+            $date = new DateTime($date, new DateTimeZone($dateTimezone));
+        }
+
+        if ($solrTimezone === 'null') {
+            $this->assertSame($expected, (string) $this->eb->date($date));
+        } else {
+            $this->assertSame($expected, (string) $this->eb->date($date, $solrTimezone));
+        }
     }
 }
