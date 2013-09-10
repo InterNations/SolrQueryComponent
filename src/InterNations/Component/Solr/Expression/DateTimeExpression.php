@@ -6,6 +6,12 @@ use DateTimeZone;
 
 class DateTimeExpression extends Expression
 {
+    const FORMAT_DEFAULT = 'Y-m-d\TH:i:s\Z';
+
+    const FORMAT_START_OF_DAY = 'Y-m-d\T00:00:00\Z';
+
+    const FORMAT_END_OF_DAY = 'Y-m-d\T23:59:59\Z';
+
     /**
      * @var DateTimeZone
      */
@@ -24,7 +30,7 @@ class DateTimeExpression extends Expression
     /**
      * @var string
      */
-    private $format = 'Y-m-d\TH:i:s\Z';
+    private $format;
 
     /**
      * @param DateTime $date
@@ -34,7 +40,7 @@ class DateTimeExpression extends Expression
     public function __construct(DateTime $date, $format = null, $timezone = 'UTC')
     {
         $this->date = clone $date;
-        $this->format = $format ? $format : $this->format;
+        $this->format = $format ?: static::FORMAT_DEFAULT;
         $this->timezone = $timezone;
     }
 
