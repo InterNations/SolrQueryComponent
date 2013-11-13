@@ -23,7 +23,7 @@ class ParameterExpression extends Expression
     {
         $parameters = array_map(array($this, 'replaceNull'), $this->parameters);
 
-        return join(', ', array_map(array('InterNations\Component\Solr\Util', 'sanitize'), $parameters));
+        return implode(', ', array_map(array('InterNations\Component\Solr\Util', 'sanitize'), $parameters));
     }
 
     private function replaceNull($value)

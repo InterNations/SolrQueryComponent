@@ -58,7 +58,7 @@ class CompositeExpression extends Expression
 
         $glue = $this->type ? ' ' . $this->type . ' ' : ' ';
 
-        return join($glue, array_filter($parts));
+        return implode($glue, array_filter($parts));
     }
 
     /**

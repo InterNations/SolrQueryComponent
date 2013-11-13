@@ -22,7 +22,7 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
     {
         $last = array_pop($expectation);
 
-        return join($expectation, ', ') . ' or ' . $last;
+        return implode($expectation, ', ') . ' or ' . $last;
     }
 
     private static function getType($actual)
