@@ -33,10 +33,5 @@
         "psr-0": {
             "InterNations\\Component\\Solr": "src/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
     }
 }
