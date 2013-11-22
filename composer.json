@@ -22,7 +22,7 @@
     ],
     "require": {
         "lstrojny/functional-php": "1.0.*@dev",
-        "internations/solr-utils": "0.3.*"
+        "internations/solr-utils": "~0.4"
     },
     "require-dev": {
         "internations/testing-component": "dev-master",

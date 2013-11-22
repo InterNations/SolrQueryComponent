@@ -1,13 +1,15 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\ExpressionInterface;
+
 /**
  * Base class for expressions
  *
  * The base class for query expressions provides methods to escape and quote query strings as well being the object to
  * create literal queries which should not be escaped
  */
-class Expression
+class Expression implements ExpressionInterface
 {
     /**
      * Expression object or string
@@ -15,11 +17,6 @@ class Expression
      * @var Expression|string
      */
     protected $expr;
-
-    /**
-     * @var array
-     */
-    private $placeholders = array();
 
     /**
      * Create new expression object

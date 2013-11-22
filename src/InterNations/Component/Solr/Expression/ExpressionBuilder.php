@@ -5,6 +5,7 @@ use DateTime;
 use DateTimeZone;
 use Functional as F;
 use InterNations\Component\Solr\Expression\Exception\InvalidArgumentException;
+use InterNations\Component\Solr\ExpressionInterface;
 
 /**
  * @SuppressWarnings(PMD.TooManyMethods)
@@ -46,7 +47,7 @@ class ExpressionBuilder
             return null;
         }
 
-        if ($expr instanceof Expression) {
+        if ($expr instanceof ExpressionInterface) {
             return $expr;
         }
 
