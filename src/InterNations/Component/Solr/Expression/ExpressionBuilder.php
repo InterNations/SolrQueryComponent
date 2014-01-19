@@ -25,6 +25,7 @@ class ExpressionBuilder
      * pass a string (like "Europe/Berlin") or a DateTimeZone object.
      *
      * @param DateTimeZone|string $timezone
+     * @throws InvalidArgumentException
      */
     public function setDefaultTimezone($timezone)
     {
