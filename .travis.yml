@@ -11,7 +11,7 @@ before_script:
   - find vendor/internations/kodierungsregelwerksammlung/ -name "ShortArraySyntaxSniff.php" -exec rm {} \;
 
 script:
-  - ./vendor/bin/phpcs --standard=vendor/internations/kodierungsregelwerksammlung/ruleset.xml ./src/
+  - sh -c '[ "$TRAVIS_PHP_VERSION" != "hhvm" ] && ./vendor/bin/phpcs --standard=vendor/internations/kodierungsregelwerksammlung/ruleset.xml ./src/'
   - phpunit --exclude-group performance
 
 notifications:
