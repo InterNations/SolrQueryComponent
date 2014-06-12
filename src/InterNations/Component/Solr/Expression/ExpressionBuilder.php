@@ -417,7 +417,11 @@ class ExpressionBuilder
             $params = array();
         }
 
-        return $this->comp(new LocalParamsExpression($type, $params, $shortForm), $additional);
+        if ($additional !== null) {
+            return $this->comp(new LocalParamsExpression($type, $params, $shortForm), $additional);
+        }
+
+        return new LocalParamsExpression($type, $params, $shortForm);
     }
 
     /**

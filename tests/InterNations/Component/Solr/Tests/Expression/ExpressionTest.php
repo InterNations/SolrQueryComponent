@@ -180,6 +180,11 @@ class ExpressionTest extends AbstractTestCase
         $this->assertSame('{!dismax qf="myfield"}', (string) new LocalParamsExpression('dismax', array('qf' => 'myfield')));
     }
 
+    public function testLocalParamsAndField()
+    {
+        $this->assertSame('{!func}field', (string) new FieldExpression('field', new LocalParamsExpression('func')));
+    }
+
     public function testGeolocationExpression()
     {
         $this->assertSame('12.345678901234,89.012345670000', (string) new GeolocationExpression(12.345678901234, 89.01234567, 12));

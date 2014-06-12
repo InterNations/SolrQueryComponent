@@ -34,6 +34,13 @@ class FieldExpression extends Expression
      */
     public function __toString()
     {
-        return Util::escape($this->field) . ':' . Util::quote($this->expr);
+        $field = Util::escape($this->field);
+        $expression = Util::quote($this->expr);
+
+        if ($this->expr instanceof LocalParamsExpression) {
+            return $expression . $field;
+        }
+
+        return  $field . ':' . $expression;
     }
 }

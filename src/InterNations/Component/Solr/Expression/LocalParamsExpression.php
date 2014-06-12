@@ -46,6 +46,6 @@ class LocalParamsExpression extends Expression
             }
         }
 
-        return '{!' . $typeString .  $params . '}';
+        return '{!' . $typeString . $params . '}';
     }
 }
