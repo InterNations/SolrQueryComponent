@@ -1,6 +1,5 @@
-# SolrQueryComponent
+# SolrQueryComponent [![Build Status](https://travis-ci.org/InterNations/SolrQueryComponent.svg)](https://travis-ci.org/InterNations/SolrQueryComponent) [![Dependency Status](https://www.versioneye.com/user/projects/5347af01fe0d0720b50000b1/badge.png)](https://www.versioneye.com/user/projects/5347af01fe0d0720b50000b1)
 #### Build Solr queries with ease
-[![Build Status](https://travis-ci.org/InterNations/SolrQueryComponent.svg)](https://travis-ci.org/InterNations/SolrQueryComponent) [![Dependency Status](https://www.versioneye.com/user/projects/5347af01fe0d0720b50000b1/badge.png)](https://www.versioneye.com/user/projects/5347af01fe0d0720b50000b1)
 
 `SolrQueryComponent` helps building Solr/Lucene/ElasticSearch queries with a query builder API. It is independent of
 the concrete client library and can be used with e.g. [PECL Solr](http://pecl.php.net/package/solr) or
