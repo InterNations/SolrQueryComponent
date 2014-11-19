@@ -264,6 +264,40 @@ class ExpressionBuilder
     }
 
     /**
+     * Create AND grouped expression: (<expr1> AND <expr2> AND <expr3>)
+     *
+     * @param Expression|string $expr, ...
+     * @param string $type
+     * @return Expression
+     */
+    public function andX($expr = null)
+    {
+        $args = func_get_args();
+        if (!$args) {
+            return null;
+        }
+
+        return new GroupExpression($args, GroupExpression::TYPE_AND);
+    }
+
+    /**
+     * Create OR grouped expression: (<expr1> OR <expr2> OR <expr3>)
+     *
+     * @param Expression|string $expr, ...
+     * @param string $type
+     * @return Expression
+     */
+    public function orX($expr = null)
+    {
+        $args = func_get_args();
+        if (!$args) {
+            return null;
+        }
+
+        return new GroupExpression($args, GroupExpression::TYPE_OR);
+    }
+
+    /**
      * Returns a query "*:*" which means find all if $expr is empty
      *
      * @param Expression|string $expr
