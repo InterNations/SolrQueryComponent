@@ -36,10 +36,6 @@ class GeolocationExpression extends Expression
      */
     public function __toString()
     {
-        return sprintf(
-            '%.' . $this->precision . 'F,%.' . $this->precision . 'F',
-            $this->latitude,
-            $this->longitude
-        );
+        return sprintf('%.' . $this->precision . 'F,%.' . $this->precision . 'F', $this->latitude, $this->longitude);
     }
 }
