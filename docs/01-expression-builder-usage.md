@@ -101,6 +101,15 @@ parameter as a last parameter to `grp()` to create this query: `productName:("vi
 $eb->field('productName', $eb->grp('vinyl', 'minidisc', 'compact disc', GroupExpression::TYPE_OR));
 ```
 
+
+Shortcuts for using grouping with "OR" or "AND" operators.
+ 
+```php
+$eb->field('productName', $eb->orX('vinyl', 'minidisc', 'compact disc'));
+$eb->field('productName', $eb->andX('vinyl', 'minidisc', 'compact disc'));
+```
+
+
 ## Wildcards and proximity searches
 
 Wildcard searches come in two different forms: `*` for anything or `?` for a single character. To create a query
