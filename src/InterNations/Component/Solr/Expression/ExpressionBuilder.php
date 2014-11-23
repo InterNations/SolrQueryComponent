@@ -272,7 +272,7 @@ class ExpressionBuilder
      */
     public function andX($expr = null)
     {
-        $args = func_get_args();
+        $args = $this->parseCompositeArgs(func_get_args())[0];
         if (!$args) {
             return null;
         }
@@ -289,7 +289,7 @@ class ExpressionBuilder
      */
     public function orX($expr = null)
     {
-        $args = func_get_args();
+        $args = $this->parseCompositeArgs(func_get_args())[0];
         if (!$args) {
             return null;
         }
