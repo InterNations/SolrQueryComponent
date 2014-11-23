@@ -136,11 +136,25 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('("foo" AND "bar" AND "baz")', (string) $g);
     }
 
+    public function testGroupingWithAndXAndEmptyExpressions()
+    {
+        $g = $this->eb->andX($this->eb->phrase('foo'), $this->eb->andX(null, null, ''), $this->eb->phrase('bar'));
+        $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
+        $this->assertSame('("foo" AND "bar")', (string) $g);
+    }
+
     public function testGroupingWithOrX()
     {
         $g = $this->eb->orX($this->eb->phrase('foo'), $this->eb->phrase('bar'), $this->eb->phrase('baz'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("foo" OR "bar" OR "baz")', (string) $g);
+    }
+
+    public function testGroupingWithOrXAndEmptyExpressions()
+    {
+        $g = $this->eb->orX($this->eb->phrase('foo'), $this->eb->orX(null, null, ''), $this->eb->phrase('bar'));
+        $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
+        $this->assertSame('("foo" OR "bar")', (string) $g);
     }
 
     public function testField()
