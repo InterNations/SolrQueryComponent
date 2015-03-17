@@ -628,6 +628,28 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('{!func}field', (string) $this->eb->field('field', $this->eb->localParams('func')));
     }
 
+    public function testGeofilt()
+    {
+        $this->assertSame('{!geofilt sfield="geofield"}', (string) $this->eb->geofilt('geofield'));
+        $this->assertSame('{!geofilt sfield="geofield"}', (string) $this->eb->geofilt('geofield', 1.2345));
+        $this->assertSame(
+            '{!geofilt sfield="geofield" pt="1.234500000000,6.789000000000"}',
+            (string) $this->eb->geofilt('geofield', 1.2345, 6.789)
+        );
+        $this->assertSame(
+            '{!geofilt sfield="geofield" pt="1.234500000000,6.789000000000" d=100}',
+            (string) $this->eb->geofilt('geofield', 1.2345, 6.789, 100)
+        );
+        $this->assertSame(
+            '{!geofilt sfield="geofield" score="miles"}',
+            (string) $this->eb->geofilt('geofield', null, null, null, array('score' => 'miles'))
+        );
+        $this->assertSame(
+            '{!geofilt sfield="geofield" pt="1.234500000000,6.789000000000" d=999}',
+            (string) $this->eb->geofilt('geofield', 1.2345, 6.789, 100, array('d' => 999))
+        );
+    }
+
     public function testLatLong()
     {
         $this->assertSame('60.166667000000,24.933333000000', (string) $this->eb->latlong(60.166667, 24.933333));
