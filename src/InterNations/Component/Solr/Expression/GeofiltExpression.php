@@ -9,14 +9,9 @@ class GeofiltExpression extends Expression
     private $field;
 
     /**
-     * @var float
+     * @var GeolocationExpression
      */
-    private $latitude;
-
-    /**
-     * @var float
-     */
-    private $longitude;
+    private $geolocation;
 
     /**
      * @var integer
@@ -30,13 +25,19 @@ class GeofiltExpression extends Expression
 
     /**
      * @param string $field
+     * @param GeolocationExpression|null $geolocation
+     * @param integer|null $distance
      * @param array $additionalParams
      */
-    public function __construct($field, $latitude, $longitude, $distance, array $additionalParams = array())
+    public function __construct(
+        $field,
+        GeolocationExpression $geolocation = null,
+        $distance = null,
+        array $additionalParams = array()
+    )
     {
         $this->field = (string) $field;
-        $this->latitude = (float) $latitude;
-        $this->longitude = (float) $longitude;
+        $this->geolocation = $geolocation;
         $this->distance = (int) $distance;
         $this->additionalParams = $additionalParams;
     }
@@ -48,8 +49,8 @@ class GeofiltExpression extends Expression
     {
         $params = array('sfield' => $this->field);
 
-        if ($this->latitude && $this->longitude) {
-            $params['pt'] = (string) new GeolocationExpression($this->latitude, $this->longitude, 12);
+        if ($this->geolocation) {
+            $params['pt'] = (string) $this->geolocation;
         }
 
         if ($this->distance) {

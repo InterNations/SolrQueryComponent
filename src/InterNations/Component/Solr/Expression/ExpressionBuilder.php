@@ -460,15 +460,19 @@ class ExpressionBuilder
 
     /**
      * @param string $field
-     * @param float $latitude
-     * @param float $longitude
-     * @param integer $distance
+     * @param GeolocationExpression|null $geolocation
+     * @param integer|null $distance
      * @param array $additionalParams
      * @return LocalParamsExpression
      */
-    public function geofilt($field, $latitude = null, $longitude = null, $distance = null, $additionalParams = array())
+    public function geofilt(
+        $field,
+        GeolocationExpression $geolocation = null,
+        $distance = null,
+        $additionalParams = array()
+    )
     {
-        return new GeofiltExpression($field, $latitude, $longitude, $distance, $additionalParams);
+        return new GeofiltExpression($field, $geolocation, $distance, $additionalParams);
     }
 
     /**
