@@ -463,7 +463,7 @@ class ExpressionBuilder
      * @param GeolocationExpression|null $geolocation
      * @param integer|null $distance
      * @param array $additionalParams
-     * @return LocalParamsExpression
+     * @return GeofiltExpression
      */
     public function geofilt(
         $field,
