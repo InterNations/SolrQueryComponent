@@ -38,14 +38,22 @@ class LocalParamsExpression extends Expression
     public function __toString()
     {
         $typeString = $this->shortForm ? $this->type : 'type=' . $this->type;
+        $paramsString = $this->buildParamString();
 
-        $params = '';
-        if ($this->params) {
-            foreach ($this->params as $key => $value) {
-                $params .= ' ' . $key . '=' . Util::sanitize($value);
-            }
+        return '{!' . $typeString . $paramsString . '}';
+    }
+
+    private function buildParamString()
+    {
+        if ($this->shortForm && count($this->params) === 1 && key($this->params) === $this->type) {
+            return '=' . Util::sanitize(current($this->params));
         }
 
-        return '{!' . $typeString . $params . '}';
+        $paramsString = '';
+        foreach ($this->params as $key => $value) {
+            $paramsString .= ' ' . $key . '=' . Util::sanitize($value);
+        }
+
+        return $paramsString;
     }
 }

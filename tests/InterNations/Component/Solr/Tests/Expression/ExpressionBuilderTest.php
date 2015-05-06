@@ -696,6 +696,12 @@ class ExpressionBuilderTest extends AbstractTestCase
         }
     }
 
+    public function testNoCache()
+    {
+        $this->assertSame('{!cache=false}', (string) $this->eb->noCache('*:*'));
+        $this->assertSame('', (string) $this->eb->noCache(''));
+    }
+
     public function testSetInvalidDefaultTimezone()
     {
         $this->setExpectedException(
