@@ -14,6 +14,8 @@ class CompositeExpression extends Expression
 
     const TYPE_OR = 'OR';
 
+    const TYPE_SPACE = ' ';
+
     /**
      * List of query expressions
      *
@@ -32,7 +34,7 @@ class CompositeExpression extends Expression
      * @param array $expressions
      * @param string $type
      */
-    public function __construct(array $expressions, $type = null)
+    public function __construct(array $expressions, $type = self::TYPE_SPACE)
     {
         $this->expressions = $expressions;
         $this->type = $type;
@@ -56,7 +58,11 @@ class CompositeExpression extends Expression
             return '';
         }
 
-        $glue = $this->type ? ' ' . $this->type . ' ' : ' ';
+        if ($this->type === static::TYPE_OR || $this->type === static::TYPE_AND) {
+            $glue = ' ' . $this->type . ' ';
+        } else {
+            $glue = $this->type;
+        }
 
         return implode($glue, array_filter($parts));
     }
@@ -67,6 +73,9 @@ class CompositeExpression extends Expression
      */
     public static function isValidType($type)
     {
-        return $type === static::TYPE_OR || $type === static::TYPE_AND || $type === null;
+        return $type === static::TYPE_OR
+            || $type === static::TYPE_AND
+            || $type === static::TYPE_SPACE
+            || $type === null;
     }
 }

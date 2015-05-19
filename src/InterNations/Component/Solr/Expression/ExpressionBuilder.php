@@ -249,7 +249,7 @@ class ExpressionBuilder
      * @param string $type
      * @return ExpressionInterface|null
      */
-    public function grp($expr = null, $type = null)
+    public function grp($expr = null, $type = CompositeExpression::TYPE_SPACE)
     {
         list($args, $type) = $this->parseCompositeArgs(func_get_args());
         if (!$args) {
@@ -477,7 +477,7 @@ class ExpressionBuilder
      * @param string $type
      * @return ExpressionInterface|null
      */
-    public function comp($expr = null, $type = null)
+    public function comp($expr = null, $type = CompositeExpression::TYPE_SPACE)
     {
         list($args, $type) = $this->parseCompositeArgs(func_get_args());
         if (!$args) {
@@ -510,7 +510,7 @@ class ExpressionBuilder
             return null;
         }
 
-        return new CompositeExpression([$this->shortLocalParams('cache', false), $expr]);
+        return $this->comp([$this->shortLocalParams('cache', false), $expr], null);
     }
 
     /**
@@ -524,7 +524,7 @@ class ExpressionBuilder
             return null;
         }
 
-        return new CompositeExpression([$this->shortLocalParams('tag', $tagName), $expr]);
+        return $this->comp([$this->shortLocalParams('tag', $tagName), $expr], null);
     }
 
     /**
@@ -538,7 +538,7 @@ class ExpressionBuilder
             return null;
         }
 
-        return new CompositeExpression([$this->shortLocalParams('ex', $tagName), $expr]);
+        return $this->comp([$this->shortLocalParams('ex', $tagName), $expr], null);
     }
 
     private function shortLocalParams($tag, $value)
@@ -553,7 +553,7 @@ class ExpressionBuilder
     private function parseCompositeArgs(array $args)
     {
         $args = F\flatten($args);
-        $type = null;
+        $type = CompositeExpression::TYPE_SPACE;
 
         if (CompositeExpression::isValidType(end($args))) {
             $type = array_pop($args);
