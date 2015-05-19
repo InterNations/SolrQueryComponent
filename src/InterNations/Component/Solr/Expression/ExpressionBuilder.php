@@ -510,7 +510,40 @@ class ExpressionBuilder
             return null;
         }
 
-        return new LocalParamsExpression('cache', ['cache' => false], true);
+        return new CompositeExpression([$this->shortLocalParams('cache', false), $expr]);
+    }
+
+    /**
+     * @param string $tagName
+     * @param ExpressionInterface|null $expr
+     * @return ExpressionInterface|null
+     */
+    public function tag($tagName, $expr = null)
+    {
+        if ($this->ignore($expr)) {
+            return null;
+        }
+
+        return new CompositeExpression([$this->shortLocalParams('tag', $tagName), $expr]);
+    }
+
+    /**
+     * @param string $tagName
+     * @param ExpressionInterface|null $expr
+     * @return CompositeExpression|null
+     */
+    public function excludeTag($tagName, $expr = null)
+    {
+        if ($this->ignore($expr)) {
+            return null;
+        }
+
+        return new CompositeExpression([$this->shortLocalParams('ex', $tagName), $expr]);
+    }
+
+    private function shortLocalParams($tag, $value)
+    {
+        return new LocalParamsExpression($tag, [$tag => $value], true);
     }
 
     /**

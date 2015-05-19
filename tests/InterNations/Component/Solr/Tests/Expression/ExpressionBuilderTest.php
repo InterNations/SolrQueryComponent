@@ -698,8 +698,17 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testNoCache()
     {
-        $this->assertSame('{!cache=false}', (string) $this->eb->noCache('*:*'));
+        $this->assertSame('{!cache=false} *:*', (string) $this->eb->noCache($this->eb->all()));
         $this->assertSame('', (string) $this->eb->noCache(''));
+    }
+
+    public function testTag()
+    {
+        $this->assertSame('{!tag="foo"} *:*', (string)$this->eb->tag('foo', $this->eb->all()));
+        $this->assertSame('', (string)$this->eb->tag('foo', null));
+
+        $this->assertSame('{!ex="foo"} *:*', (string)$this->eb->excludeTag('foo', $this->eb->all()));
+        $this->assertSame('', (string)$this->eb->excludeTag('foo', null));
     }
 
     public function testSetInvalidDefaultTimezone()
