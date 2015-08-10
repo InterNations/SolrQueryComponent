@@ -22,14 +22,23 @@ class BooleanExpression extends Expression
     protected $operator;
 
     /**
+     * Use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
+     *
+     * @var boolean
+     */
+    protected $useNotNotation;
+
+    /**
      * Create new expression object
      *
      * @param string $operator
      * @param string|Expression $expr
+     * @param boolean $useNotNotation use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
      */
-    public function __construct($operator, $expr)
+    public function __construct($operator, $expr, $useNotNotation = false)
     {
         $this->operator = $operator;
+        $this->useNotNotation = $useNotNotation;
         parent::__construct($expr);
     }
 
@@ -38,6 +47,8 @@ class BooleanExpression extends Expression
      */
     public function __toString()
     {
-        return $this->operator . Util::escape($this->expr);
+        return $this->useNotNotation
+            ? '(*:* NOT ' . Util::escape($this->expr) . ')'
+            : $this->operator . Util::escape($this->expr);
     }
 }

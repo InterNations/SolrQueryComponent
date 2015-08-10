@@ -26,7 +26,7 @@ class ExpressionBuilder
     public function setDefaultTimezone($timezone)
     {
         if (!is_string($timezone) && !is_object($timezone)) {
-            throw InvalidArgumentException::invalidArgument(1, 'timezone', array('string', 'DateTimeZone'), $timezone);
+            throw InvalidArgumentException::invalidArgument(1, 'timezone', ['string', 'DateTimeZone'], $timezone);
         }
 
         $this->defaultTimezone = $timezone;
@@ -53,14 +53,17 @@ class ExpressionBuilder
 
     /**
      * Create field expression: <field>:<expr>
+     * of in an array $expr is given: <field>:(<expr1> <expr2> <expr3>...)
      *
      * @param string $field
-     * @param ExpressionInterface|string $expr
+     * @param ExpressionInterface|string|array $expr
      * @return ExpressionInterface|null
      */
     public function field($field, $expr)
     {
-        if ($this->ignore($expr)) {
+        if (is_array($expr)) {
+            $expr = $this->grp($expr);
+        } elseif ($this->ignore($expr)) {
             return null;
         }
 
@@ -201,6 +204,22 @@ class ExpressionBuilder
         }
 
         return new BooleanExpression(BooleanExpression::OPERATOR_PROHIBITED, $expr);
+    }
+
+    /**
+     * Create boolean, prohibited expression using the NOT notation, usable in OR/AND expressions:
+     * (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
+     *
+     * @param ExpressionInterface|string $expr
+     * @return ExpressionInterface|null
+     */
+    public function not($expr)
+    {
+        if ($this->ignore($expr)) {
+            return null;
+        }
+
+        return new BooleanExpression(BooleanExpression::OPERATOR_PROHIBITED, $expr, true);
     }
 
     /**
@@ -435,7 +454,7 @@ class ExpressionBuilder
      * @param boolean $shortForm
      * @return ExpressionInterface|null
      */
-    public function localParams($type, $params = array(), $shortForm = true)
+    public function localParams($type, $params = [], $shortForm = true)
     {
         $additional = null;
         if (!is_bool($shortForm)) {
@@ -443,7 +462,7 @@ class ExpressionBuilder
             $shortForm = true;
         } elseif (!is_array($params)) {
             $additional = $params;
-            $params = array();
+            $params = [];
         }
 
         if ($additional !== null) {
@@ -464,7 +483,7 @@ class ExpressionBuilder
         $field,
         GeolocationExpression $geolocation = null,
         $distance = null,
-        $additionalParams = array()
+        $additionalParams = []
     )
     {
         return new GeofiltExpression($field, $geolocation, $distance, $additionalParams);
@@ -559,12 +578,12 @@ class ExpressionBuilder
             $type = array_pop($args);
         }
 
-        $args = array_filter($args, array($this, 'permit'));
+        $args = array_filter($args, [$this, 'permit']);
         if (!$args) {
-            return array(false, $type);
+            return [false, $type];
         }
 
-        return array($args, $type);
+        return [$args, $type];
     }
 
     /**
