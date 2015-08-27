@@ -21,6 +21,7 @@
         }
     ],
     "require": {
+        "php": ">=5.6.0",
         "lstrojny/functional-php": "dev-master",
         "internations/solr-utils": "~0.4"
     },

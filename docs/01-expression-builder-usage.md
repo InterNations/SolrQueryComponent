@@ -85,6 +85,12 @@ TO 2012-12-31T23:59:56]`).
 $eb->field('publishedOn', $eb->dateRange(new DateTime('2012-01-01 00:00:00'), new DateTime('2012-12-31 23:59:59')));
 ```
 
+We can also mix inclusive “[]” and exclusive “{}” endpoints, so expressions like `date:[2015-08-27T15:35:04Z/DAY TO 2015-08-27T15:35:04Z/DAY+1DAY}` are possible (as of Solr 4.0, more information http://lucidworks.com/blog/date-math-now-and-filter-queries/)
+
+```php
+$eb->field('date', $eb->dateRange(new DateTime('2015-08-27 15:35:04') . '/DAY', new DateTime('2015-08-27 15:35:04') . '/DAY+1DAY'), true, false);
+```
+
 ## Grouping
 
 Grouping is a powerful feature of Lucene’s search syntax. Let’s search for a list of product names

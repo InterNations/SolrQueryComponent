@@ -139,12 +139,13 @@ class ExpressionBuilder
      *
      * @param string $start
      * @param string $end
-     * @param boolean $inclusive
+     * @param boolean $inclusiveFrom
+     * @param boolean $inclusiveTo
      * @return ExpressionInterface
      */
-    public function range($start = null, $end = null, $inclusive = true)
+    public function range($start = null, $end = null, $inclusiveFrom = true, $inclusiveTo = true)
     {
-        return new RangeExpression($start, $end, $inclusive);
+        return new RangeExpression($start, $end, $inclusiveFrom, $inclusiveTo);
     }
 
     /**
@@ -156,7 +157,7 @@ class ExpressionBuilder
      */
     public function btwnRange($start = null, $end = null)
     {
-        return new RangeExpression($start, $end, false);
+        return new RangeExpression($start, $end, false, false);
     }
 
     /**
@@ -403,12 +404,17 @@ class ExpressionBuilder
      * Create a range between two dates (one side may be unlimited which is indicated by passing null)
      *
      * @param DateTime $from
+     * @param boolean $inclusiveFrom
      * @param DateTime $to
-     * @param boolean $inclusive
+     * @param boolean $inclusiveTo
      * @param boolean $timezone
      * @return ExpressionInterface|null
      */
-    public function dateRange(DateTime $from = null, DateTime $to = null, $inclusive = true, $timezone = false)
+    public function dateRange(DateTime $from = null,
+        DateTime $to = null,
+        $inclusiveFrom = true,
+        $inclusiveTo = true,
+        $timezone = false)
     {
         if ($from === null && $to === null) {
             return null;
@@ -417,7 +423,8 @@ class ExpressionBuilder
         return $this->range(
             $this->lit($this->date($from, $timezone)),
             $this->lit($this->date($to, $timezone)),
-            $inclusive
+            $inclusiveFrom,
+            $inclusiveTo
         );
     }
 
