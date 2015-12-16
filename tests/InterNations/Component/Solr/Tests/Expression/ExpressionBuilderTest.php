@@ -426,27 +426,30 @@ class ExpressionBuilderTest extends AbstractTestCase
                 'Europe/Berlin'
             ),
             array(
-                '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
+                '{2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
-                true
+                false
             ),
             array(
-                '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
+                '{2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z}',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
-                'Europe/Berlin'
+                'Europe/Berlin',
+                false,
+                false
             ),
             array(
-                '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
+                '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z}',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
-                true
+                true,
+                false
             ),
             array(
                 '[* TO 2010-10-21T23:59:59Z]',
@@ -456,11 +459,22 @@ class ExpressionBuilderTest extends AbstractTestCase
                 'Europe/Berlin'
             ),
             array(
-                '[2010-10-11T00:00:00Z TO *]',
+                '{* TO 2010-10-21T23:59:59Z}',
+                null,
+                null,
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                false,
+                false
+            ),
+            array(
+                '{2010-10-11T00:00:00Z TO *]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 null,
-                null
+                null,
+                false,
+                true
             ),
             array(
                 '{2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z}',
@@ -468,6 +482,7 @@ class ExpressionBuilderTest extends AbstractTestCase
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
+                false,
                 false
             ),
             array(
@@ -478,12 +493,13 @@ class ExpressionBuilderTest extends AbstractTestCase
                 null
             ),
             array(
-                '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
+                '{2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z}',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
-                null,
+                false,
+                false,
                 'null',
                 'Europe/Moscow',
             ),
@@ -494,46 +510,7 @@ class ExpressionBuilderTest extends AbstractTestCase
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
                 true,
-                'null',
-                'Europe/Moscow',
-            ),
-            array(
-                '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
-                '2010-10-11 02:00:00',
-                'Europe/Berlin',
-                '2010-10-22 01:59:59',
-                'Europe/Berlin',
-                null,
-                'null',
-                'Europe/Moscow',
-            ),
-            array(
-                '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
-                '2010-10-11 02:00:00',
-                'Europe/Berlin',
-                '2010-10-22 01:59:59',
-                'Europe/Berlin',
                 true,
-                'null',
-                'Europe/Moscow',
-            ),
-            array(
-                '[* TO 2010-10-22T03:59:59Z]',
-                null,
-                null,
-                '2010-10-22 01:59:59',
-                'Europe/Berlin',
-                null,
-                'null',
-                'Europe/Moscow'
-            ),
-            array(
-                '[2010-10-11T04:00:00Z TO *]',
-                '2010-10-11 02:00:00',
-                'Europe/Berlin',
-                null,
-                null,
-                null,
                 'null',
                 'Europe/Moscow',
             ),
@@ -544,6 +521,51 @@ class ExpressionBuilderTest extends AbstractTestCase
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
                 false,
+                false,
+                'null',
+                'Europe/Moscow',
+            ),
+            array(
+                '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                true,
+                true,
+                'null',
+                'Europe/Moscow',
+            ),
+            array(
+                '{* TO 2010-10-22T03:59:59Z}',
+                null,
+                null,
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                false,
+                false,
+                'null',
+                'Europe/Moscow'
+            ),
+            array(
+                '{2010-10-11T04:00:00Z TO *}',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                null,
+                null,
+                false,
+                false,
+                'null',
+                'Europe/Moscow',
+            ),
+            array(
+                '{2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z}',
+                '2010-10-11 02:00:00',
+                'Europe/Berlin',
+                '2010-10-22 01:59:59',
+                'Europe/Berlin',
+                false,
+                false,
                 'null',
                 'Europe/Moscow',
             ),
@@ -553,6 +575,7 @@ class ExpressionBuilderTest extends AbstractTestCase
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
+                false,
                 false,
                 'Europe/Berlin',
                 'Europe/Moscow',
@@ -567,7 +590,8 @@ class ExpressionBuilderTest extends AbstractTestCase
         $fromTimezone,
         $to,
         $toTimezone,
-        $inclusive = null,
+        $inclusiveFrom = null,
+        $inclusiveTo = null,
         $solrTimezone = 'null',
         $defaultTimezone = null
     )
@@ -583,11 +607,13 @@ class ExpressionBuilderTest extends AbstractTestCase
         }
 
         $arguments = array($from, $to);
-        if ($inclusive !== null) {
-            $arguments[] = $inclusive;
-
-            if ($solrTimezone !== 'null') {
-                $arguments[] = $solrTimezone;
+        if ($inclusiveFrom !== null) {
+            $arguments[] = $inclusiveFrom;
+            if ($inclusiveTo !== null) {
+                $arguments[] = $inclusiveTo;
+                if ($solrTimezone !== 'null') {
+                    $arguments[] = $solrTimezone;
+                }
             }
         }
 
@@ -598,8 +624,10 @@ class ExpressionBuilderTest extends AbstractTestCase
     public function testRange()
     {
         $this->assertSame('["A" TO "Z"]', (string) $this->eb->range('A', 'Z'));
-        $this->assertSame('["A" TO "Z"]', (string) $this->eb->range('A', 'Z', true));
-        $this->assertSame('{"A" TO "Z"}', (string) $this->eb->range('A', 'Z', false));
+        $this->assertSame('["A" TO "Z"]', (string) $this->eb->range('A', 'Z', true, true));
+        $this->assertSame('{"A" TO "Z"}', (string) $this->eb->range('A', 'Z', false, false));
+        $this->assertSame('{"A" TO "Z"]', (string) $this->eb->range('A', 'Z', false, true));
+        $this->assertSame('["A" TO "Z"}', (string) $this->eb->range('A', 'Z', true, false));
     }
 
     public function testFunc()

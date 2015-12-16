@@ -72,9 +72,14 @@ class QueryStringTest extends AbstractTestCase
     public function testQueryWithPlaceholder_Expression()
     {
         $query = new QueryString('field:<ph>');
-        $query->setPlaceholder('ph', new RangeExpression(0, 100, false));
-
+        $query->setPlaceholder('ph', new RangeExpression(0, 100, false, false));
         $this->assertSame('field:{0 TO 100}', (string) $query);
+        $query = new QueryString('field:<ph>');
+        $query->setPlaceholder('ph', new RangeExpression(0, 100, false, true));
+        $this->assertSame('field:{0 TO 100]', (string) $query);
+        $query = new QueryString('field:<ph>');
+        $query->setPlaceholder('ph', new RangeExpression(0, 100, true, false));
+        $this->assertSame('field:[0 TO 100}', (string) $query);
     }
 
     public function testSetPlaceholders()
