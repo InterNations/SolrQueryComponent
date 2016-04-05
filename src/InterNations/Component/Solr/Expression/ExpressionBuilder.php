@@ -131,6 +131,10 @@ class ExpressionBuilder
      */
     public function fzz($expr, $similarity = null)
     {
+        if ($this->ignore($expr)) {
+            return null;
+        }
+        
         return new FuzzyExpression($expr, $similarity);
     }
 
