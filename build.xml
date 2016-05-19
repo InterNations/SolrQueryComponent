@@ -24,10 +24,6 @@
     </target>
 
     <target name="phpcs">
-        <exec executable="sed" failonerror="true">
-            <arg line="-i '/ShortArraySyntaxSniff/d' vendor/internations/kodierungsregelwerksammlung/ruleset.xml"/>
-        </exec>
-        <delete file="${basedir}/vendor/internations/kodierungsregelwerksammlung/src/InterNations/Sniffs/Syntax/ShortArraySyntaxSniff.php" />
         <exec executable="./vendor/bin/phpcs" failonerror="true">
             <arg value="--standard=vendor/internations/kodierungsregelwerksammlung/ruleset.xml"/>
             <arg value="--report=checkstyle" />
