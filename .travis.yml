@@ -5,6 +5,9 @@ php:
   - nightly
   - hhvm
 
+allow_failures:
+  - hhvm
+
 before_script:
   - composer install
   - sed -i '/ShortArraySyntaxSniff/d' vendor/internations/kodierungsregelwerksammlung/ruleset.xml
