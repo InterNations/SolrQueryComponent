@@ -24,6 +24,7 @@ class FuzzyExpression extends Expression
     public function __construct($expr, $similarity = null)
     {
         parent::__construct($expr);
+        
         if ($similarity !== null) {
             $this->similarity = (float) $similarity;
         }

@@ -134,7 +134,7 @@ class ExpressionBuilder
         if ($this->ignore($expr)) {
             return null;
         }
-        
+
         return new FuzzyExpression($expr, $similarity);
     }
 
@@ -275,6 +275,7 @@ class ExpressionBuilder
     public function grp($expr = null, $type = CompositeExpression::TYPE_SPACE)
     {
         list($args, $type) = $this->parseCompositeArgs(func_get_args());
+
         if (!$args) {
             return null;
         }
@@ -292,6 +293,7 @@ class ExpressionBuilder
     public function andX($expr = null)
     {
         $args = $this->parseCompositeArgs(func_get_args())[0];
+
         if (!$args) {
             return null;
         }
@@ -308,6 +310,7 @@ class ExpressionBuilder
     public function orX($expr = null)
     {
         $args = $this->parseCompositeArgs(func_get_args())[0];
+
         if (!$args) {
             return null;
         }
@@ -461,6 +464,7 @@ class ExpressionBuilder
     public function localParams($type, $params = [], $shortForm = true)
     {
         $additional = null;
+
         if (!is_bool($shortForm)) {
             $additional = $shortForm;
             $shortForm = true;
@@ -503,6 +507,7 @@ class ExpressionBuilder
     public function comp($expr = null, $type = CompositeExpression::TYPE_SPACE)
     {
         list($args, $type) = $this->parseCompositeArgs(func_get_args());
+
         if (!$args) {
             return null;
         }
@@ -583,6 +588,7 @@ class ExpressionBuilder
         }
 
         $args = array_filter($args, [$this, 'permit']);
+
         if (!$args) {
             return [false, $type];
         }

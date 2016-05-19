@@ -50,6 +50,7 @@ class DateTimeExpression extends Expression
     public function __toString()
     {
         $date = $this->date;
+
         if ($this->timezone === 'UTC') {
             if (!self::$utcTimezone) {
                 self::$utcTimezone = new DateTimeZone('UTC');

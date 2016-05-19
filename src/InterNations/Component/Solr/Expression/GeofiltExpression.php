@@ -33,7 +33,7 @@ class GeofiltExpression extends Expression
         $field,
         GeolocationExpression $geolocation = null,
         $distance = null,
-        array $additionalParams = array()
+        array $additionalParams = []
     )
     {
         $this->field = (string) $field;
@@ -47,7 +47,7 @@ class GeofiltExpression extends Expression
      */
     public function __toString()
     {
-        $params = array('sfield' => $this->field);
+        $params = ['sfield' => $this->field];
 
         if ($this->geolocation) {
             $params['pt'] = (string) $this->geolocation;

@@ -29,6 +29,7 @@ class FunctionExpression extends Expression
     public function __toString()
     {
         $parameters = $this->parameters ?: null;
+
         if ($parameters && !$parameters instanceof ParameterExpression) {
             $parameters = new ParameterExpression($parameters);
         }

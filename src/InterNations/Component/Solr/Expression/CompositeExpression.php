@@ -21,7 +21,7 @@ class CompositeExpression extends Expression
      *
      * @var array
      */
-    private $expressions = array();
+    private $expressions = [];
 
     /**
      * @var string
@@ -45,7 +45,8 @@ class CompositeExpression extends Expression
      */
     public function __toString()
     {
-        $parts = array();
+        $parts = [];
+
         foreach ($this->expressions as $expression) {
             if (!$expression) {
                 continue;

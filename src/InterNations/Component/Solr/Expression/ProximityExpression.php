@@ -13,7 +13,7 @@ class ProximityExpression extends Expression
     /**
      * @var array
      */
-    private $words = array();
+    private $words = [];
 
     /**
      * Maximum distance between the two words

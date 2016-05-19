@@ -16,7 +16,7 @@ class QueryString
     /**
      * @var array
      */
-    private $placeholders = array();
+    private $placeholders = [];
 
     /**
      * @param string $query
@@ -60,7 +60,8 @@ class QueryString
      */
     public function __toString()
     {
-        $replacements = array();
+        $replacements = [];
+
         foreach ($this->placeholders as $placeholder => $value) {
 
             if ($value instanceof DateTime) {

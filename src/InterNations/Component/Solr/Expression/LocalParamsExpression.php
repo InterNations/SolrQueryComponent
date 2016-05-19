@@ -25,7 +25,7 @@ class LocalParamsExpression extends Expression
      * @param array $params
      * @param boolean $shortForm
      */
-    public function __construct($type, array $params = array(), $shortForm = true)
+    public function __construct($type, array $params = [], $shortForm = true)
     {
         $this->type = $type;
         $this->params = $params;
@@ -50,6 +50,7 @@ class LocalParamsExpression extends Expression
         }
 
         $paramsString = '';
+
         foreach ($this->params as $key => $value) {
             $paramsString .= ' ' . $key . '=' . Util::sanitize($value);
         }

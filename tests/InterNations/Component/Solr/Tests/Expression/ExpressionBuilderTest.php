@@ -124,7 +124,7 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testGroupingSingleParamAsArray()
     {
-        $g = $this->eb->grp(array($this->eb->phrase('bar'), $this->eb->phrase('foo'), $this->eb->phrase('baz')));
+        $g = $this->eb->grp([$this->eb->phrase('bar'), $this->eb->phrase('foo'), $this->eb->phrase('baz')]);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("bar" "foo" "baz")', (string) $g);
     }
@@ -197,15 +197,15 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\ProximityExpression', $p);
         $this->assertSame('"word1 word2 word3"~10', (string) $p);
 
-        $p = $this->eb->prx(array('word1', 'word2', 'word3'), 10);
+        $p = $this->eb->prx(['word1', 'word2', 'word3'], 10);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\ProximityExpression', $p);
         $this->assertSame('"word1 word2 word3"~10', (string) $p);
 
-        $p = $this->eb->prx(array(), array('word1', 'word2'), 'word3', 10);
+        $p = $this->eb->prx([], ['word1', 'word2'], 'word3', 10);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\ProximityExpression', $p);
         $this->assertSame('"word1 word2 word3"~10', (string) $p);
 
-        $this->assertNull($this->eb->prx(array(), 10));
+        $this->assertNull($this->eb->prx([], 10));
         $this->assertNull($this->eb->prx(10));
     }
 
@@ -261,14 +261,14 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public static function getStartOfDayData()
     {
-        return array(
-            array('2010-10-10T00:00:00Z', '2010-10-11 00:00:00', 'Europe/Berlin'),
-            array('2010-10-11T00:00:00Z', '2010-10-11 22:00:00', 'Europe/Moscow'),
-            array('2010-10-11T00:00:00Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Moscow'),
-            array('2010-10-10T00:00:00Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Berlin'),
-            array('2010-10-11T00:00:00Z', '2010-10-10 22:00:00', 'Europe/Berlin', 'Europe/Moscow'),
-            array(null, null, null),
-        );
+        return [
+            ['2010-10-10T00:00:00Z', '2010-10-11 00:00:00', 'Europe/Berlin'],
+            ['2010-10-11T00:00:00Z', '2010-10-11 22:00:00', 'Europe/Moscow'],
+            ['2010-10-11T00:00:00Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Moscow'],
+            ['2010-10-10T00:00:00Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Berlin'],
+            ['2010-10-11T00:00:00Z', '2010-10-10 22:00:00', 'Europe/Berlin', 'Europe/Moscow'],
+            [null, null, null],
+        ];
     }
 
     /** @dataProvider getStartOfDayData */
@@ -287,14 +287,14 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public static function getEndOfDayData()
     {
-        return array(
-            array('2010-10-10T23:59:59Z', '2010-10-11 00:00:00', 'Europe/Berlin'),
-            array('2010-10-11T23:59:59Z', '2010-10-11 22:00:00', 'Europe/Moscow'),
-            array('2010-10-11T23:59:59Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Moscow'),
-            array('2010-10-10T23:59:59Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Berlin'),
-            array('2010-10-11T23:59:59Z', '2010-10-10 22:00:00', 'Europe/Berlin', 'Europe/Moscow'),
-            array(null, null, null),
-        );
+        return [
+            ['2010-10-10T23:59:59Z', '2010-10-11 00:00:00', 'Europe/Berlin'],
+            ['2010-10-11T23:59:59Z', '2010-10-11 22:00:00', 'Europe/Moscow'],
+            ['2010-10-11T23:59:59Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Moscow'],
+            ['2010-10-10T23:59:59Z', '2010-10-11 01:00:00', 'Europe/Moscow', 'Europe/Berlin'],
+            ['2010-10-11T23:59:59Z', '2010-10-10 22:00:00', 'Europe/Berlin', 'Europe/Moscow'],
+            [null, null, null],
+        ];
     }
 
     /** @dataProvider getEndOfDayData */
@@ -357,12 +357,12 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testGroupingTypes()
     {
-        $this->assertSame('("foo" "bar")', (string) $this->eb->grp(array('foo', 'bar')));
-        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(array('foo', 'bar'), GroupExpression::TYPE_AND));
-        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(array('foo', 'bar'), GroupExpression::TYPE_OR));
+        $this->assertSame('("foo" "bar")', (string) $this->eb->grp(['foo', 'bar']));
+        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(['foo', 'bar'], GroupExpression::TYPE_AND));
+        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(['foo', 'bar'], GroupExpression::TYPE_OR));
 
-        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(array('foo', 'bar', GroupExpression::TYPE_OR)));
-        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(array('foo', 'bar', GroupExpression::TYPE_AND)));
+        $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp(['foo', 'bar', GroupExpression::TYPE_OR]));
+        $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(['foo', 'bar', GroupExpression::TYPE_AND]));
 
         $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp('foo', 'bar', GroupExpression::TYPE_OR));
         $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp('foo', 'bar', GroupExpression::TYPE_OR));
@@ -370,12 +370,12 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testCompositingTypes()
     {
-        $this->assertSame('"foo" "bar"', (string) $this->eb->comp(array('foo', 'bar')));
-        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(array('foo', 'bar'), CompositeExpression::TYPE_AND));
-        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(array('foo', 'bar'), CompositeExpression::TYPE_OR));
+        $this->assertSame('"foo" "bar"', (string) $this->eb->comp(['foo', 'bar']));
+        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(['foo', 'bar'], CompositeExpression::TYPE_AND));
+        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(['foo', 'bar'], CompositeExpression::TYPE_OR));
 
-        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(array('foo', 'bar', CompositeExpression::TYPE_OR)));
-        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(array('foo', 'bar', CompositeExpression::TYPE_AND)));
+        $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp(['foo', 'bar', CompositeExpression::TYPE_OR]));
+        $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(['foo', 'bar', CompositeExpression::TYPE_AND]));
 
         $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp('foo', 'bar', CompositeExpression::TYPE_OR));
         $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp('foo', 'bar', CompositeExpression::TYPE_OR));
@@ -417,67 +417,67 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public static function getDateRangeData()
     {
-        return array(
-            array(
+        return [
+            [
                 '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin'
-            ),
-            array(
+            ],
+            [
                 '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
                 true
-            ),
-            array(
+            ],
+            [
                 '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin'
-            ),
-            array(
+            ],
+            [
                 '[2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
                 true
-            ),
-            array(
+            ],
+            [
                 '[* TO 2010-10-21T23:59:59Z]',
                 null,
                 null,
                 '2010-10-22 01:59:59',
                 'Europe/Berlin'
-            ),
-            array(
+            ],
+            [
                 '[2010-10-11T00:00:00Z TO *]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 null,
                 null
-            ),
-            array(
+            ],
+            [
                 '{2010-10-11T00:00:00Z TO 2010-10-21T23:59:59Z}',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
                 '2010-10-22 01:59:59',
                 'Europe/Berlin',
                 false
-            ),
-            array(
+            ],
+            [
                 null,
                 null,
                 null,
                 null,
                 null
-            ),
-            array(
+            ],
+            [
                 '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
@@ -486,8 +486,8 @@ class ExpressionBuilderTest extends AbstractTestCase
                 null,
                 'null',
                 'Europe/Moscow',
-            ),
-            array(
+            ],
+            [
                 '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
@@ -496,8 +496,8 @@ class ExpressionBuilderTest extends AbstractTestCase
                 true,
                 'null',
                 'Europe/Moscow',
-            ),
-            array(
+            ],
+            [
                 '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
@@ -506,8 +506,8 @@ class ExpressionBuilderTest extends AbstractTestCase
                 null,
                 'null',
                 'Europe/Moscow',
-            ),
-            array(
+            ],
+            [
                 '[2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
@@ -516,8 +516,8 @@ class ExpressionBuilderTest extends AbstractTestCase
                 true,
                 'null',
                 'Europe/Moscow',
-            ),
-            array(
+            ],
+            [
                 '[* TO 2010-10-22T03:59:59Z]',
                 null,
                 null,
@@ -526,8 +526,8 @@ class ExpressionBuilderTest extends AbstractTestCase
                 null,
                 'null',
                 'Europe/Moscow'
-            ),
-            array(
+            ],
+            [
                 '[2010-10-11T04:00:00Z TO *]',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
@@ -536,8 +536,8 @@ class ExpressionBuilderTest extends AbstractTestCase
                 null,
                 'null',
                 'Europe/Moscow',
-            ),
-            array(
+            ],
+            [
                 '{2010-10-11T04:00:00Z TO 2010-10-22T03:59:59Z}',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
@@ -546,8 +546,8 @@ class ExpressionBuilderTest extends AbstractTestCase
                 false,
                 'null',
                 'Europe/Moscow',
-            ),
-            array(
+            ],
+            [
                 '{2010-10-11T02:00:00Z TO 2010-10-22T01:59:59Z}',
                 '2010-10-11 02:00:00',
                 'Europe/Berlin',
@@ -556,8 +556,8 @@ class ExpressionBuilderTest extends AbstractTestCase
                 false,
                 'Europe/Berlin',
                 'Europe/Moscow',
-            ),
-        );
+            ],
+        ];
     }
 
     /** @dataProvider getDateRangeData */
@@ -582,7 +582,7 @@ class ExpressionBuilderTest extends AbstractTestCase
             $to = new DateTime($to, new DateTimeZone($toTimezone));
         }
 
-        $arguments = array($from, $to);
+        $arguments = [$from, $to];
         if ($inclusive !== null) {
             $arguments[] = $inclusive;
 
@@ -591,7 +591,7 @@ class ExpressionBuilderTest extends AbstractTestCase
             }
         }
 
-        $result = call_user_func_array(array($this->eb, 'dateRange'), $arguments);
+        $result = call_user_func_array([$this->eb, 'dateRange'], $arguments);
         $this->assertSame($expected, $result !== null ? (string) $result : $result);
     }
 
@@ -606,9 +606,9 @@ class ExpressionBuilderTest extends AbstractTestCase
     {
         $this->assertSame('func()', (string) $this->eb->func('func'));
         $this->assertSame('func()', (string) $this->eb->func('func', null));
-        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', array('foo', 'bar')));
-        $this->assertSame('func("foo")', (string) $this->eb->func('func', $this->eb->params(array('foo'))));
-        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', $this->eb->params(array('foo', 'bar'))));
+        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', ['foo', 'bar']));
+        $this->assertSame('func("foo")', (string) $this->eb->func('func', $this->eb->params(['foo'])));
+        $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', $this->eb->params(['foo', 'bar'])));
         $this->assertSame('func("foo", "bar")', (string) $this->eb->func('func', $this->eb->params('foo', 'bar')));
         $this->assertSame('func("foo")', (string) $this->eb->func('func', $this->eb->params('foo')));
         $this->assertSame('func()', (string) $this->eb->func('func', $this->eb->params()));
@@ -621,10 +621,10 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('{!dismax} "My Query"', (string) $this->eb->localParams('dismax', 'My Query'));
         $this->assertSame(
             '{!dismax qf="field"} "My Query"',
-            (string) $this->eb->localParams('dismax', array('qf' => 'field'), 'My Query')
+            (string) $this->eb->localParams('dismax', ['qf' => 'field'], 'My Query')
         );
-        $this->assertSame('{!dismax qf="field"}', (string) $this->eb->localParams('dismax', array('qf' => 'field')));
-        $this->assertSame('{!type=dismax qf="field"}', (string) $this->eb->localParams('dismax', array('qf' => 'field'), false));
+        $this->assertSame('{!dismax qf="field"}', (string) $this->eb->localParams('dismax', ['qf' => 'field']));
+        $this->assertSame('{!type=dismax qf="field"}', (string) $this->eb->localParams('dismax', ['qf' => 'field'], false));
         $this->assertSame('{!func}field', (string) $this->eb->field('field', $this->eb->localParams('func')));
     }
 
@@ -641,11 +641,11 @@ class ExpressionBuilderTest extends AbstractTestCase
         );
         $this->assertSame(
             '{!geofilt sfield="geofield" score="miles"}',
-            (string) $this->eb->geofilt('geofield', null, null, array('score' => 'miles'))
+            (string) $this->eb->geofilt('geofield', null, null, ['score' => 'miles'])
         );
         $this->assertSame(
             '{!geofilt sfield="geofield" pt="1.234500000000,6.789000000000" d=999}',
-            (string) $this->eb->geofilt('geofield', $this->eb->latLong(1.2345, 6.789), 100, array('d' => 999))
+            (string) $this->eb->geofilt('geofield', $this->eb->latLong(1.2345, 6.789), 100, ['d' => 999])
         );
     }
 
@@ -659,18 +659,18 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public static function getDateTimeData()
     {
-        return array(
-            array('2012-12-13T14:15:16Z', '2012-12-13 15:15:16', 'Europe/Berlin', 'null'),
-            array('2012-12-13T14:15:16Z', '2012-12-13 15:15:16', 'Europe/Berlin', 'UTC'),
-            array('2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'Europe/Moscow'),
-            array('2012-12-13T14:15:16Z', '2012-12-13 14:15:16', 'Europe/Berlin', null),
-            array('2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'Europe/Moscow'),
-            array('2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'null', 'Europe/Moscow'),
-            array('2012-12-13T14:15:16Z', '2012-12-13 14:15:16', 'Europe/Berlin', null, 'Europe/Moscow'),
-            array('2012-12-13T11:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'Europe/Berlin', 'Europe/Moscow'),
-            array('2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'null', 'Europe/Moscow'),
-            array('*', null, null),
-        );
+        return [
+            ['2012-12-13T14:15:16Z', '2012-12-13 15:15:16', 'Europe/Berlin', 'null'],
+            ['2012-12-13T14:15:16Z', '2012-12-13 15:15:16', 'Europe/Berlin', 'UTC'],
+            ['2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'Europe/Moscow'],
+            ['2012-12-13T14:15:16Z', '2012-12-13 14:15:16', 'Europe/Berlin', null],
+            ['2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'Europe/Moscow'],
+            ['2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'null', 'Europe/Moscow'],
+            ['2012-12-13T14:15:16Z', '2012-12-13 14:15:16', 'Europe/Berlin', null, 'Europe/Moscow'],
+            ['2012-12-13T11:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'Europe/Berlin', 'Europe/Moscow'],
+            ['2012-12-13T14:15:16Z', '2012-12-13 11:15:16', 'Europe/Berlin', 'null', 'Europe/Moscow'],
+            ['*', null, null],
+        ];
     }
 
     /** @dataProvider getDateTimeData */
