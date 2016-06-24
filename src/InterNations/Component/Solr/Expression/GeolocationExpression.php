@@ -1,7 +1,6 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
-
 class GeolocationExpression extends Expression
 {
     /**
