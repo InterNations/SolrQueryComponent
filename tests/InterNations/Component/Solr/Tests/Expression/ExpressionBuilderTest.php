@@ -67,6 +67,13 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertSame('field:"foo bar"^10', (string) $b);
     }
 
+    public function testFieldWithBoolean()
+    {
+        $f = $this->eb->field('f', false);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expression\FieldExpression', $f);
+        $this->assertSame('f:false', (string) $f);
+    }
+
     public function testWildcard()
     {
         $w = $this->eb->wild($this->eb->phrase('foo bar'), '?', 'sfx');
@@ -348,8 +355,9 @@ class ExpressionBuilderTest extends AbstractTestCase
         $this->assertNull($this->eb->phrase(null, 'field'));
         $this->assertNotNull($this->eb->phrase(0, 'field'));
         $this->assertNotNull($this->eb->phrase('0', 'field'));
-        $this->assertNull($this->eb->grp(null, null, false));
-        $this->assertNotNull($this->eb->grp(0, null, false));
+        $this->assertNull($this->eb->grp(null, null));
+        $this->assertNotNull($this->eb->grp(0, null));
+        $this->assertNotNull($this->eb->grp(false, null));
         $this->assertNull($this->eb->grp());
         $this->assertNull($this->eb->day());
         $this->assertNull($this->eb->day(''));

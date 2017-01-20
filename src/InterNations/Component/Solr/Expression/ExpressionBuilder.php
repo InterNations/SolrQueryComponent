@@ -602,7 +602,7 @@ class ExpressionBuilder
      */
     private function ignore($expr)
     {
-        return trim($expr) === '';
+        return $expr === null || (is_string($expr) && trim($expr) === '');
     }
 
     /**
