@@ -721,10 +721,8 @@ class ExpressionBuilderTest extends AbstractTestCase
 
     public function testSetInvalidDefaultTimezone()
     {
-        $this->setExpectedException(
-            'InterNations\Component\Solr\Expression\Exception\InvalidArgumentException',
-            'Invalid argument #1 $timezone given: expected string or DateTimeZone, got bool'
-        );
+        $this->expectException('InterNations\Component\Solr\Expression\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('Invalid argument #1 $timezone given: expected string or DateTimeZone, got bool');
         $this->eb->setDefaultTimezone(true);
     }
 }

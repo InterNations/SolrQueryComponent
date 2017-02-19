@@ -28,7 +28,7 @@
     "require-dev": {
         "internations/testing-component": "dev-master",
         "internations/kodierungsregelwerksammlung": "dev-master",
-        "phpunit/phpunit": "~4"
+        "phpunit/phpunit": "~6"
     },
     "autoload": {
         "psr-0": {
