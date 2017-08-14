@@ -5,7 +5,11 @@ use InvalidArgumentException as BaseInvalidArgumentException;
 
 class InvalidArgumentException extends BaseInvalidArgumentException implements ExceptionInterface
 {
-    public static function invalidArgument($position, $name, $expectation, $actual)
+    /**
+     * @param string|array $expectation
+     * @param mixed $actual
+     */
+    public static function invalidArgument(int $position, string $name, $expectation, $actual): self
     {
         return new static(
             sprintf(
@@ -18,14 +22,16 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
         );
     }
 
-    private static function formatExpectation(array $expectation)
+    /** @param string[] $expectation */
+    private static function formatExpectation(array $expectation): string
     {
         $last = array_pop($expectation);
 
         return implode($expectation, ', ') . ' or ' . $last;
     }
 
-    private static function getType($actual)
+    /** @param mixed $actual */
+    private static function getType($actual): string
     {
         return is_object($actual) ? get_class($actual) : gettype($actual);
     }

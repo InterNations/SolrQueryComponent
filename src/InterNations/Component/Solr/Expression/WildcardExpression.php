@@ -16,43 +16,36 @@ class WildcardExpression extends Expression
      *
      * @var string
      */
-    protected $wildcard;
+    private $wildcard;
 
     /**
      * Wildcard query prefix
      *
      * @var string|Expression
      */
-    protected $prefix = '';
+    private $prefix = '';
 
     /**
      * Wildcard query suffix
      *
      * @var string|Expression
      */
-    protected $suffix;
+    private $suffix;
 
     /**
      * Create new wildcard query object
      *
-     * @param string $wildcard
      * @param string|Expression $prefix
      * @param string|Expression $suffix
      */
-    public function __construct($wildcard, $prefix = '', $suffix = null)
+    public function __construct(string $wildcard, $prefix = '', $suffix = null)
     {
         $this->wildcard = $wildcard === '*' ? '*' : '?';
         $this->prefix = $prefix;
         $this->suffix = $suffix;
     }
 
-    /**
-     * @SuppressWarnings(PMD.NPathComplexity)
-     * @SuppressWarnings(PMD.CyclomaticComplexity)
-     *
-     * @return string
-     */
-    public function  __toString()
+    public function  __toString(): string
     {
         if ($this->prefix instanceof PhraseExpression) {
             $prefix = substr($this->prefix, 0, -1);

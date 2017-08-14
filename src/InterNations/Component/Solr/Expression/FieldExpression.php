@@ -15,12 +15,12 @@ class FieldExpression extends Expression
      *
      * @var string
      */
-    protected $field;
+    private $field;
 
     /**
      * Create new field query
      *
-     * @param string $field
+     * @param string|Expression $field
      * @param string|Expression $expr
      */
     public function __construct($field, $expr)
@@ -29,10 +29,7 @@ class FieldExpression extends Expression
         parent::__construct($expr);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         $field = Util::escape($this->field);
         $expression = Util::sanitize($this->expr);

@@ -1,6 +1,7 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\ExpressionInterface;
 use InterNations\Component\Solr\Util;
 
 /**
@@ -10,42 +11,37 @@ use InterNations\Component\Solr\Util;
  */
 class BooleanExpression extends Expression
 {
-    const OPERATOR_REQUIRED = '+';
-
-    const OPERATOR_PROHIBITED = '-';
+    public const OPERATOR_REQUIRED = '+';
+    public const OPERATOR_PROHIBITED = '-';
 
     /**
      * Boolean operand
      *
      * @var string
      */
-    protected $operator;
+    private $operator;
 
     /**
      * Use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
      *
      * @var boolean
      */
-    protected $useNotNotation;
+    private $useNotNotation;
 
     /**
      * Create new expression object
      *
-     * @param string $operator
-     * @param string|Expression $expr
+     * @param ExpressionInterface|string $expr
      * @param boolean $useNotNotation use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
      */
-    public function __construct($operator, $expr, $useNotNotation = false)
+    public function __construct(string $operator, $expr, bool$useNotNotation = false)
     {
         $this->operator = $operator;
         $this->useNotNotation = $useNotNotation;
         parent::__construct($expr);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->useNotNotation
             ? '(*:* NOT ' . Util::escape($this->expr) . ')'

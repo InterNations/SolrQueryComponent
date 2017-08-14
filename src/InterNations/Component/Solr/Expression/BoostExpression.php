@@ -1,6 +1,7 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\ExpressionInterface;
 use InterNations\Component\Solr\Util;
 
 /**
@@ -13,24 +14,20 @@ class BoostExpression extends Expression
     /**
      * Boost factor
      *
-     * @var float|integer
+     * @var float
      */
-    protected $boost;
+    private $boost;
 
     /**
-     * @param float|integer $boost
-     * @param string|Expression $expr
+     * @param ExpressionInterface|string|null $expr
      */
-    public function __construct($boost, $expr)
+    public function __construct(float $boost, $expr)
     {
         $this->boost = is_int($boost) ? $boost : (float) $boost;
         parent::__construct($expr);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return Util::sanitize($this->expr) . '^' . $this->boost;
     }

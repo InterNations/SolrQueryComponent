@@ -28,23 +28,12 @@ class Expression implements ExpressionInterface
         $this->expr = $expr;
     }
 
-    /**
-     * Returns true if given expression is equal
-     *
-     * @param Expression|string $expr
-     * @return boolean
-     */
-    public function isEqual($expr)
+    public function isEqual(string $expr): bool
     {
         return (string) $expr === (string) $this;
     }
 
-    /**
-     * Return string representation
-     *
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->expr;
     }

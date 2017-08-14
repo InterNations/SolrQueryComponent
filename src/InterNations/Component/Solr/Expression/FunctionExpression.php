@@ -1,6 +1,8 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\ExpressionInterface;
+
 class FunctionExpression extends Expression
 {
     /**
@@ -15,7 +17,7 @@ class FunctionExpression extends Expression
 
     /**
      * @param Expression|string $function
-     * @param array $parameters
+     * @param ExpressionInterface|array|null $parameters
      */
     public function __construct($function, $parameters = null)
     {
@@ -23,10 +25,7 @@ class FunctionExpression extends Expression
         $this->parameters = $parameters;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         $parameters = $this->parameters ?: null;
 

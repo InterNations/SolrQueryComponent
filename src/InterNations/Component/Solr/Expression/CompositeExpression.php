@@ -10,11 +10,9 @@ use InterNations\Component\Solr\Util;
  */
 class CompositeExpression extends Expression
 {
-    const TYPE_AND = 'AND';
-
-    const TYPE_OR = 'OR';
-
-    const TYPE_SPACE = ' ';
+    public const TYPE_AND = 'AND';
+    public const TYPE_OR = 'OR';
+    public const TYPE_SPACE = ' ';
 
     /**
      * List of query expressions
@@ -31,19 +29,15 @@ class CompositeExpression extends Expression
     /**
      * Create new group of expression
      *
-     * @param array $expressions
-     * @param string $type
+     * @param mixed[] $expressions
      */
-    public function __construct(array $expressions, $type = self::TYPE_SPACE)
+    public function __construct(array $expressions, ?string $type = self::TYPE_SPACE)
     {
         $this->expressions = $expressions;
         $this->type = $type;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         $parts = [];
 
@@ -68,11 +62,7 @@ class CompositeExpression extends Expression
         return implode($glue, array_filter($parts));
     }
 
-    /**
-     * @param $type
-     * @return boolean
-     */
-    public static function isValidType($type)
+    public static function isValidType(?string $type): bool
     {
         return $type === static::TYPE_OR
             || $type === static::TYPE_AND

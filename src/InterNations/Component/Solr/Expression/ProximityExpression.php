@@ -20,24 +20,20 @@ class ProximityExpression extends Expression
      *
      * @var integer
      */
-    protected $proximity;
+    private $proximity;
 
     /**
      * Create new proximity query object
      *
-     * @param array $words
-     * @param integer $proximity
+     * @param string[] $words
      */
-    public function __construct(array $words, $proximity)
+    public function __construct(array $words, int $proximity)
     {
         $this->words = $words;
         $this->proximity = (int) $proximity;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return Util::quote(implode(' ', $this->words)) . '~' . $this->proximity;
     }

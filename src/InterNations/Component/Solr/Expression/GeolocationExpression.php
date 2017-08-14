@@ -3,37 +3,18 @@ namespace InterNations\Component\Solr\Expression;
 
 class GeolocationExpression extends Expression
 {
-    /**
-     * @var integer
-     */
-    protected $precision;
+    private $latitude;
+    private $longitude;
+    private $precision;
 
-    /**
-     * @var float
-     */
-    protected $latitude;
-
-    /**
-     * @var float
-     */
-    protected $longitude;
-
-    /**
-     * @param Expression|string $latitude
-     * @param $longitude
-     * @param integer $precision
-     */
-    public function __construct($latitude, $longitude, $precision)
+    public function __construct(float $latitude, float $longitude, int $precision)
     {
-        $this->precision = (int) $precision;
         $this->latitude = (float) $latitude;
         $this->longitude = (float) $longitude;
+        $this->precision = (int) $precision;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('%.' . $this->precision . 'F,%.' . $this->precision . 'F', $this->latitude, $this->longitude);
     }

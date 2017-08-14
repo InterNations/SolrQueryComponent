@@ -13,27 +13,23 @@ class FuzzyExpression extends Expression
      *
      * @var float
      */
-    protected $similarity;
+    private $similarity;
 
     /**
      * Create new fuzzy query object
      *
      * @param string|Expression $expr
-     * @param float $similarity
      */
-    public function __construct($expr, $similarity = null)
+    public function __construct($expr, ?float $similarity = null)
     {
         parent::__construct($expr);
-        
+
         if ($similarity !== null) {
             $this->similarity = (float) $similarity;
         }
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return Util::escape($this->expr) . '~' . $this->similarity;
     }

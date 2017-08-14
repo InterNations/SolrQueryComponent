@@ -3,36 +3,18 @@ namespace InterNations\Component\Solr\Expression;
 
 class GeofiltExpression extends Expression
 {
-    /**
-     * @var string
-     */
     private $field;
-
-    /**
-     * @var GeolocationExpression
-     */
     private $geolocation;
-
-    /**
-     * @var integer
-     */
     private $distance;
-
-    /**
-     * @var array
-     */
     private $additionalParams;
 
     /**
-     * @param string $field
-     * @param GeolocationExpression|null $geolocation
-     * @param integer|null $distance
-     * @param array $additionalParams
+     * @param mixed[] $additionalParams
      */
     public function __construct(
-        $field,
-        GeolocationExpression $geolocation = null,
-        $distance = null,
+        string $field,
+        ?GeolocationExpression $geolocation = null,
+        ?int $distance = null,
         array $additionalParams = []
     )
     {
@@ -42,10 +24,7 @@ class GeofiltExpression extends Expression
         $this->additionalParams = $additionalParams;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         $params = ['sfield' => $this->field];
 

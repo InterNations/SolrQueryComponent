@@ -22,20 +22,16 @@ class LocalParamsExpression extends Expression
 
     /**
      * @param Expression|string $type
-     * @param array $params
-     * @param boolean $shortForm
+     * @param mixed[] $params
      */
-    public function __construct($type, array $params = [], $shortForm = true)
+    public function __construct($type, array $params = [], bool $shortForm = true)
     {
         $this->type = $type;
         $this->params = $params;
         $this->shortForm = $shortForm;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         $typeString = $this->shortForm ? $this->type : 'type=' . $this->type;
         $paramsString = $this->buildParamString();
@@ -43,7 +39,7 @@ class LocalParamsExpression extends Expression
         return '{!' . $typeString . $paramsString . '}';
     }
 
-    private function buildParamString()
+    private function buildParamString(): string
     {
         if ($this->shortForm && count($this->params) === 1 && key($this->params) === $this->type) {
             return '=' . Util::sanitize(current($this->params));

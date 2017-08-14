@@ -1,6 +1,7 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\ExpressionInterface;
 use InterNations\Component\Solr\Util;
 
 /**
@@ -36,19 +37,15 @@ class RangeExpression extends Expression
      *
      * @param string|integer|Expression $start
      * @param string|integer|Expression $end
-     * @param boolean $inclusive
      */
-    public function __construct($start = null, $end = null, $inclusive = true)
+    public function __construct($start = null, $end = null, bool $inclusive = true)
     {
         $this->start = $start;
         $this->end = $end;
         $this->inclusive = (bool) $inclusive;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf(
             '%s%s TO %s%s',
@@ -59,6 +56,10 @@ class RangeExpression extends Expression
         );
     }
 
+    /**
+     * @param ExpressionInterface|string|null $value
+     * @return ExpressionInterface|string
+     */
     private function cast($value)
     {
         return $value === null ? '*' : Util::sanitize($value);
