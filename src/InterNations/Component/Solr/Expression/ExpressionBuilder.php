@@ -120,7 +120,7 @@ class ExpressionBuilder
      * @param ExpressionInterface|string|null $expr
      * @param float $similarity Similarity between 0.0 und 1.0
      */
-    public function fzz($expr, ?float $similarity = null): ExpressionInterface
+    public function fzz($expr, ?float $similarity = null): ?ExpressionInterface
     {
         if ($this->ignore($expr)) {
             return null;
