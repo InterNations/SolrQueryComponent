@@ -27,6 +27,10 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
     {
         $last = array_pop($expectation);
 
+        if (!$expectation) {
+            return $last;
+        }
+
         return implode($expectation, ', ') . ' or ' . $last;
     }
 
