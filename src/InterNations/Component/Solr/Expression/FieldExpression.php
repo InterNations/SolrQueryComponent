@@ -38,6 +38,6 @@ class FieldExpression extends Expression
             return $expression . $field;
         }
 
-        return  $field . ':' . $expression;
+        return $field . ':' . $expression;
     }
 }

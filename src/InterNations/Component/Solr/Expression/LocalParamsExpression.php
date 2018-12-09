@@ -16,7 +16,7 @@ class LocalParamsExpression extends Expression
     private $params;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $shortForm = true;
 

@@ -7,7 +7,7 @@ use InterNations\Component\Solr\Util;
 /**
  * Boolean expression class
  *
- * Class to construct boolean queries (+<term> or -<term>)
+ * Class to construct bool queries (+<term> or -<term>)
  */
 class BooleanExpression extends Expression
 {
@@ -24,7 +24,7 @@ class BooleanExpression extends Expression
     /**
      * Use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
      *
-     * @var boolean
+     * @var bool
      */
     private $useNotNotation;
 
@@ -32,7 +32,7 @@ class BooleanExpression extends Expression
      * Create new expression object
      *
      * @param ExpressionInterface|string $expr
-     * @param boolean $useNotNotation use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
+     * @param bool $useNotNotation use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
      */
     public function __construct(string $operator, $expr, bool$useNotNotation = false)
     {

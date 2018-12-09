@@ -98,7 +98,7 @@ class ExpressionBuilder
      * Create proximity match expression: "<word1> <word2>"~<proximity>
      *
      * @param ExpressionInterface|string $word
-     * @param integer|mixed $proximity
+     * @param int|mixed $proximity
      */
     public function prx($word = null, $proximity = null): ?ExpressionInterface
     {
@@ -132,8 +132,8 @@ class ExpressionBuilder
     /**
      * Range query expression (inclusive start/end): [start TO end]
      *
-     * @param string|integer|float|ExpressionInterface $start
-     * @param string|integer|float|ExpressionInterface $end
+     * @param string|int|float|ExpressionInterface $start
+     * @param string|int|float|ExpressionInterface $end
      */
     public function range($start = null, $end = null, bool $inclusive = true): ExpressionInterface
     {
@@ -143,8 +143,8 @@ class ExpressionBuilder
     /**
      * Range query expression (exclusive start/end): {start TO end}
      *
-     * @param string|integer|float|ExpressionInterface $start
-     * @param string|integer|float|ExpressionInterface $end
+     * @param string|int|float|ExpressionInterface $start
+     * @param string|int|float|ExpressionInterface $end
      */
     public function btwnRange($start = null, $end = null): ExpressionInterface
     {
@@ -167,7 +167,7 @@ class ExpressionBuilder
     }
 
     /**
-     * Create boolean, required expression: +<expr>
+     * Create bool, required expression: +<expr>
      *
      * @param ExpressionInterface|string|null $expr
      * @return ExpressionInterface|null
@@ -182,7 +182,7 @@ class ExpressionBuilder
     }
 
     /**
-     * Create boolean, prohibited expression: -<expr>
+     * Create bool, prohibited expression: -<expr>
      *
      * @param ExpressionInterface|string|null $expr
      * @return ExpressionInterface|null
@@ -197,7 +197,7 @@ class ExpressionBuilder
     }
 
     /**
-     * Create boolean, prohibited expression using the NOT notation, usable in OR/AND expressions:
+     * Create bool, prohibited expression using the NOT notation, usable in OR/AND expressions:
      * (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
      *
      * @param ExpressionInterface|string|null $expr
@@ -213,17 +213,18 @@ class ExpressionBuilder
     }
 
     /**
-     * Create boolean expression
+     * Create bool expression
      *
      *      true => required (+)
      *      false => prohibited (-)
      *      null => neutral (<empty>)
      *
      * @param ExpressionInterface|string|null $expr
-     * @param boolean|null $operator
+     * @param bool|null $operator @codingStandardsIgnoreLine
      * @return ExpressionInterface|null
      */
-    public function bool($expr, $operator)
+    public function bool($expr, $operator) // @codingStandardsIgnoreLine
+
     {
         if ($operator === null) {
             return $expr;
@@ -331,7 +332,7 @@ class ExpressionBuilder
     /**
      * Expression for the start of the given date
      *
-     * @param boolean|string $timezone
+     * @param bool|string $timezone
      */
     public function startOfDay(?DateTime $date = null, $timezone = false): ?ExpressionInterface
     {
@@ -349,7 +350,7 @@ class ExpressionBuilder
     /**
      * Expression for the end of the given date
      *
-     * @param boolean|string $timezone
+     * @param bool|string $timezone
      */
     public function endOfDay(?DateTime $date = null, $timezone = false): ?ExpressionInterface
     {
@@ -364,7 +365,7 @@ class ExpressionBuilder
         );
     }
 
-    /** @param boolean|string $timezone */
+    /** @param bool|string $timezone */
     public function date(?DateTime $date = null, $timezone = false): ExpressionInterface
     {
         if ($date === null) {
@@ -381,7 +382,7 @@ class ExpressionBuilder
     /**
      * Create a range between two dates (one side may be unlimited which is indicated by passing null)
      *
-     * @param boolean|string $timezone
+     * @param bool|string $timezone
      */
     public function dateRange(
         ?DateTime $from = null,
@@ -427,7 +428,7 @@ class ExpressionBuilder
 
     /**
      * @param mixed[]|mixed $params
-     * @param boolean|mixed $shortForm
+     * @param bool|mixed $shortForm
      */
     public function localParams(string $type, $params = [], $shortForm = true): ?ExpressionInterface
     {

@@ -18,7 +18,7 @@ class ProximityExpression extends Expression
     /**
      * Maximum distance between the two words
      *
-     * @var integer
+     * @var int
      */
     private $proximity;
 
