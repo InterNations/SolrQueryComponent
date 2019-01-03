@@ -12,6 +12,7 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
     public static function invalidArgument(int $position, string $name, $expectation, $actual): self
     {
         $expectations = (array) $expectation;
+
         return new self(
             sprintf(
                 'Invalid argument #%d $%s given: expected %s, got %s',
@@ -23,7 +24,7 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
         );
     }
 
-    /** @param string[] $expectation */
+    /** @param string[] $expectations */
     private static function formatExpectations(array $expectations): string
     {
         $last = array_pop($expectations);
