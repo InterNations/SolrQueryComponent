@@ -11,27 +11,28 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
      */
     public static function invalidArgument(int $position, string $name, $expectation, $actual): self
     {
-        return new static(
+        $expectations = (array) $expectation;
+        return new self(
             sprintf(
                 'Invalid argument #%d $%s given: expected %s, got %s',
                 $position,
                 $name,
-                static::formatExpectation((array) $expectation),
-                static::getType($actual)
+                self::formatExpectations($expectations),
+                self::getType($actual)
             )
         );
     }
 
     /** @param string[] $expectation */
-    private static function formatExpectation(array $expectation): string
+    private static function formatExpectations(array $expectations): string
     {
-        $last = array_pop($expectation);
+        $last = array_pop($expectations);
 
-        if (!$expectation) {
+        if (!$expectations) {
             return $last;
         }
 
-        return implode($expectation, ', ') . ' or ' . $last;
+        return implode($expectations, ', ') . ' or ' . $last;
     }
 
     /** @param mixed $actual */
