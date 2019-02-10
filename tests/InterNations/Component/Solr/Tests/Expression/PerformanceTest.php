@@ -12,7 +12,7 @@ class PerformanceTest extends AbstractTestCase
 {
     use TimingTrait;
 
-    public function setUp()
+    public function setUp(): void
     {
         if (extension_loaded('xdebug')) {
             $this->markTestSkipped('xdebug extension is enabled. Performance tests skipped');

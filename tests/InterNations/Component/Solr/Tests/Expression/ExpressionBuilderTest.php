@@ -16,7 +16,7 @@ class ExpressionBuilderTest extends AbstractTestCase
      */
     private $eb;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->eb = new ExpressionBuilder();
     }
