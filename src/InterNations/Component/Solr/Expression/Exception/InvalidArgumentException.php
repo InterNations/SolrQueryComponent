@@ -33,7 +33,7 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
             return $last;
         }
 
-        return implode($expectations, ', ') . ' or ' . $last;
+        return implode(', ', $expectations) . ' or ' . $last;
     }
 
     /** @param mixed $actual */
