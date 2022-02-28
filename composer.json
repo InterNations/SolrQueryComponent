@@ -4,20 +4,29 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Malvika Chauhan",
+            "email": "malvika.chauhan@internations.org",
+            "role": "Maintainer"
+        },
+        {
             "name": "Lars Strojny",
-            "email": "lars.strojny@internations.org"
+            "email": "lars.strojny@internations.org",
+            "role": "Contributor"
         },
         {
             "name": "Max Beutel",
-            "email": "max.beutel@internations.org"
+            "email": "max.beutel@internations.org",
+            "role": "Contributor"
         },
         {
             "name": "Michael Weinrich",
-            "email": "michael.weinrich@internations.org"
+            "email": "michael.weinrich@internations.org",
+            "role": "Contributor"
         },
         {
             "name": "Marc Jakubowski",
-            "email": "marc.jakubowski@internations.org"
+            "email": "marc.jakubowski@internations.org",
+            "role": "Contributor"
         }
     ],
     "require": {
