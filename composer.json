@@ -39,5 +39,9 @@
         "branch-alias": {
             "dev-master": "1.0.x-dev"
         }
-    }
+    },
+  	"scripts": {
+		"tests": "phpunit",
+		"coding-style": "phpcs --standard=vendor/internations/kodierungsregelwerksammlung/ruleset.xml ./src/"
+  	}
 }
