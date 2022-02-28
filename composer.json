@@ -27,7 +27,7 @@
     },
     "require-dev": {
         "internations/testing-component": "dev-master",
-        "internations/kodierungsregelwerksammlung": "dev-master",
+        "internations/kodierungsregelwerksammlung": "^0.35.0",
         "phpunit/phpunit": "~6"
     },
     "autoload": {
@@ -39,5 +39,9 @@
         "branch-alias": {
             "dev-master": "1.0.x-dev"
         }
+    },
+    "scripts": {
+        "tests": "phpunit",
+        "coding-style": "phpcs --standard=vendor/internations/kodierungsregelwerksammlung/ruleset.xml ./src/"
     }
 }

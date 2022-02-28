@@ -1,6 +1,6 @@
 # SolrQueryComponent
 
-[![Build Status](https://travis-ci.org/InterNations/SolrQueryComponent.svg)](https://travis-ci.org/InterNations/SolrQueryComponent)
+[![Test](https://github.com/InterNations/SolrQueryComponent/actions/workflows/tests.yaml/badge.svg)](https://github.com/InterNations/SolrQueryComponent/actions/workflows/tests.yaml)
 
 #### Build Solr queries with ease
 
