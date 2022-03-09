@@ -23,7 +23,7 @@ class BoostExpression extends Expression
      */
     public function __construct(float $boost, $expr)
     {
-        $this->boost = is_int($boost) ? $boost : (float) $boost;
+        $this->boost = $boost;
         parent::__construct($expr);
     }
 

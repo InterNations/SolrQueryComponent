@@ -61,6 +61,10 @@ class ExpressionBuilderTest extends TestCase
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BoostExpression', $b);
         $this->assertSame('"foo bar"^10', (string) $b);
 
+        $b = $this->eb->boost($this->eb->phrase('foo bar'), 10.1);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expression\BoostExpression', $b);
+        $this->assertSame('"foo bar"^10.1', (string) $b);
+
         $b = $this->eb->field('field', $this->eb->boost($this->eb->phrase('foo bar'), 10));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\FieldExpression', $b);
         $this->assertSame('field:"foo bar"^10', (string) $b);
