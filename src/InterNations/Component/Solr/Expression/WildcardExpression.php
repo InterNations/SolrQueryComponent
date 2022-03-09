@@ -38,7 +38,7 @@ class WildcardExpression extends Expression
      * @param string|Expression $prefix
      * @param string|Expression $suffix
      */
-    public function __construct(string $wildcard, $prefix = '', $suffix = null)
+    public function __construct(string $wildcard, $prefix = '', $suffix = '')
     {
         $this->wildcard = $wildcard === '*' ? '*' : '?';
         $this->prefix = $prefix;
