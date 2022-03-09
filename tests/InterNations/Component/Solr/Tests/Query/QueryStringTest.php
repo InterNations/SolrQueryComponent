@@ -2,13 +2,13 @@
 namespace InterNations\Component\Solr\Tests\Query;
 
 use InterNations\Component\Solr\Expression\RangeExpression;
-use InterNations\Component\Testing\AbstractTestCase;
 use InterNations\Component\Solr\Query\QueryString;
 use InterNations\Component\Solr\Expression\GroupExpression;
 use DateTime;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 
-class QueryStringTest extends AbstractTestCase
+class QueryStringTest extends TestCase
 {
     public function testSimpleQuery()
     {
