@@ -35,6 +35,7 @@
         "internations/solr-utils": "~0.8"
     },
     "require-dev": {
+        "internations/testing-component": "dev-master",
         "internations/kodierungsregelwerksammlung": "~0.35",
         "phpunit/phpunit": "~7 || ~8 || ~9"
     },

@@ -5,6 +5,7 @@ use InterNations\Component\Solr\Expression\FunctionExpression;
 use InterNations\Component\Solr\Expression\GeolocationExpression;
 use InterNations\Component\Solr\Expression\LocalParamsExpression;
 use InterNations\Component\Solr\Expression\ParameterExpression;
+use InterNations\Component\Testing\AbstractTestCase;
 use InterNations\Component\Solr\Expression\DateTimeExpression;
 use InterNations\Component\Solr\Expression\PhraseExpression;
 use InterNations\Component\Solr\Expression\WildcardExpression;
@@ -17,9 +18,8 @@ use InterNations\Component\Solr\Expression\FuzzyExpression;
 use InterNations\Component\Solr\Expression\BooleanExpression;
 use DateTime;
 use DateTimeZone;
-use PHPUnit\Framework\TestCase;
 
-class ExpressionTest extends TestCase
+class ExpressionTest extends AbstractTestCase
 {
     public function testPhraseExpression()
     {
