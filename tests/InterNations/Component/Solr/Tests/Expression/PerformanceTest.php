@@ -1,14 +1,14 @@
 <?php
 namespace InterNations\Component\Solr\Tests\Expression;
 
-use InterNations\Component\Testing\AbstractTestCase;
 use InterNations\Component\Solr\Expression\GroupExpression;
 use InterNations\Component\Testing\TimingTrait;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group performance
  */
-class PerformanceTest extends AbstractTestCase
+class PerformanceTest extends TestCase
 {
     use TimingTrait;
 
