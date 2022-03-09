@@ -170,7 +170,6 @@ class ExpressionBuilder
      * Create bool, required expression: +<expr>
      *
      * @param ExpressionInterface|string|null $expr
-     * @return ExpressionInterface|null
      */
     public function req($expr): ?ExpressionInterface
     {
