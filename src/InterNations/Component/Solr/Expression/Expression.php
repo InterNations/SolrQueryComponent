@@ -14,14 +14,14 @@ class Expression implements ExpressionInterface
     /**
      * Expression object or string
      *
-     * @var Expression|string
+     * @var ExpressionInterface|string
      */
     protected $expr;
 
     /**
      * Create new expression object
      *
-     * @param Expression|string $expr
+     * @param ExpressionInterface|string $expr
      */
     public function __construct($expr)
     {
@@ -30,7 +30,7 @@ class Expression implements ExpressionInterface
 
     public function isEqual(string $expr): bool
     {
-        return (string) $expr === (string) $this;
+        return $expr === (string) $this;
     }
 
     public function __toString(): string

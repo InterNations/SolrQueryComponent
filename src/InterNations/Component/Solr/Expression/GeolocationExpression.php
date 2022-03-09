@@ -9,9 +9,9 @@ class GeolocationExpression extends Expression
 
     public function __construct(float $latitude, float $longitude, int $precision)
     {
-        $this->latitude = (float) $latitude;
-        $this->longitude = (float) $longitude;
-        $this->precision = (int) $precision;
+        $this->latitude = $latitude;
+        $this->longitude = $longitude;
+        $this->precision = $precision;
     }
 
     public function __toString(): string

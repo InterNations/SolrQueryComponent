@@ -8,7 +8,7 @@ class ParameterExpression extends Expression
     /**
      * @var array
      */
-    private $parameters = [];
+    private $parameters;
 
     /** @param mixed[] $parameters */
     public function __construct(array $parameters)

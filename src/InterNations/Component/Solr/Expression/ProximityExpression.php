@@ -13,7 +13,7 @@ class ProximityExpression extends Expression
     /**
      * @var array
      */
-    private $words = [];
+    private $words;
 
     /**
      * Maximum distance between the two words
@@ -30,7 +30,7 @@ class ProximityExpression extends Expression
     public function __construct(array $words, int $proximity)
     {
         $this->words = $words;
-        $this->proximity = (int) $proximity;
+        $this->proximity = $proximity;
     }
 
     public function __toString(): string

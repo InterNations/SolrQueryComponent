@@ -16,7 +16,7 @@ class FunctionExpression extends Expression
     private $parameters;
 
     /**
-     * @param Expression|string $function
+     * @param ExpressionInterface|string $function
      * @param ExpressionInterface|array|null $parameters
      */
     public function __construct($function, $parameters = null)

@@ -172,7 +172,7 @@ class ExpressionBuilder
      * @param ExpressionInterface|string|null $expr
      * @return ExpressionInterface|null
      */
-    public function req($expr)
+    public function req($expr): ?ExpressionInterface
     {
         if ($this->ignore($expr)) {
             return null;
@@ -220,11 +220,9 @@ class ExpressionBuilder
      *      null => neutral (<empty>)
      *
      * @param ExpressionInterface|string|null $expr
-     * @param bool|null $operator @codingStandardsIgnoreLine
-     * @return ExpressionInterface|null
+     * @return ExpressionInterface|string|null
      */
-    public function bool($expr, $operator) // @codingStandardsIgnoreLine
-
+    public function bool($expr, ?bool $operator = null)
     {
         if ($operator === null) {
             return $expr;
@@ -281,7 +279,7 @@ class ExpressionBuilder
             return null;
         }
 
-        return new GroupExpression($args, GroupExpression::TYPE_AND);
+        return new GroupExpression($args, CompositeExpression::TYPE_AND);
     }
 
     /**
@@ -297,7 +295,7 @@ class ExpressionBuilder
             return null;
         }
 
-        return new GroupExpression($args, GroupExpression::TYPE_OR);
+        return new GroupExpression($args, CompositeExpression::TYPE_OR);
     }
 
     /**
@@ -407,7 +405,7 @@ class ExpressionBuilder
      *
      * You can either pass an array of parameters, a single parameter or a ParameterExpression
      *
-     * @param array|ParameterExpressionInterface|string|null $parameters
+     * @param array|ExpressionInterface|string|null $parameters
      */
     public function func(string $function, $parameters = null): ExpressionInterface
     {
@@ -484,7 +482,7 @@ class ExpressionBuilder
         return new GeolocationExpression($latitude, $longitude, $precision);
     }
 
-    /** @param string|ExpressionInterface|null $expr */
+    /** @param ExpressionInterface|string|null $expr */
     public function noCache($expr = null): ?ExpressionInterface
     {
         if ($this->ignore($expr)) {
@@ -494,7 +492,7 @@ class ExpressionBuilder
         return $this->comp([$this->shortLocalParams('cache', false), $expr], null);
     }
 
-    /** @param string|ExpressionInterface|null $expr */
+    /** @param ExpressionInterface|string|null $expr */
     public function tag(string $tagName, $expr = null): ?ExpressionInterface
     {
         if ($this->ignore($expr)) {
@@ -504,7 +502,7 @@ class ExpressionBuilder
         return $this->comp([$this->shortLocalParams('tag', $tagName), $expr], null);
     }
 
-    /** @param string|ExpressionInterface|null $expr */
+    /** @param ExpressionInterface|string|null $expr */
     public function excludeTag(string $tagName, $expr = null): ?ExpressionInterface
     {
         if ($this->ignore($expr)) {

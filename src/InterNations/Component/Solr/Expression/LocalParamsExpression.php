@@ -1,12 +1,13 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\ExpressionInterface;
 use InterNations\Component\Solr\Util;
 
 class LocalParamsExpression extends Expression
 {
     /**
-     * @var Expression|string
+     * @var ExpressionInterface|string
      */
     private $type;
 
@@ -18,10 +19,10 @@ class LocalParamsExpression extends Expression
     /**
      * @var bool
      */
-    private $shortForm = true;
+    private $shortForm;
 
     /**
-     * @param Expression|string $type
+     * @param ExpressionInterface|string $type
      * @param mixed[] $params
      */
     public function __construct($type, array $params = [], bool $shortForm = true)

@@ -18,7 +18,7 @@ class GeofiltExpression extends Expression
         array $additionalParams = []
     )
     {
-        $this->field = (string) $field;
+        $this->field = $field;
         $this->geolocation = $geolocation;
         $this->distance = (int) $distance;
         $this->additionalParams = $additionalParams;

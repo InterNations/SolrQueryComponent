@@ -19,7 +19,7 @@ class CompositeExpression extends Expression
      *
      * @var array
      */
-    private $expressions = [];
+    private $expressions;
 
     /**
      * @var string
