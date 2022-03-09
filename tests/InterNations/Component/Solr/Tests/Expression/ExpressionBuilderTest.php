@@ -4,12 +4,11 @@ namespace InterNations\Component\Solr\Tests\Expression;
 use InterNations\Component\Solr\Expression\CompositeExpression;
 use InterNations\Component\Solr\Expression\ExpressionBuilder;
 use InterNations\Component\Solr\Expression\GroupExpression;
-use InterNations\Component\Solr\Expression\ParameterExpression;
-use InterNations\Component\Testing\AbstractTestCase;
 use DateTime;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 
-class ExpressionBuilderTest extends AbstractTestCase
+class ExpressionBuilderTest extends TestCase
 {
     /**
      * @var ExpressionBuilder
