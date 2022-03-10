@@ -18,7 +18,7 @@ class LocalParamsExpression extends Expression
     /**
      * @param ExpressionInterface|string $type
      * @param mixed[] $params
-	 * @no-named-arguments
+     * @no-named-arguments
      */
     public function __construct($type, array $params = [], bool $shortForm = true)
     {

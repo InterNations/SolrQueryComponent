@@ -28,7 +28,7 @@ class CompositeExpression extends Expression
      * Create new group of expression
      *
      * @param mixed[] $expressions
-	 * @no-named-arguments
+     * @no-named-arguments
      */
     public function __construct(array $expressions, ?string $type = self::TYPE_SPACE)
     {
@@ -61,7 +61,7 @@ class CompositeExpression extends Expression
         return implode($glue, array_filter($parts));
     }
 
-	/** @no-named-arguments */
+    /** @no-named-arguments */
     public static function isValidType(?string $type): bool
     {
         return $type === static::TYPE_OR

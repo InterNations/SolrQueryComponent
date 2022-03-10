@@ -24,7 +24,7 @@ class ProximityExpression extends Expression
      * Create new proximity query object
      *
      * @param string[] $words
-	 * @no-named-arguments
+     * @no-named-arguments
      */
     public function __construct(array $words, int $proximity)
     {

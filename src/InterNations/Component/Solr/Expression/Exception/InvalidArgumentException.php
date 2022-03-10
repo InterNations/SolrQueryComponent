@@ -8,7 +8,7 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
     /**
      * @param string|array $expectation
      * @param mixed $actual
-	 * @no-named-arguments
+     * @no-named-arguments
      */
     public static function invalidArgument(int $position, string $name, $expectation, $actual): self
     {
@@ -26,9 +26,9 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
     }
 
     /**
-	 * @param string[] $expectations
-	 * @no-named-arguments
-	 */
+     * @param string[] $expectations
+     * @no-named-arguments
+     */
     private static function formatExpectations(array $expectations): string
     {
         $last = array_pop($expectations);
@@ -41,9 +41,9 @@ class InvalidArgumentException extends BaseInvalidArgumentException implements E
     }
 
     /**
-	 * @param mixed $actual
-	 * @no-named-arguments
-	 */
+     * @param mixed $actual
+     * @no-named-arguments
+     */
     private static function getType($actual): string
     {
         return is_object($actual) ? get_class($actual) : gettype($actual);

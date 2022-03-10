@@ -20,7 +20,7 @@ class FuzzyExpression extends Expression
      * Create new fuzzy query object
      *
      * @param ExpressionInterface|string $expr
-	 * @no-named-arguments
+     * @no-named-arguments
      */
     public function __construct($expr, ?float $similarity = null)
     {

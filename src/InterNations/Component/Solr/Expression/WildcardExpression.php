@@ -38,7 +38,7 @@ class WildcardExpression extends Expression
      *
      * @param ExpressionInterface|string $prefix
      * @param ExpressionInterface|string $suffix
-	 * @no-named-arguments
+     * @no-named-arguments
      */
     public function __construct(string $wildcard, $prefix = '', $suffix = '')
     {

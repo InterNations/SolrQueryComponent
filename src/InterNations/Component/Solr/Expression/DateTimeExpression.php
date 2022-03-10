@@ -24,7 +24,7 @@ class DateTimeExpression extends Expression
 
     /**
      * @param string|DateTimeZone $timezone
-	 * @no-named-arguments
+     * @no-named-arguments
      */
     public function __construct(DateTime $date, ?string $format = null, $timezone = 'UTC')
     {

@@ -9,9 +9,9 @@ class ParameterExpression extends Expression
     private $parameters;
 
     /**
-	 * @param mixed[] $parameters
-	 * @no-named-arguments
-	 */
+     * @param mixed[] $parameters
+     * @no-named-arguments
+     */
     public function __construct(array $parameters)
     {
         $this->parameters = $parameters;
@@ -27,7 +27,7 @@ class ParameterExpression extends Expression
     /**
      * @param mixed $value
      * @return PhraseExpression|mixed
-	 * @no-named-arguments
+     * @no-named-arguments
      */
     private function replaceNull($value)
     {
