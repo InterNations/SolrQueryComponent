@@ -10,6 +10,7 @@ class GeofiltExpression extends Expression
 
     /**
      * @param mixed[] $additionalParams
+	 * @no-named-arguments
      */
     public function __construct(
         string $field,

@@ -23,6 +23,7 @@ class FieldExpression extends Expression
      *
      * @param ExpressionInterface|string $field
      * @param ExpressionInterface|string $expr
+	 * @no-named-arguments
      */
     public function __construct($field, $expr)
     {

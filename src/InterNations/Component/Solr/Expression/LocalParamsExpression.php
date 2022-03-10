@@ -6,24 +6,19 @@ use InterNations\Component\Solr\Util;
 
 class LocalParamsExpression extends Expression
 {
-    /**
-     * @var ExpressionInterface|string
-     */
+    /** @var ExpressionInterface|string */
     private $type;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $params;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $shortForm;
 
     /**
      * @param ExpressionInterface|string $type
      * @param mixed[] $params
+	 * @no-named-arguments
      */
     public function __construct($type, array $params = [], bool $shortForm = true)
     {

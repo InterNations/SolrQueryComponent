@@ -7,6 +7,7 @@ class GeolocationExpression extends Expression
     private $longitude;
     private $precision;
 
+	/** @no-named-arguments */
     public function __construct(float $latitude, float $longitude, int $precision)
     {
         $this->latitude = $latitude;

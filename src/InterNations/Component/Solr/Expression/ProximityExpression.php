@@ -10,9 +10,7 @@ use InterNations\Component\Solr\Util;
  */
 class ProximityExpression extends Expression
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $words;
 
     /**
@@ -26,6 +24,7 @@ class ProximityExpression extends Expression
      * Create new proximity query object
      *
      * @param string[] $words
+	 * @no-named-arguments
      */
     public function __construct(array $words, int $proximity)
     {

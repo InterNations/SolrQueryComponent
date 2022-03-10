@@ -22,12 +22,14 @@ class Expression implements ExpressionInterface
      * Create new expression object
      *
      * @param ExpressionInterface|string $expr
+	 * @no-named-arguments
      */
     public function __construct($expr)
     {
         $this->expr = $expr;
     }
 
+	/** @no-named-arguments */
     public function isEqual(string $expr): bool
     {
         return $expr === (string) $this;

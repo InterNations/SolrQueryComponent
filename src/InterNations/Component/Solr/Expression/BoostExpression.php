@@ -20,6 +20,7 @@ class BoostExpression extends Expression
 
     /**
      * @param ExpressionInterface|string|null $expr
+	 * @no-named-arguments
      */
     public function __construct(float $boost, $expr)
     {

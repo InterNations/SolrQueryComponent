@@ -10,28 +10,21 @@ class DateTimeExpression extends Expression
     public const FORMAT_START_OF_DAY = 'Y-m-d\T00:00:00\Z';
     public const FORMAT_END_OF_DAY = 'Y-m-d\T23:59:59\Z';
 
-    /**
-     * @var DateTimeZone
-     */
+    /** @var DateTimeZone */
     private static $utcTimezone;
 
-    /**
-     * @var DateTime
-     */
+    /** @var DateTime */
     private $date;
 
-    /**
-     * @var string|DateTimeZone
-     */
+    /** @var string|DateTimeZone */
     private $timezone;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $format;
 
     /**
      * @param string|DateTimeZone $timezone
+	 * @no-named-arguments
      */
     public function __construct(DateTime $date, ?string $format = null, $timezone = 'UTC')
     {

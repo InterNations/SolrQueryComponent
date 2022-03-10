@@ -37,6 +37,7 @@ class RangeExpression extends Expression
      *
      * @param string|int|Expression $start
      * @param string|int|Expression $end
+	 * @no-named-arguments
      */
     public function __construct($start = null, $end = null, bool $inclusive = true)
     {
@@ -59,6 +60,7 @@ class RangeExpression extends Expression
     /**
      * @param ExpressionInterface|string|null $value
      * @return ExpressionInterface|string
+	 * @no-named-arguments
      */
     private function cast($value)
     {
