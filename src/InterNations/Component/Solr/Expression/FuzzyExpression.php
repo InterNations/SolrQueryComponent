@@ -1,6 +1,7 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\ExpressionInterface;
 use InterNations\Component\Solr\Util;
 
 /**
@@ -18,14 +19,15 @@ class FuzzyExpression extends Expression
     /**
      * Create new fuzzy query object
      *
-     * @param string|Expression $expr
+     * @param ExpressionInterface|string $expr
+     * @no-named-arguments
      */
     public function __construct($expr, ?float $similarity = null)
     {
         parent::__construct($expr);
 
         if ($similarity !== null) {
-            $this->similarity = (float) $similarity;
+            $this->similarity = $similarity;
         }
     }
 

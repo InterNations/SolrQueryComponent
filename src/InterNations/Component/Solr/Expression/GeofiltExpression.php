@@ -10,6 +10,7 @@ class GeofiltExpression extends Expression
 
     /**
      * @param mixed[] $additionalParams
+     * @no-named-arguments
      */
     public function __construct(
         string $field,
@@ -18,7 +19,7 @@ class GeofiltExpression extends Expression
         array $additionalParams = []
     )
     {
-        $this->field = (string) $field;
+        $this->field = $field;
         $this->geolocation = $geolocation;
         $this->distance = (int) $distance;
         $this->additionalParams = $additionalParams;

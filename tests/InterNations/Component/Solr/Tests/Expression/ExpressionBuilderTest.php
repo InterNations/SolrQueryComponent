@@ -4,12 +4,11 @@ namespace InterNations\Component\Solr\Tests\Expression;
 use InterNations\Component\Solr\Expression\CompositeExpression;
 use InterNations\Component\Solr\Expression\ExpressionBuilder;
 use InterNations\Component\Solr\Expression\GroupExpression;
-use InterNations\Component\Solr\Expression\ParameterExpression;
-use InterNations\Component\Testing\AbstractTestCase;
 use DateTime;
 use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 
-class ExpressionBuilderTest extends AbstractTestCase
+class ExpressionBuilderTest extends TestCase
 {
     /**
      * @var ExpressionBuilder
@@ -61,6 +60,10 @@ class ExpressionBuilderTest extends AbstractTestCase
         $b = $this->eb->boost($this->eb->phrase('foo bar'), 10);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BoostExpression', $b);
         $this->assertSame('"foo bar"^10', (string) $b);
+
+        $b = $this->eb->boost($this->eb->phrase('foo bar'), 10.1);
+        $this->assertInstanceOf('InterNations\Component\Solr\Expression\BoostExpression', $b);
+        $this->assertSame('"foo bar"^10.1', (string) $b);
 
         $b = $this->eb->field('field', $this->eb->boost($this->eb->phrase('foo bar'), 10));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\FieldExpression', $b);

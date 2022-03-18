@@ -1,6 +1,7 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\ExpressionInterface;
 use InterNations\Component\Solr\Util;
 
 /**
@@ -20,8 +21,9 @@ class FieldExpression extends Expression
     /**
      * Create new field query
      *
-     * @param string|Expression $field
-     * @param string|Expression $expr
+     * @param ExpressionInterface|string $field
+     * @param ExpressionInterface|string $expr
+     * @no-named-arguments
      */
     public function __construct($field, $expr)
     {

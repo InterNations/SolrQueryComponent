@@ -33,8 +33,9 @@ class BooleanExpression extends Expression
      *
      * @param ExpressionInterface|string $expr
      * @param bool $useNotNotation use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
+     * @no-named-arguments
      */
-    public function __construct(string $operator, $expr, bool$useNotNotation = false)
+    public function __construct(string $operator, $expr, bool $useNotNotation = false)
     {
         $this->operator = $operator;
         $this->useNotNotation = $useNotNotation;

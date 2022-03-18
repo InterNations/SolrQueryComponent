@@ -10,10 +10,8 @@ use InterNations\Component\Solr\Util;
  */
 class ProximityExpression extends Expression
 {
-    /**
-     * @var array
-     */
-    private $words = [];
+    /** @var array */
+    private $words;
 
     /**
      * Maximum distance between the two words
@@ -26,11 +24,12 @@ class ProximityExpression extends Expression
      * Create new proximity query object
      *
      * @param string[] $words
+     * @no-named-arguments
      */
     public function __construct(array $words, int $proximity)
     {
         $this->words = $words;
-        $this->proximity = (int) $proximity;
+        $this->proximity = $proximity;
     }
 
     public function __toString(): string

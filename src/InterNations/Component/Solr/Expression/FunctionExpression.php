@@ -5,19 +5,16 @@ use InterNations\Component\Solr\ExpressionInterface;
 
 class FunctionExpression extends Expression
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $function;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $parameters;
 
     /**
-     * @param Expression|string $function
+     * @param ExpressionInterface|string $function
      * @param ExpressionInterface|array|null $parameters
+     * @no-named-arguments
      */
     public function __construct($function, $parameters = null)
     {

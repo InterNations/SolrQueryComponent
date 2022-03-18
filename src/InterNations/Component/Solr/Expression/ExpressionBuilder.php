@@ -9,9 +9,7 @@ use InterNations\Component\Solr\ExpressionInterface;
 
 class ExpressionBuilder
 {
-    /**
-     * @var string|DateTimeZone
-     */
+    /** @var string|DateTimeZone */
     private $defaultTimezone = 'UTC';
 
     /**
@@ -22,6 +20,7 @@ class ExpressionBuilder
      *
      * @param DateTimeZone|string $timezone
      * @throws InvalidArgumentException
+     * @no-named-arguments
      */
     public function setDefaultTimezone($timezone): void
     {
@@ -36,6 +35,7 @@ class ExpressionBuilder
      * Create term expression: <expr>
      *
      * @param ExpressionInterface|string|null $expr
+     * @no-named-arguments
      */
     public function eq($expr): ?ExpressionInterface
     {
@@ -56,6 +56,7 @@ class ExpressionBuilder
      *
      * @param ExpressionInterface|string $field
      * @param ExpressionInterface|string|array $expr
+     * @no-named-arguments
      */
     public function field($field, $expr): ?ExpressionInterface
     {
@@ -70,6 +71,7 @@ class ExpressionBuilder
 
     /**
      * Create phrase expression: "term1 term2"
+     * @no-named-arguments
      */
     public function phrase(?string $str): ?ExpressionInterface
     {
@@ -84,6 +86,7 @@ class ExpressionBuilder
      * Create boost expression: <expr>^<boost>
      *
      * @param ExpressionInterface|string|null $expr
+     * @no-named-arguments
      */
     public function boost($expr, ?float $boost): ?ExpressionInterface
     {
@@ -99,6 +102,7 @@ class ExpressionBuilder
      *
      * @param ExpressionInterface|string $word
      * @param int|mixed $proximity
+     * @no-named-arguments
      */
     public function prx($word = null, $proximity = null): ?ExpressionInterface
     {
@@ -119,6 +123,7 @@ class ExpressionBuilder
      *
      * @param ExpressionInterface|string|null $expr
      * @param float $similarity Similarity between 0.0 und 1.0
+     * @no-named-arguments
      */
     public function fzz($expr, ?float $similarity = null): ?ExpressionInterface
     {
@@ -134,6 +139,7 @@ class ExpressionBuilder
      *
      * @param string|int|float|ExpressionInterface $start
      * @param string|int|float|ExpressionInterface $end
+     * @no-named-arguments
      */
     public function range($start = null, $end = null, bool $inclusive = true): ExpressionInterface
     {
@@ -145,6 +151,7 @@ class ExpressionBuilder
      *
      * @param string|int|float|ExpressionInterface $start
      * @param string|int|float|ExpressionInterface $end
+     * @no-named-arguments
      */
     public function btwnRange($start = null, $end = null): ExpressionInterface
     {
@@ -156,6 +163,7 @@ class ExpressionBuilder
      *
      * @param ExpressionInterface|string $prefix
      * @param ExpressionInterface|string $suffix
+     * @no-named-arguments
      */
     public function wild($prefix, ?string $wildcard = '?', $suffix = null): ?ExpressionInterface
     {
@@ -170,9 +178,9 @@ class ExpressionBuilder
      * Create bool, required expression: +<expr>
      *
      * @param ExpressionInterface|string|null $expr
-     * @return ExpressionInterface|null
+     * @no-named-arguments
      */
-    public function req($expr)
+    public function req($expr): ?ExpressionInterface
     {
         if ($this->ignore($expr)) {
             return null;
@@ -186,6 +194,7 @@ class ExpressionBuilder
      *
      * @param ExpressionInterface|string|null $expr
      * @return ExpressionInterface|null
+     * @no-named-arguments
      */
     public function prhb($expr)
     {
@@ -202,6 +211,7 @@ class ExpressionBuilder
      *
      * @param ExpressionInterface|string|null $expr
      * @return ExpressionInterface|null
+     * @no-named-arguments
      */
     public function not($expr)
     {
@@ -220,11 +230,10 @@ class ExpressionBuilder
      *      null => neutral (<empty>)
      *
      * @param ExpressionInterface|string|null $expr
-     * @param bool|null $operator @codingStandardsIgnoreLine
-     * @return ExpressionInterface|null
+     * @return ExpressionInterface|string|null
+     * @no-named-arguments
      */
-    public function bool($expr, $operator) // @codingStandardsIgnoreLine
-
+    public function bool($expr, ?bool $operator = null)
     {
         if ($operator === null) {
             return $expr;
@@ -241,6 +250,7 @@ class ExpressionBuilder
      * Return string treated as literal (unescaped, unquoted)
      *
      * @param ExpressionInterface|string|null $expr
+     * @no-named-arguments
      */
     public function lit($expr): ?ExpressionInterface
     {
@@ -256,6 +266,7 @@ class ExpressionBuilder
      *
      * @param ExpressionInterface|string|null $expr
      * @param string|mixed $type
+     * @no-named-arguments
      */
     public function grp($expr = null, $type = CompositeExpression::TYPE_SPACE): ?ExpressionInterface
     {
@@ -272,6 +283,7 @@ class ExpressionBuilder
      * Create AND grouped expression: (<expr1> AND <expr2> AND <expr3>)
      *
      * @param ExpressionInterface[]|string[] $args
+     * @no-named-arguments
      */
     public function andX(...$args): ?ExpressionInterface
     {
@@ -281,13 +293,14 @@ class ExpressionBuilder
             return null;
         }
 
-        return new GroupExpression($args, GroupExpression::TYPE_AND);
+        return new GroupExpression($args, CompositeExpression::TYPE_AND);
     }
 
     /**
      * Create OR grouped expression: (<expr1> OR <expr2> OR <expr3>)
      *
      * @param ExpressionInterface[]|string[] $args
+     * @no-named-arguments
      */
     public function orX(...$args): ?ExpressionInterface
     {
@@ -297,7 +310,7 @@ class ExpressionBuilder
             return null;
         }
 
-        return new GroupExpression($args, GroupExpression::TYPE_OR);
+        return new GroupExpression($args, CompositeExpression::TYPE_OR);
     }
 
     /**
@@ -305,6 +318,7 @@ class ExpressionBuilder
      *
      * @param ExpressionInterface|string|null $expr
      * @return ExpressionInterface|mixed
+     * @no-named-arguments
      */
     public function all($expr = null)
     {
@@ -319,6 +333,7 @@ class ExpressionBuilder
      * Create a date expression for a specific day
      *
      * @param DateTime|mixed $date
+     * @no-named-arguments
      */
     public function day($date = null): ?ExpressionInterface
     {
@@ -333,6 +348,7 @@ class ExpressionBuilder
      * Expression for the start of the given date
      *
      * @param bool|string $timezone
+     * @no-named-arguments
      */
     public function startOfDay(?DateTime $date = null, $timezone = false): ?ExpressionInterface
     {
@@ -351,6 +367,7 @@ class ExpressionBuilder
      * Expression for the end of the given date
      *
      * @param bool|string $timezone
+     * @no-named-arguments
      */
     public function endOfDay(?DateTime $date = null, $timezone = false): ?ExpressionInterface
     {
@@ -365,7 +382,10 @@ class ExpressionBuilder
         );
     }
 
-    /** @param bool|string $timezone */
+    /**
+     * @param bool|string $timezone
+     * @no-named-arguments
+     */
     public function date(?DateTime $date = null, $timezone = false): ExpressionInterface
     {
         if ($date === null) {
@@ -383,6 +403,7 @@ class ExpressionBuilder
      * Create a range between two dates (one side may be unlimited which is indicated by passing null)
      *
      * @param bool|string $timezone
+     * @no-named-arguments
      */
     public function dateRange(
         ?DateTime $from = null,
@@ -407,7 +428,8 @@ class ExpressionBuilder
      *
      * You can either pass an array of parameters, a single parameter or a ParameterExpression
      *
-     * @param array|ParameterExpressionInterface|string|null $parameters
+     * @param array|ExpressionInterface|string|null $parameters
+     * @no-named-arguments
      */
     public function func(string $function, $parameters = null): ExpressionInterface
     {
@@ -418,6 +440,7 @@ class ExpressionBuilder
      * Create a function parameters expression
      *
      * @param mixed $parameters
+     * @no-named-arguments
      */
     public function params(...$parameters): ExpressionInterface
     {
@@ -429,6 +452,7 @@ class ExpressionBuilder
     /**
      * @param mixed[]|mixed $params
      * @param bool|mixed $shortForm
+     * @no-named-arguments
      */
     public function localParams(string $type, $params = [], $shortForm = true): ?ExpressionInterface
     {
@@ -449,7 +473,10 @@ class ExpressionBuilder
         return new LocalParamsExpression($type, $params, $shortForm);
     }
 
-    /** @param mixed[] $additionalParams */
+    /**
+     * @param mixed[] $additionalParams
+     * @no-named-arguments
+     */
     public function geofilt(
         string $field,
         ?GeolocationExpression $geolocation = null,
@@ -464,6 +491,7 @@ class ExpressionBuilder
      * Create composite expression: <expr1> <expr2> <expr3>
      *
      * @param ExpressionInterface|string|null $expr
+     * @no-named-arguments
      */
     public function comp($expr = null, ?string $type = CompositeExpression::TYPE_SPACE): ?ExpressionInterface
     {
@@ -478,13 +506,17 @@ class ExpressionBuilder
 
     /**
      * Create a geo location expression: "<latitude>,<longitude>" using the given precision
+     * @no-named-arguments
      */
     public function latLong(float $latitude, float $longitude, int $precision = 12): ExpressionInterface
     {
         return new GeolocationExpression($latitude, $longitude, $precision);
     }
 
-    /** @param string|ExpressionInterface|null $expr */
+    /**
+     * @param ExpressionInterface|string|null $expr
+     * @no-named-arguments
+     */
     public function noCache($expr = null): ?ExpressionInterface
     {
         if ($this->ignore($expr)) {
@@ -494,7 +526,10 @@ class ExpressionBuilder
         return $this->comp([$this->shortLocalParams('cache', false), $expr], null);
     }
 
-    /** @param string|ExpressionInterface|null $expr */
+    /**
+     * @param ExpressionInterface|string|null $expr
+     * @no-named-arguments
+     */
     public function tag(string $tagName, $expr = null): ?ExpressionInterface
     {
         if ($this->ignore($expr)) {
@@ -504,7 +539,10 @@ class ExpressionBuilder
         return $this->comp([$this->shortLocalParams('tag', $tagName), $expr], null);
     }
 
-    /** @param string|ExpressionInterface|null $expr */
+    /**
+     * @param ExpressionInterface|string|null $expr
+     * @no-named-arguments
+     */
     public function excludeTag(string $tagName, $expr = null): ?ExpressionInterface
     {
         if ($this->ignore($expr)) {
@@ -517,6 +555,7 @@ class ExpressionBuilder
     /**
      * @param ExpressionInterface|string $tag
      * @param mixed $value
+     * @no-named-arguments
      */
     private function shortLocalParams($tag, $value): LocalParamsExpression
     {
@@ -526,6 +565,7 @@ class ExpressionBuilder
     /**
      * @param mixed[] $args
      * @return mixed[]
+     * @no-named-arguments
      */
     private function parseCompositeArgs(array $args): array
     {
@@ -545,13 +585,19 @@ class ExpressionBuilder
         return [$args, $type];
     }
 
-    /** @param mixed $expr */
+    /**
+     * @param mixed $expr
+     * @no-named-arguments
+     */
     private function ignore($expr): bool
     {
         return $expr === null || (is_string($expr) && trim($expr) === '');
     }
 
-    /** @param mixed $expr */
+    /**
+     * @param mixed $expr
+     * @no-named-arguments
+     */
     private function permit($expr): bool
     {
         return !$this->ignore($expr);

@@ -1,17 +1,15 @@
 <?php
 namespace InterNations\Component\Solr\Tests\Expression;
 
-use InterNations\Component\Testing\AbstractTestCase;
 use InterNations\Component\Solr\Expression\GroupExpression;
-use InterNations\Component\Testing\TimingTrait;
+use PHPUnit\Framework\TestCase;
+use function microtime;
 
 /**
  * @group performance
  */
-class PerformanceTest extends AbstractTestCase
+class PerformanceTest extends TestCase
 {
-    use TimingTrait;
-
     public function setUp(): void
     {
         if (extension_loaded('xdebug')) {
@@ -62,5 +60,19 @@ class PerformanceTest extends AbstractTestCase
                 $group->__toString();
             }
         );
+    }
+
+    private static function assertTiming(float $maxDurationInMs, callable $callable, int $iterations = 20): void
+    {
+        $duration = 0;
+
+        for ($a = 0; $a < $iterations; ++$a) {
+            $start = microtime(true);
+            $callable();
+            $end = microtime(true);
+            $duration += ($end - $start);
+        }
+
+        self::assertLessThanOrEqual($maxDurationInMs, ($duration / $iterations) * 1000);
     }
 }

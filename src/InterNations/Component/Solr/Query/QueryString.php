@@ -8,16 +8,13 @@ use DateTime;
 
 class QueryString
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $query;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $placeholders = [];
 
+    /** @no-named-arguments */
     public function __construct(string $query)
     {
         $this->query = $query;
@@ -27,6 +24,7 @@ class QueryString
      * Add a value for a placeholder
      *
      * @param mixed $value
+     * @no-named-arguments
      */
     public function setPlaceholder(string $placeholder, $value): self
     {
@@ -39,6 +37,7 @@ class QueryString
      * Add values for several placeholders as key => value pairs
      *
      * @param mixed[] $placeholders
+     * @no-named-arguments
      */
     public function setPlaceholders(array $placeholders): self
     {

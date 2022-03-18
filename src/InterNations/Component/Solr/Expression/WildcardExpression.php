@@ -1,6 +1,7 @@
 <?php
 namespace InterNations\Component\Solr\Expression;
 
+use InterNations\Component\Solr\ExpressionInterface;
 use InterNations\Component\Solr\Util;
 
 /**
@@ -21,24 +22,25 @@ class WildcardExpression extends Expression
     /**
      * Wildcard query prefix
      *
-     * @var string|Expression
+     * @var ExpressionInterface|string
      */
-    private $prefix = '';
+    private $prefix;
 
     /**
      * Wildcard query suffix
      *
-     * @var string|Expression
+     * @var ExpressionInterface|string
      */
     private $suffix;
 
     /**
      * Create new wildcard query object
      *
-     * @param string|Expression $prefix
-     * @param string|Expression $suffix
+     * @param ExpressionInterface|string $prefix
+     * @param ExpressionInterface|string $suffix
+     * @no-named-arguments
      */
-    public function __construct(string $wildcard, $prefix = '', $suffix = null)
+    public function __construct(string $wildcard, $prefix = '', $suffix = '')
     {
         $this->wildcard = $wildcard === '*' ? '*' : '?';
         $this->prefix = $prefix;

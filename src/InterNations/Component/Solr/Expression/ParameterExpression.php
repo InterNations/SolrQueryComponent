@@ -5,12 +5,13 @@ use InterNations\Component\Solr\Util;
 
 class ParameterExpression extends Expression
 {
-    /**
-     * @var array
-     */
-    private $parameters = [];
+    /** @var array */
+    private $parameters;
 
-    /** @param mixed[] $parameters */
+    /**
+     * @param mixed[] $parameters
+     * @no-named-arguments
+     */
     public function __construct(array $parameters)
     {
         $this->parameters = $parameters;
@@ -26,6 +27,7 @@ class ParameterExpression extends Expression
     /**
      * @param mixed $value
      * @return PhraseExpression|mixed
+     * @no-named-arguments
      */
     private function replaceNull($value)
     {
