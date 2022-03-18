@@ -4,7 +4,6 @@ namespace InterNations\Component\Solr\Tests\Expression;
 use InterNations\Component\Solr\Expression\CompositeExpression;
 use InterNations\Component\Solr\Expression\ExpressionBuilder;
 use InterNations\Component\Solr\Expression\GroupExpression;
-use InterNations\Component\Solr\Expression\ParameterExpression;
 use InterNations\Component\Testing\AbstractTestCase;
 use DateTime;
 use DateTimeZone;
@@ -16,7 +15,7 @@ class ExpressionBuilderTest extends AbstractTestCase
      */
     private $eb;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->eb = new ExpressionBuilder();
     }

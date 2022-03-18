@@ -40,8 +40,13 @@
         "phpunit/phpunit": "~6"
     },
     "autoload": {
-        "psr-0": {
-            "InterNations\\Component\\Solr": "src/"
+        "psr-4": {
+            "InterNations\\Component\\Solr\\": "src/InterNations/Component/Solr"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "InterNations\\Component\\Solr\\Tests\\": "tests/InterNations/Component/Solr/Tests"
         }
     },
     "extra": {
