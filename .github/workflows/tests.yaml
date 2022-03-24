@@ -22,6 +22,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        fetch-depth: 0
 
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@v2
@@ -34,9 +35,16 @@ jobs:
         uses: ramsey/composer-install@v1
         with:
           composer-options: --prefer-dist
+        if: matrix.php-version > 7.1
 
       - name: Run Tests
         run: composer tests
+        if: matrix.php-version > 7.1
 
       - name: Check coding style
         run: composer coding-style
+        if: matrix.php-version > 7.1
+
+      - name: Check backward compatibility
+        run: composer backward-compatibility-check
+        if: matrix.php-version >= 7.4
