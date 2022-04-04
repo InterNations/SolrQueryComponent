@@ -46,6 +46,36 @@ jobs:
         run: composer coding-style
         if: matrix.php-version > 7.1
 
+  bc-checker:
+    name: PHP ${{ matrix.php-version }} bc-checker
+
+    runs-on: ubuntu-18.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - 7.4
+          - 8.0
+          - 8.1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: pcov
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: --prefer-dist
+
       - name: Check backward compatibility
         run: composer backward-compatibility-check
-        if: matrix.php-version >= 7.4
