@@ -4,3 +4,4 @@ composer.lock
 example.php
 atlassian-ide-plugin.xml
 build/*
+.phpunit.result.cache
