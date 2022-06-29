@@ -6,8 +6,9 @@ class GeofiltExpression extends Expression
     private string $field;
     private ?GeolocationExpression $geolocation;
     private int $distance;
-	/** @var mixed[]  */
-    private array$additionalParams;
+
+    /** @var mixed[] */
+    private array $additionalParams;
 
     /**
      * @param mixed[] $additionalParams
