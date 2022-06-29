@@ -3,9 +3,9 @@ namespace InterNations\Component\Solr\Expression;
 
 class GeolocationExpression extends Expression
 {
-    private $latitude;
-    private $longitude;
-    private $precision;
+    private float $latitude;
+    private float $longitude;
+    private int $precision;
 
     /** @no-named-arguments */
     public function __construct(float $latitude, float $longitude, int $precision)

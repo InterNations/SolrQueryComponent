@@ -1,15 +1,10 @@
 <?php
-namespace InterNations\Component\Solr\Tests\Expression;
+namespace InterNations\Component\Solr\Tests;
 
-use CallbackFilterIterator;
 use PHPUnit\Framework\TestCase;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
 use ReflectionClass;
 use ReflectionMethod;
 use SebastianBergmann\FileIterator\Facade;
-use Symfony\Component\Finder\Finder;
-use function array_walk;
 
 class AnnotationsTest extends TestCase
 {

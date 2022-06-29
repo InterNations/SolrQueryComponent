@@ -5,10 +5,10 @@ use InterNations\Component\Solr\ExpressionInterface;
 
 class FunctionExpression extends Expression
 {
-    /** @var string */
+    /** @var ExpressionInterface|string */
     private $function;
 
-    /** @var array */
+    /** @var ExpressionInterface|array|null */
     private $parameters;
 
     /**

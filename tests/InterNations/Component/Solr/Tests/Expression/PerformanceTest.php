@@ -17,7 +17,7 @@ class PerformanceTest extends TestCase
         }
     }
 
-    public function testGroupingPerformance_Int()
+    public function testGroupingPerformance_Int(): void
     {
         $list = range(0, 10000);
 
@@ -30,7 +30,7 @@ class PerformanceTest extends TestCase
         );
     }
 
-    public function testGroupingPerformance_Double()
+    public function testGroupingPerformance_Double(): void
     {
         $list = range(0, 10000);
         foreach ($list as $k => $v) {
@@ -46,7 +46,7 @@ class PerformanceTest extends TestCase
         );
     }
 
-    public function testGroupingPerformance_String()
+    public function testGroupingPerformance_String(): void
     {
         $list = range(0, 10000);
         foreach ($list as $k => $v) {

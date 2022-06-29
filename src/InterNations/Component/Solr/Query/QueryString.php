@@ -8,11 +8,10 @@ use DateTime;
 
 class QueryString
 {
-    /** @var string */
-    private $query;
+    private string $query;
 
-    /** @var array */
-    private $placeholders = [];
+    /** @var string[] */
+    private array $placeholders = [];
 
     /** @no-named-arguments */
     public function __construct(string $query)

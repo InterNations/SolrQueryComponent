@@ -27,10 +27,8 @@ class RangeExpression extends Expression
 
     /**
      * Inclusive or exclusive the range start/end?
-     *
-     * @var bool
      */
-    protected $inclusive;
+    protected bool $inclusive;
 
     /**
      * Create new range query object
