@@ -11,11 +11,7 @@ use InterNations\Component\Solr\Util;
  */
 class FieldExpression extends Expression
 {
-    /**
-     * Field name
-     *
-     * @var string
-     */
+    /** @var ExpressionInterface|string */
     private $field;
 
     /**

@@ -9,11 +9,11 @@ class LocalParamsExpression extends Expression
     /** @var ExpressionInterface|string */
     private $type;
 
-    /** @var array */
-    private $params;
+    /** @var mixed[] */
+    private array $params;
 
     /** @var bool */
-    private $shortForm;
+    private bool $shortForm;
 
     /**
      * @param ExpressionInterface|string $type

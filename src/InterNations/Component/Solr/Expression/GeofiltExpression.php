@@ -3,10 +3,12 @@ namespace InterNations\Component\Solr\Expression;
 
 class GeofiltExpression extends Expression
 {
-    private $field;
-    private $geolocation;
-    private $distance;
-    private $additionalParams;
+    private string $field;
+    private ?GeolocationExpression $geolocation;
+    private int $distance;
+
+    /** @var mixed[] */
+    private array $additionalParams;
 
     /**
      * @param mixed[] $additionalParams

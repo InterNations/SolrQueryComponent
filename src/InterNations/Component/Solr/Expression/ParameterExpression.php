@@ -5,8 +5,8 @@ use InterNations\Component\Solr\Util;
 
 class ParameterExpression extends Expression
 {
-    /** @var array */
-    private $parameters;
+    /** @var mixed[] */
+    private array $parameters;
 
     /**
      * @param mixed[] $parameters

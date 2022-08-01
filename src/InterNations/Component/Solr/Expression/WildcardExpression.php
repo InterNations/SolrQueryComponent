@@ -12,12 +12,7 @@ use InterNations\Component\Solr\Util;
  */
 class WildcardExpression extends Expression
 {
-    /**
-     * Wildcard character
-     *
-     * @var string
-     */
-    private $wildcard;
+    private string $wildcard;
 
     /**
      * Wildcard query prefix

@@ -10,31 +10,28 @@ use PHPUnit\Framework\TestCase;
 
 class ExpressionBuilderTest extends TestCase
 {
-    /**
-     * @var ExpressionBuilder
-     */
-    private $eb;
+    private ExpressionBuilder $eb;
 
     public function setUp(): void
     {
         $this->eb = new ExpressionBuilder();
     }
 
-    public function testEqWithPhrase()
+    public function testEqWithPhrase(): void
     {
         $eq = $this->eb->eq($this->eb->phrase('test foo'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\PhraseExpression', $eq);
         $this->assertSame('"test foo"', (string) $eq);
     }
 
-    public function testEqWithTerm()
+    public function testEqWithTerm(): void
     {
         $eq = $this->eb->eq('foo:bar');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\PhraseExpression', $eq);
         $this->assertSame('"foo\:bar"', (string) $eq);
     }
 
-    public function testEqWithField()
+    public function testEqWithField(): void
     {
         $eq = $this->eb->eq('test');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\PhraseExpression', $eq);
@@ -44,7 +41,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('field:"test"', (string) $eq);
     }
 
-    public function testPhrase()
+    public function testPhrase(): void
     {
         $p = $this->eb->phrase('foo bar');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\PhraseExpression', $p);
@@ -55,7 +52,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('field:"foo bar"', (string) $p);
     }
 
-    public function testBoost()
+    public function testBoost(): void
     {
         $b = $this->eb->boost($this->eb->phrase('foo bar'), 10);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BoostExpression', $b);
@@ -70,14 +67,14 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('field:"foo bar"^10', (string) $b);
     }
 
-    public function testFieldWithBoolean()
+    public function testFieldWithBoolean(): void
     {
         $f = $this->eb->field('f', false);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\FieldExpression', $f);
         $this->assertSame('f:false', (string) $f);
     }
 
-    public function testWildcard()
+    public function testWildcard(): void
     {
         $w = $this->eb->wild($this->eb->phrase('foo bar'), '?', 'sfx');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\WildcardExpression', $w);
@@ -96,7 +93,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('*foo*bar?', (string) $w);
     }
 
-    public function testProhibitedExpr()
+    public function testProhibitedExpr(): void
     {
         $n = $this->eb->prhb('foo');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BooleanExpression', $n);
@@ -107,7 +104,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('-field:"foo"', (string) $n);
     }
 
-    public function testRequiredExpr()
+    public function testRequiredExpr(): void
     {
         $n = $this->eb->req('foo');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BooleanExpression', $n);
@@ -118,63 +115,63 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('+field:"foo"', (string) $n);
     }
 
-    public function testGrouping()
+    public function testGrouping(): void
     {
         $g = $this->eb->grp($this->eb->phrase('foo bar'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("foo bar")', (string) $g);
     }
 
-    public function testGroupingMultipleParams()
+    public function testGroupingMultipleParams(): void
     {
         $g = $this->eb->grp($this->eb->phrase('foo'), $this->eb->phrase('bar'), $this->eb->phrase('baz'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("foo" "bar" "baz")', (string) $g);
     }
 
-    public function testGroupingSingleParamAsArray()
+    public function testGroupingSingleParamAsArray(): void
     {
         $g = $this->eb->grp([$this->eb->phrase('bar'), $this->eb->phrase('foo'), $this->eb->phrase('baz')]);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("bar" "foo" "baz")', (string) $g);
     }
 
-    public function testGroupingWithAndX()
+    public function testGroupingWithAndX(): void
     {
         $g = $this->eb->andX($this->eb->phrase('foo'), $this->eb->phrase('bar'), $this->eb->phrase('baz'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("foo" AND "bar" AND "baz")', (string) $g);
     }
 
-    public function testGroupingWithAndXAndEmptyExpressions()
+    public function testGroupingWithAndXAndEmptyExpressions(): void
     {
         $g = $this->eb->andX($this->eb->phrase('foo'), $this->eb->andX(null, null, ''), $this->eb->phrase('bar'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("foo" AND "bar")', (string) $g);
     }
 
-    public function testGroupingWithOrX()
+    public function testGroupingWithOrX(): void
     {
         $g = $this->eb->orX($this->eb->phrase('foo'), $this->eb->phrase('bar'), $this->eb->phrase('baz'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("foo" OR "bar" OR "baz")', (string) $g);
     }
 
-    public function testGroupingWithOrXAndEmptyExpressions()
+    public function testGroupingWithOrXAndEmptyExpressions(): void
     {
         $g = $this->eb->orX($this->eb->phrase('foo'), $this->eb->orX(null, null, ''), $this->eb->phrase('bar'));
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\GroupExpression', $g);
         $this->assertSame('("foo" OR "bar")', (string) $g);
     }
 
-    public function testField()
+    public function testField(): void
     {
         $f = $this->eb->field('field', 'query');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\FieldExpression', $f);
         $this->assertSame('field:"query"', (string) $f);
     }
 
-    public function testFuzzy()
+    public function testFuzzy(): void
     {
         $f = $this->eb->fzz('test');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\FuzzyExpression', $f);
@@ -189,7 +186,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('field:"test"~0.2', (string) $f);
     }
 
-    public function testProximityQuery()
+    public function testProximityQuery(): void
     {
         $p = $this->eb->prx('word1', 'word2', 10);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\ProximityExpression', $p);
@@ -219,7 +216,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertNull($this->eb->prx(10));
     }
 
-    public function testLiteralStr()
+    public function testLiteralStr(): void
     {
         $expr = $this->eb->lit('foo:bar');
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\Expression', $expr);
@@ -227,7 +224,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('0', (string) $this->eb->lit(0));
     }
 
-    public function testBool()
+    public function testBool(): void
     {
         $expr = $this->eb->bool('foo', true);
         $this->assertInstanceOf('InterNations\Component\Solr\Expression\BooleanExpression', $expr);
@@ -257,7 +254,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('-foo', (string) $expr);
     }
 
-    public function testDayBuilder()
+    public function testDayBuilder(): void
     {
         $date = new DateTime('2010-10-11', new DateTimeZone('UTC'));
         $dayRange = $this->eb->day($date);
@@ -269,7 +266,8 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('dateField:[2010-10-11T00:00:00Z TO 2010-10-11T23:59:59Z]', (string) $dayRange);
     }
 
-    public static function getStartOfDayData()
+	/** @return mixed[] */
+    public static function getStartOfDayData(): array
     {
         return [
             ['2010-10-10T00:00:00Z', '2010-10-11 00:00:00', 'Europe/Berlin'],
@@ -282,7 +280,12 @@ class ExpressionBuilderTest extends TestCase
     }
 
     /** @dataProvider getStartOfDayData */
-    public function testBeginningOfDayBuilder($expected, $date, $timezone, $defaultTimezone = null)
+    public function testBeginningOfDayBuilder(
+		?string $expected,
+		?string $date,
+		?string $timezone,
+		?string $defaultTimezone = null
+	): void
     {
         if ($defaultTimezone) {
             $this->eb->setDefaultTimezone($defaultTimezone);
@@ -294,8 +297,8 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame($expected, $result ? (string) $result : null);
     }
 
-
-    public static function getEndOfDayData()
+	/** @return mixed[] */
+    public static function getEndOfDayData(): array
     {
         return [
             ['2010-10-10T23:59:59Z', '2010-10-11 00:00:00', 'Europe/Berlin'],
@@ -308,7 +311,12 @@ class ExpressionBuilderTest extends TestCase
     }
 
     /** @dataProvider getEndOfDayData */
-    public function testEndOfDayBuilder($expected, $date, $timezone, $defaultTimezone = null)
+    public function testEndOfDayBuilder(
+		?string $expected,
+		?string $date,
+		?string $timezone,
+		?string $defaultTimezone = null
+	): void
     {
         if ($defaultTimezone) {
             $this->eb->setDefaultTimezone($defaultTimezone);
@@ -320,7 +328,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame($expected, $result ? (string) $result : null);
     }
 
-    public function testDefaultQueryForAllIfNullGiven()
+    public function testDefaultQueryForAllIfNullGiven(): void
     {
         $this->assertSame('*:*', (string) $this->eb->all(''));
         $this->assertSame('*:*', (string) $this->eb->all(null));
@@ -328,7 +336,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('0', (string) $this->eb->all('0'));
     }
 
-    public function testFallthroughIfNullGiven()
+    public function testFallthroughIfNullGiven(): void
     {
         $this->assertNull($this->eb->field('field', null));
         $this->assertNotNull($this->eb->field('field', 0));
@@ -366,7 +374,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertNull($this->eb->day(''));
     }
 
-    public function testGroupingTypes()
+    public function testGroupingTypes(): void
     {
         $this->assertSame('("foo" "bar")', (string) $this->eb->grp(['foo', 'bar']));
         $this->assertSame('("foo" AND "bar")', (string) $this->eb->grp(['foo', 'bar'], GroupExpression::TYPE_AND));
@@ -379,7 +387,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('("foo" OR "bar")', (string) $this->eb->grp('foo', 'bar', GroupExpression::TYPE_OR));
     }
 
-    public function testCompositingTypes()
+    public function testCompositingTypes(): void
     {
         $this->assertSame('"foo" "bar"', (string) $this->eb->comp(['foo', 'bar']));
         $this->assertSame('"foo" AND "bar"', (string) $this->eb->comp(['foo', 'bar'], CompositeExpression::TYPE_AND));
@@ -392,7 +400,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('"foo" OR "bar"', (string) $this->eb->comp('foo', 'bar', CompositeExpression::TYPE_OR));
     }
 
-    public function testRealisticQueryExamples()
+    public function testRealisticQueryExamples(): void
     {
         $qb = $this->eb;
 
@@ -426,7 +434,8 @@ class ExpressionBuilderTest extends TestCase
         );
     }
 
-    public static function getDateRangeData()
+	/** @return mixed[] */
+    public static function getDateRangeData(): array
     {
         return [
             [
@@ -573,14 +582,14 @@ class ExpressionBuilderTest extends TestCase
 
     /** @dataProvider getDateRangeData */
     public function testDateRange(
-        $expected,
-        $from,
-        $fromTimezone,
-        $to,
-        $toTimezone,
-        $inclusive = null,
-        $solrTimezone = 'null',
-        $defaultTimezone = null
+        ?string $expected,
+        ?string $from,
+        ?string $fromTimezone,
+        ?string $to,
+        ?string $toTimezone,
+        ?bool $inclusive = null,
+        ?string $solrTimezone = 'null',
+        ?string $defaultTimezone = null
     )
     {
         if ($defaultTimezone) {
@@ -606,14 +615,14 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame($expected, $result !== null ? (string) $result : $result);
     }
 
-    public function testRange()
+    public function testRange(): void
     {
         $this->assertSame('["A" TO "Z"]', (string) $this->eb->range('A', 'Z'));
         $this->assertSame('["A" TO "Z"]', (string) $this->eb->range('A', 'Z', true));
         $this->assertSame('{"A" TO "Z"}', (string) $this->eb->range('A', 'Z', false));
     }
 
-    public function testFunc()
+    public function testFunc(): void
     {
         $this->assertSame('func()', (string) $this->eb->func('func'));
         $this->assertSame('func()', (string) $this->eb->func('func', null));
@@ -626,7 +635,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('func("", "")', (string) $this->eb->func('func', $this->eb->params(null, null)));
     }
 
-    public function testLocalParams()
+    public function testLocalParams(): void
     {
         $this->assertSame('{!dismax}', (string) $this->eb->localParams('dismax'));
         $this->assertSame('{!dismax} "My Query"', (string) $this->eb->localParams('dismax', 'My Query'));
@@ -639,7 +648,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('{!func}field', (string) $this->eb->field('field', $this->eb->localParams('func')));
     }
 
-    public function testGeofilt()
+    public function testGeofilt(): void
     {
         $this->assertSame('{!geofilt sfield="geofield"}', (string) $this->eb->geofilt('geofield'));
         $this->assertSame(
@@ -660,7 +669,7 @@ class ExpressionBuilderTest extends TestCase
         );
     }
 
-    public function testLatLong()
+    public function testLatLong(): void
     {
         $this->assertSame('60.166667000000,24.933333000000', (string) $this->eb->latlong(60.166667, 24.933333));
         $this->assertSame('-33.799508000000,151.284072000000', (string) $this->eb->latlong(-33.799508, 151.284072));
@@ -668,7 +677,8 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('37.7707,-119.5120', (string) $this->eb->latlong(37.770715, -119.512024, 4));
     }
 
-    public static function getDateTimeData()
+	/** @return mixed[] */
+    public static function getDateTimeData(): array
     {
         return [
             ['2012-12-13T14:15:16Z', '2012-12-13 15:15:16', 'Europe/Berlin', 'null'],
@@ -686,11 +696,11 @@ class ExpressionBuilderTest extends TestCase
 
     /** @dataProvider getDateTimeData */
     public function testDateExpressions(
-        $expected,
-        $date,
-        $dateTimezone = null,
-        $solrTimezone = null,
-        $defaultTimezone = null
+        ?string $expected,
+        ?string $date,
+        ?string $dateTimezone = null,
+        ?string $solrTimezone = null,
+        ?string $defaultTimezone = null
     )
     {
         if ($defaultTimezone) {
@@ -707,13 +717,13 @@ class ExpressionBuilderTest extends TestCase
         }
     }
 
-    public function testNoCache()
+    public function testNoCache(): void
     {
         $this->assertSame('{!cache=false}*:*', (string) $this->eb->noCache($this->eb->all()));
         $this->assertSame('', (string) $this->eb->noCache(''));
     }
 
-    public function testTag()
+    public function testTag(): void
     {
         $this->assertSame('{!tag="foo"}*:*', (string)$this->eb->tag('foo', $this->eb->all()));
         $this->assertSame('', (string)$this->eb->tag('foo', null));
@@ -722,7 +732,7 @@ class ExpressionBuilderTest extends TestCase
         $this->assertSame('', (string)$this->eb->excludeTag('foo', null));
     }
 
-    public function testSetInvalidDefaultTimezone()
+    public function testSetInvalidDefaultTimezone(): void
     {
         $this->expectException('InterNations\Component\Solr\Expression\Exception\InvalidArgumentException');
         $this->expectExceptionMessage('Invalid argument #1 $timezone given: expected string or DateTimeZone, got bool');

@@ -14,19 +14,10 @@ class BooleanExpression extends Expression
     public const OPERATOR_REQUIRED = '+';
     public const OPERATOR_PROHIBITED = '-';
 
-    /**
-     * Boolean operand
-     *
-     * @var string
-     */
-    private $operator;
+    private string $operator;
 
-    /**
-     * Use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*)
-     *
-     * @var bool
-     */
-    private $useNotNotation;
+    /** Use the NOT notation: (*:* NOT <expr>), e.g. (*:* NOT fieldName:*) */
+    private bool $useNotNotation;
 
     /**
      * Create new expression object

@@ -11,12 +11,7 @@ use InterNations\Component\Solr\Util;
  */
 class BoostExpression extends Expression
 {
-    /**
-     * Boost factor
-     *
-     * @var float
-     */
-    private $boost;
+    private float $boost;
 
     /**
      * @param ExpressionInterface|string|null $expr
